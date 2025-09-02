@@ -10,9 +10,9 @@ function Navbar() {
         <span>My App</span>
       </div>
       <ul className="navbar-links">
-        <li><a href="/">Homce</a></li>
+        <li><a href="/">Home</a></li>
         <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contdeact</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
   );
