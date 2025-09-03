@@ -1,28 +1,3 @@
-const Navbar = () => {
-  return (
-    <nav className="fixed top-0 left-0 w-full z-10 bg-white shadow-lg py-4 px-6 sm:px-10 flex justify-between items-center">
-      <div className="flex items-center space-x-2">
-        {/* A simple text-based logo. */}
-        <span className="text-xl sm:text-2xl font-bold text-gray-800">My App</span>
-      </div>
-      <ul className="flex items-center space-x-4 sm:space-x-6">
-        {/* Navigation links. The href="#" links to the top of the page. */}
-        <li>
-          <a href="#" className="text-gray-600 hover:text-blue-600 transition duration-300 ease-in-out font-medium text-sm sm:text-base">Home</a>
-        </li>
-        {/* These links would typically be used for scrolling to different sections on a single-page app. */}
-        <li>
-          <a href="#about" className="text-gray-600 hover:text-blue-600 transition duration-300 ease-in-out font-medium text-sm sm:text-base">About</a>
-        </li>
-        <li>
-          <a href="#contact" className="text-gray-600 hover:text-blue-600 transition duration-300 ease-in-out font-medium text-sm sm:text-base">Contact</a>
-        </li>
-      </ul>
-    </nav>
-  );
-};
-// --- End of Navbar Component ---
-
 // --- Start of Home Component ---
 // This component displays the content for the home page.
 const Home = () => {
@@ -87,4 +62,4 @@ const FeatureCard = ({ title, description }) => {
 // --- End of Home Component ---
 
 // Export the main App component as the default.
-export default App;
+export default Home;

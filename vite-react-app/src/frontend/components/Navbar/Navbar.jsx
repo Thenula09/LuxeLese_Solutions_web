@@ -2,12 +2,17 @@ import React from 'react';
 import './Navbar.css';
 
 
+
+
 function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
         
         <span>My App</span>
+      </div>
+      <div className="navbar-search">
+        <input type="text" placeholder="Search..." />
       </div>
       <ul className="navbar-links">
         <li><a href="/">Home</a></li>
