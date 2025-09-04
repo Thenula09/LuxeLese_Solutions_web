@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; 
 import './Navbar.css';
 
 
@@ -15,7 +15,7 @@ function Navbar() {
         <input type="text" placeholder="Search..." />
       </div>
       <ul className="navbar-links">
-        <li><a href="/">Home</a></li>
+        <li><a href="/">Hojme</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
