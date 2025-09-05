@@ -1,8 +1,6 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 6rem 2rem 2rem;
-  text-align: center;
 }
 
 .logo {
@@ -39,4 +37,12 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.app-background {
+  background-image: url('../assets/homemage.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
