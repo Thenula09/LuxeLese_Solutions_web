@@ -1,11 +1,17 @@
 import React from 'react';
 import './homepagecard.css';
 
+
 const HomepageCard = () => {
   return (
-    <div className="card">
+    <div className="cardhome">
       <p>Welcome to LuxeLese Solutions!</p>
+
+
+       
       </div>
+
+     
    
   );
 };

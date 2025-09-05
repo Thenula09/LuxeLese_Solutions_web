@@ -1,8 +1,8 @@
-.card{
+.cardhome{
   width:1600px;
-  height: 900px;
+  height: 1400px;
   margin-top: 200px;
-  background-color: rgb(148, 159, 220);
+  background-color: rgb(255, 255, 255);
   border-radius: 30px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
@@ -16,8 +16,8 @@
   padding: 20px;
   
   position: relative;
-  left: 40px;
-  top: 820px
+  left: 50px;
+  top: 820px;
 }
 
 
