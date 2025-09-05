@@ -1,5 +1,6 @@
 import React from 'react';
 import HomepageCard from '../components/homepagecard/homepagecard.jsx';
+import './Home.css';
 
 
 const Home = () => {
@@ -12,7 +13,10 @@ const Home = () => {
         
         <div className='homecard'>
             <HomepageCard  />
-        </div>
+
+
+                </div>
+
       </div>
     </>
   );

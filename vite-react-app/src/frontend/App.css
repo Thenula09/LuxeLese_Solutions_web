@@ -31,12 +31,7 @@
   }
 }
 
-.card {
- 
-  width:2000px;
-  height: 600px;
- 
-}
+
 
 .read-the-docs {
   color: #888;
@@ -45,8 +40,8 @@
 .app-background {
   background-image: url('../assets/homemage.jpg');
   background-size: cover;
-  height: 800px;
-  margin-top: -20px;
+  height: 900px;
+  margin-top: -210px;
   margin-left: -230px;
   width: 1750px;
  

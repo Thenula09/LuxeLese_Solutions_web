@@ -18,7 +18,7 @@
   display: flex;
   align-items: center; /* Vertically center logo */
   gap: 0.5rem;
-  color: rgb(18, 13, 13);
+  color: rgb(255, 255, 255);
   font-size: 1.5rem; /* Adjusted font size */
   font-weight: bold;
   margin-top: 130px;
@@ -40,10 +40,12 @@
   gap: 2rem; /* Adjusted gap */
   margin: 0;
   padding: 0;
+
+  
 }
 
 .navbar-links a {
-  color: rgb(18, 13, 13);
+  color: rgb(255, 255, 255);
   text-decoration: none;
   font-size: 1rem; /* Adjusted font size */
   font-weight: bold;
