@@ -32,7 +32,10 @@
 }
 
 .card {
-  padding: 2em;
+ 
+  width:2000px;
+  height: 600px;
+ 
 }
 
 .read-the-docs {
@@ -42,7 +45,9 @@
 .app-background {
   background-image: url('../assets/homemage.jpg');
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  height: 800px;
+  margin-top: -20px;
+  margin-left: -230px;
+  width: 1750px;
+ 
 }
