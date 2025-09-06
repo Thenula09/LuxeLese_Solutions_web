@@ -46,7 +46,7 @@
 
 /* Adjustments for the footer bar */
 .footerbar {
-  margin-top: 50px; /* Adjust margin to fit new layout */
+  margin-top: 0; /* Adjust margin to fit new layout */
 }
 
 /* Styling for the home card itself (assuming .homecard is the container for homepagecard component) */
