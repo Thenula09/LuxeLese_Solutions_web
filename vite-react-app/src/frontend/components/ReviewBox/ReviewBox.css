@@ -1,0 +1,90 @@
+.reviews-section {
+  width: 100%;
+  padding: 50px 20px;
+  background-color: var(--primary-black); /* Black background for the section */
+  color: var(--primary-white);
+  background-color: black;
+}
+
+.reviews-section-title {
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+  color: var(--primary-orange); /* Orange title */
+  margin-bottom: 40px;
+}
+
+.reviews-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
+}
+
+.review-card {
+  background-color: var(--secondary-black); /* Darker black for card background */
+  border-top: 4px solid var(--primary-orange); /* Orange border top */
+  border-radius: 8px;
+  padding: 25px;
+  max-width: 300px;
+  flex: 1 1 280px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Darker shadow for dark theme */
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  color: var(--secondary-white); /* Lighter white for card text */
+}
+
+.star-rating {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.star-filled {
+  color: var(--primary-orange);
+  font-size: 1.2em;
+}
+
+.star-empty {
+  color: rgba(255, 255, 255, 0.2); /* Faded white for empty stars */
+  font-size: 1.2em;
+}
+
+.review-card-content {
+  font-size: 1em;
+  font-style: italic;
+  color: var(--secondary-white);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.review-card-author {
+  font-size: 1em;
+  font-weight: bold;
+  text-align: right;
+  color: var(--primary-orange);
+}
+
+.join-us-container {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.join-us-button {
+  background-color: var(--primary-orange);
+  color: var(--primary-white);
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.join-us-button:hover {
+  background-color: #e65c00;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}

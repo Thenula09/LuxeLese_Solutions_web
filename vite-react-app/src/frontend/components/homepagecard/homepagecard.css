@@ -1,23 +1,36 @@
-.cardhome{
-  width:1600px;
-  height: 1400px;
-  margin-top: 200px;
-  background-color: rgb(255, 255, 255);
-  border-radius: 30px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Using variables from index.css */
 
+.cardhome {
+  background-color: var(--secondary-black); /* Dark background for the card */
+  color: var(--primary-white); /* White text */
+  border-radius: 15px; /* Slightly less rounded than buttons */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); /* More prominent shadow */
+  padding: 40px;
+  text-align: center;
+  max-width: 1000px; /* Max width for responsiveness */
+  margin: 100px auto; /* Center horizontally with top margin */
   display: flex;
+  flex-direction: column; /* Stack content vertically */
   justify-content: center;
   align-items: center;
-  font-size: 24px;
-  color: #333;
+  font-size: 1.2em;
   font-weight: bold;
-  text-align: center;
-  padding: 20px;
-  
-  position: relative;
-  left: 50px;
-  top: 820px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardhome:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+}
+
+/* You might want to add styles for elements inside the card, e.g., headings, paragraphs */
+.cardhome h2 {
+  color: var(--primary-orange); /* Orange heading inside card */
+  margin-bottom: 20px;
+}
+
+.cardhome p {
+  color: var(--secondary-white);
 }
 
 

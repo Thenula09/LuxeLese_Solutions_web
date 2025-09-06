@@ -1,8 +1,57 @@
-.footerbar{
-   
-    margin-top: 1900px;
+/* Using variables from index.css */
+
+/* General styling for the Home page content */
+.home-page-content {
+  padding: 50px 20px;
+  text-align: center;
+  color: var(--primary-white);
+  background-color: var(--primary-black);
 }
-.homecard{
-    position: relative;
-    margin-left: 30px;
+
+/* Styling for the main hero section or banner */
+.hero-section {
+  min-height: 60vh; /* Minimum height for hero section */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-black);
+  color: var(--primary-white);
+  padding: 80px 20px;
+}
+
+.hero-section h1 {
+  font-size: 3.5em;
+  color: var(--primary-orange);
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section p {
+  font-size: 1.2em;
+  max-width: 800px;
+  line-height: 1.8;
+  color: var(--secondary-white);
+}
+
+/* Styling for the home card section */
+.homecard-section {
+  padding: 50px 20px;
+  background-color: var(--secondary-black); /* Darker background for this section */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+/* Adjustments for the footer bar */
+.footerbar {
+  margin-top: 50px; /* Adjust margin to fit new layout */
+}
+
+/* Styling for the home card itself (assuming .homecard is the container for homepagecard component) */
+.homecard {
+  /* This class will be styled by homepagecard.css, but if it's a container, ensure it fits */
+  position: relative; /* Keep if needed for internal positioning */
+  margin: 0 auto; /* Center if it's a single card */
 }

@@ -6,6 +6,8 @@ import about1 from '../../assets/about1.jpg';
 import about2 from '../../assets/about2.jpg';
 import about3 from '../../assets/about3.jpg';
 import about4 from '../../assets/about4.jpg';
+import ReviewBox from '../components/ReviewBox/ReviewBox.jsx';
+import UserStats from '../components/UserStats/UserStats.jsx';
 
 const About = () => {
   useEffect(() => {
@@ -20,11 +22,13 @@ const About = () => {
 
   return (
     <>
-      
+    <div className="navbarA">
+       
+     
+       <Navbar />
+        </div>
       <div className="about-container">
-        <div className="navbarA">
-        <Navbar />
-      </div>
+        
         <h1 className='ourmission' data-aos="fade-down">About Us</h1>
         <p className='topic1' data-aos="fade-up">LuxeLese Solutions was born from a passion for cars and a commitment to exceptional service. With over five years of experience in the industry, our journey began with a simple goal: to make luxury and convenience accessible to everyone. We believe that every journey, big or small, deserves to be special. From weddings to travel, our mission is to provide you with the perfect ride and a truly memorable experience.</p>
         
@@ -59,13 +63,22 @@ const About = () => {
                 </div>
                 
             </div>
+        </div>
+     
+          
+        </div>
+        <div className="review">
+            <ReviewBox />
+        </div>
 
+        <div className="UserStats">
             
+       <UserStats />
         </div>
         <div className="fotterA">
         <Footer />
       </div>
-      </div>
+     
       
     </>
   );

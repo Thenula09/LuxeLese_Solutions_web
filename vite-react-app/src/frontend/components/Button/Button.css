@@ -1,0 +1,40 @@
+/* Using variables from index.css */
+
+/* Base button style */
+.btn {
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 50px; /* Pill shape for a modern look */
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Primary button style (Orange) */
+.btn-primary {
+  background-color: var(--primary-orange);
+  color: var(--primary-white);
+}
+
+.btn-primary:hover {
+  background-color: #e65c00; /* Darker orange */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Secondary button style (Outline) */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--primary-orange);
+  border-color: var(--primary-orange);
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-orange);
+  color: var(--primary-white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 102, 0, 0.3);
+}

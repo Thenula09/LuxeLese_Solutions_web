@@ -1,48 +1,38 @@
+/* Remove the restrictive width from the root element */
 #root {
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
 }
 
-.logo {
-  height: 7em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* A general container class for consistent padding */
+.container {
+  padding: 2rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-
-
-.read-the-docs {
-  color: #888;
-}
-
+/* Refactored background class */
 .app-background {
+  /* Using a pseudo-element for the background image allows for better control */
+  position: relative;
+  z-index: 1;
+}
+
+.app-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-image: url('../assets/homemage.jpg');
   background-size: cover;
-  height: 900px;
-  margin-top: -210px;
-  margin-left: -230px;
-  width: 1750px;
- 
+  background-position: center;
+  z-index: -1;
+  /* Add a dark overlay to make text more readable */
+  background-color: rgba(0, 0, 0, 0.5);
+  background-blend-mode: multiply;
+}
+
+/* Remove the default logo styles as they are not part of the new theme */
+.logo, .logo:hover, .logo.react:hover, .read-the-docs {
+  display: none;
 }
