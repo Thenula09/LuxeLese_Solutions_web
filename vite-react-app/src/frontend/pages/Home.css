@@ -8,30 +8,44 @@
   background-color: var(--primary-black);
 }
 
-/* Styling for the main hero section or banner */
+/* Hero section or banner */
 .hero-section {
-  min-height: 60vh; /* Minimum height for hero section */
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--primary-black);
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+              url('../../assets/homemage.jpg');
+  background-size: cover;
+  background-position: center;
   color: var(--primary-white);
   padding: 80px 20px;
+  position: relative;
+  text-align: center;
 }
 
 .hero-section h1 {
-  font-size: 3.5em;
-  color: var(--primary-orange);
+  font-size: 4em;
+  color: var(--primary-white);
   margin-bottom: 20px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .hero-section p {
-  font-size: 1.2em;
+  font-size: 1.5em;
   max-width: 800px;
   line-height: 1.8;
   color: var(--secondary-white);
+  margin-bottom: 40px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.search-section {
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 40px;
+  z-index: 2;
 }
 
 /* Styling for the home card section */
