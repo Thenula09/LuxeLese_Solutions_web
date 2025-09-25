@@ -1,103 +1,177 @@
 /* Main container - centered and with controlled width */
 .about-container {
-  background-color: rgb(255, 255, 255);
-  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 40px;
   text-align: center;
-margin-top: 50px;
-border-radius: 20px;
+  margin-top: 50px;
+  border-radius: 30px;
   max-width: 1690px;
-  overflow-x: hidden; /* Safeguard against any accidental overflow */
+  overflow-x: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  color: #ffffff;
+}
 
+/* Global text styles for about page */
+.about-container p,
+.about-container h1,
+.about-container h2,
+.about-container h3,
+.about-container h4,
+.about-container h5,
+.about-container h6,
+.about-container span,
+.about-container div {
+  color: #ffffff;
 }
 
 /* Positioning context for the cards */
 .card-container {
   position: relative;
-  height: 1700px; /* Set a height to contain all absolutely positioned cards */
-  margin-top: 200px0px;
-  margin-bottom: 50px;
-  margin-left: -40px;
-  margin-right: 10px;
-  overflow-x: hidden; /* Safeguard against any accidental overflow */
-  background-color: transparent;
+  height: 1700px;
+  margin: 50px auto;
   padding: 20px;
   text-align: center;
+  overflow-x: hidden;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
 
     
 }
 
 /* Base styles for all cards and positioned images */
 .card, .about-image1 {
-  position: absolute; /* All direct children will be positioned absolutely */
-  box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  border-radius: 20px;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+  transition: all 0.4s ease;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  overflow: hidden;
 }
 
 .card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(31, 38, 135, 0.25);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .card h2 {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card p {
+  color: #ffffff;
+  line-height: 1.6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Specific positions and styles based on user's original CSS */
 .card1 {
-  border-top: 5px solid #ff5722;
-  background-color: #485865;
+  background: linear-gradient(
+    135deg,
+    rgba(72, 88, 101, 0.9) 0%,
+    rgba(72, 88, 101, 0.7) 100%
+  );
+  border-top: 5px solid rgba(255, 87, 34, 0.8);
   width: 600px;
   height: 600px;
-  padding: 20px;
+  padding: 30px;
   top: 50px;
   left: 80px;
-  
 }
 
 .about-image1 {
   width: 700px;
   height: 500px;
   top: 195px;
-  left: 880px; /* Positioned to the right of card1 */
+  left: 880px;
+  object-fit: cover;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+  transform: perspective(1000px) rotateY(-5deg);
+  transition: transform 0.5s ease;
+}
+
+.about-image1:hover {
+  transform: perspective(1000px) rotateY(0deg);
 }
 
 .card2 {
-  border-top: 5px solid #ff7112;
-  background-color: rgb(76, 136, 116);
-    width: 600px;
+  background: linear-gradient(
+    135deg,
+    rgba(76, 136, 116, 0.9) 0%,
+    rgba(76, 136, 116, 0.7) 100%
+  );
+  border-top: 5px solid rgba(255, 255, 255, 0.8);
+  width: 600px;
   height: 700px;
-  padding: 20px;
+  padding: 30px;
   top: 800px;
   left: 80px;
+  backdrop-filter: blur(10px);
 }
 
 .card3 {
-  border-top: 5px solid #f57c11;
-  background-color: rgb(101, 87, 68);
-width: 670px;
+  background: linear-gradient(
+    135deg,
+    rgba(101, 87, 68, 0.9) 0%,
+    rgba(101, 87, 68, 0.7) 100%
+  );
+  border-top: 5px solid rgba(255, 255, 255, 0.8);
+  width: 670px;
   height: 700px;
-  padding: 20px;
+  padding: 30px;
   top: 800px;
-  left: 870px; /* Positioned to the right of card2 */
+  left: 870px;
+  backdrop-filter: blur(10px);
 }
 
 /* General styles from user's file */
 .fotterA {
-  margin-top: 30px;
-  margin-left: 40px;
+  margin: 50px auto;
   width: 1550px;
-  height:  600px;
+  height: 600px;
   border-radius: 40px;
-
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+  transition: transform 0.3s ease;
 }
+
+.fotterA:hover {
+  transform: scale(1.01);
+}
+
 .topic1 {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 30px;
-  color: var(--primary-black); /* Black text */
+  font-size: 36px;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #ffffff, #ffffff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
+
 .about-image {
   width: 100%;
   max-width: 300px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
   height: auto;
   margin: 80px;
   border-radius: 40px;

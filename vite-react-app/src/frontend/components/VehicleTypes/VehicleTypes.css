@@ -1,8 +1,25 @@
 /* VehicleTypes component styles */
 .vehicle-types-section {
   padding: 80px 20px;
-  background-color: var(--primary-black);
+  background: url('../../../assets/typebox.jpg') center/cover no-repeat;
   text-align: center;
+  position: relative;
+}
+
+.vehicle-types-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.vehicle-types-section > * {
+  position: relative;
+  z-index: 2;
 }
 
 .section-title {

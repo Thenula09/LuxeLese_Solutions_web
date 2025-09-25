@@ -1,0 +1,221 @@
+.memorable-moments {
+    padding: 80px 20px;
+    background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
+                url('../../../assets/typebox.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    position: relative;
+}
+
+.memorable-header {
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+    z-index: 2;
+}
+
+.memorable-header h2 {
+    color: var(--primary-orange);
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.memorable-header p {
+    color: var(--secondary-white);
+    font-size: 1.2rem;
+    opacity: 0.8;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.moments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.moment-box {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.moment-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, var(--primary-orange), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.moment-box:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.moment-box:hover::before {
+    opacity: 0.1;
+}
+
+.moment-image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 75%;
+    overflow: hidden;
+}
+
+.moment-photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.moment-box:hover .moment-photo {
+    transform: scale(1.1);
+}
+
+.customer-tag {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--primary-white);
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.moment-box:hover .customer-tag {
+    background: var(--primary-orange);
+    transform: translateY(-5px);
+}
+
+.moment-details {
+    padding: 25px;
+    position: relative;
+    z-index: 2;
+}
+
+.moment-date {
+    color: var(--primary-orange);
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.moment-description {
+    color: var(--secondary-white);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.moment-interactions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.interaction-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--secondary-white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.interaction-icon {
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.interaction-item:hover {
+    color: var(--primary-orange);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.interaction-item:hover .interaction-icon {
+    transform: scale(1.2) rotate(10deg);
+}
+
+.heart {
+    color: #ff4d4d;
+}
+
+@media (max-width: 768px) {
+    .memorable-moments {
+        padding: 60px 15px;
+    }
+
+    .memorable-header h2 {
+        font-size: 2rem;
+    }
+
+    .memorable-header p {
+        font-size: 1rem;
+    }
+
+    .moments-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 0 10px;
+    }
+
+    .moment-description {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .memorable-moments {
+        padding: 40px 10px;
+    }
+
+    .memorable-header h2 {
+        font-size: 1.8rem;
+    }
+
+    .moment-box {
+        margin: 0 5px;
+    }
+
+    .customer-tag {
+        padding: 6px 15px;
+        font-size: 0.8rem;
+    }
+}
+

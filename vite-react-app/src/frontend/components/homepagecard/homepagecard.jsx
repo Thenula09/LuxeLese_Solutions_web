@@ -6,7 +6,7 @@ const HomepageCard = () => {
   return (
     <div className="cardhome">
       <p>Welcome to LuxeLese Solutions!</p>
-
+             
 
        
       </div>
