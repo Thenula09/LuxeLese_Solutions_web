@@ -1,6 +1,6 @@
 /* Main container - centered and with controlled width */
 .about-container {
-  background: rgba(255, 255, 255, 0.1);
+  background:transparent;
   backdrop-filter: blur(10px);
   padding: 40px;
   text-align: center;
@@ -76,17 +76,15 @@
 
 /* Specific positions and styles based on user's original CSS */
 .card1 {
-  background: linear-gradient(
-    135deg,
-    rgba(72, 88, 101, 0.9) 0%,
-    rgba(72, 88, 101, 0.7) 100%
-  );
+  background: transparent;
   border-top: 5px solid rgba(255, 87, 34, 0.8);
-  width: 600px;
-  height: 600px;
+  width: 700px;
+  height: 700px;
   padding: 30px;
-  top: 50px;
-  left: 80px;
+ text-align: center;
+ 
+  top: 90px;
+  left: 190px;
 }
 
 .about-image1 {
@@ -105,32 +103,25 @@
 }
 
 .card2 {
-  background: linear-gradient(
-    135deg,
-    rgba(76, 136, 116, 0.9) 0%,
-    rgba(76, 136, 116, 0.7) 100%
-  );
-  border-top: 5px solid rgba(255, 255, 255, 0.8);
-  width: 600px;
+  background: transparent
+  ;
+  border-top: 5px solid rgba(253, 122, 0, 0.8);
+  width: 700px;
   height: 700px;
   padding: 30px;
-  top: 800px;
-  left: 80px;
+  top: 900px;
+  left: 180px;
   backdrop-filter: blur(10px);
 }
 
 .card3 {
-  background: linear-gradient(
-    135deg,
-    rgba(101, 87, 68, 0.9) 0%,
-    rgba(101, 87, 68, 0.7) 100%
-  );
-  border-top: 5px solid rgba(255, 255, 255, 0.8);
+  background: transparent;
+  border-top: 5px solid rgba(255, 119, 0, 0.8);
   width: 670px;
   height: 700px;
   padding: 30px;
-  top: 800px;
-  left: 870px;
+  top: 900px;
+  left: 980px;
   backdrop-filter: blur(10px);
 }
 
