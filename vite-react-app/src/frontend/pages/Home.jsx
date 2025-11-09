@@ -88,6 +88,14 @@ const Home = () => {
         <MemorableMoments />
       </div>
 
+      <div className="section-divider">
+        <div className="animated-line">
+          <div className="line-segment"></div>
+          <div className="line-segment"></div>
+          <div className="line-segment"></div>
+        </div>
+      </div>
+
       <div className="homecard-section">
         <HomepageCard />
       </div>

@@ -37,6 +37,7 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
+  border-radius: 60px;
 }
 
 .welcome-text {
@@ -276,6 +277,12 @@
   animation: roadMove 2s linear infinite;
 }
 
+.homecard-section {
+  border-radius: 30px;
+  margin-top: 9px;
+  margin-bottom: -30px;
+
+}
 @keyframes carFloat {
   0%, 100% {
     transform: translateY(0) rotateX(5deg) rotateZ(0deg);
@@ -614,9 +621,10 @@
 
 /* Adjustments for the footer bar */
 .footerbar {
-  margin-top: 70PX;
-  margin-bottom: 20PX;
-  margin-left: -10px; /* Adjust margin to fit new layout */
+  margin-top: -30PX;
+  margin-bottom: -40PX;
+  margin-left: -40px; /* Adjust margin to fit new layout */
+  margin-right: -40px;
 }
 
 /* Styling for the home card itself (assuming .homecard is the container for homepagecard component) */
