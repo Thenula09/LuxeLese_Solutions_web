@@ -1,56 +1,110 @@
-/* Define the color palette using CSS variables */
+/* Define the color palette using CSS variables - Adventurous & Energetic Theme */
 :root {
-  --primary-black: #1a1a1a;
-  --secondary-black: #2a2a2a;
-  --primary-orange: #ff6600;
+  /* Primary Colors - Rent-a-Car Theme */
+  --forest-green: #228B22;        /* Trust, Safety, Stability - 20% usage */
+  --dark-green: #1a6b1a;
+  --medium-green: #2E8B57;
+  
+  /* Accent Colors */
+  --bright-orange: #FF8C00;       /* Energy, Courage, Action - 10% usage */
+  --coral-orange: #FF7F50;
+  
+  /* Neutral Colors - Gray Focused (70% usage) */
+  --pure-white: #FFFFFF;
+  --light-gray: #f5f5f5;
+  --medium-light-gray: #e8e8e8;
+  --medium-gray: #333333;
+  --dark-gray: #555555;
+  --background-gray: #f0f2f5;
+  --card-gray: #fafbfc;
+  
+  /* Legacy compatibility - All mapped to white for visibility */
+  --primary-black: #333333;
+  --secondary-black: #555555;
+  --primary-orange: #FF8C00;
   --primary-white: #ffffff;
-  --secondary-white: #f4f4f4;
+  --secondary-white: #ffffff;      /* Changed to white */
+  
+  /* Font Families - Rent-a-Car Optimized */
+  --heading-font: 'Oswald', sans-serif;        /* Speed, Strength, Angular */
+  --body-font: 'Inter', 'Roboto', sans-serif;  /* Clarity, Modern, Readable */
+  --accent-font: 'Poppins', sans-serif;        /* Bold, Professional */
+}
+
+/* Reset and prevent horizontal scroll */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
 }
 
 /* Apply base styles to the body */
 body {
   margin: 0;
-  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  padding: 0;
+  font-family: var(--body-font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--primary-black);
-  color: var(--primary-white);
+  background: linear-gradient(135deg, #f0f2f5 0%, #fafbfc 100%);
+  color: var(--medium-gray);
   line-height: 1.6;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+#root {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 /* Base link styling */
 a {
-  color: var(--primary-orange);
+  color: var(--forest-green);
   text-decoration: none;
   transition: color 0.25s;
 }
 
 a:hover {
-  color: var(--primary-white);
+  color: var(--bright-orange);
 }
 
 /* Base heading styles */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
-  color: var(--primary-white);
+  font-family: var(--heading-font);
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Base button styling (will be overridden by component-specific styles but good to have) */
+/* Base button styling */
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  border-radius: 10px;
+  border: none;
+  padding: 12px 24px;
   font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: var(--primary-orange);
-  color: var(--primary-white);
+  font-weight: 600;
+  font-family: var(--heading-font);
+  background: linear-gradient(135deg, var(--bright-orange), #ff7700);
+  color: var(--pure-white);
   cursor: pointer;
-  transition: background-color 0.25s, border-color 0.25s;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
 }
 
 button:hover {
-  background-color: #e65c00; /* A slightly darker orange for hover */
+  background: linear-gradient(135deg, #ff7700, var(--bright-orange));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4);
 }
 
 button:focus,

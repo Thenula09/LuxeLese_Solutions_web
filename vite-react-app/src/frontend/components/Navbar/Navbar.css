@@ -16,10 +16,31 @@
   top: 0;
   left: 0;
   z-index: 1000;
+  border-bottom: 3px solid;
+  border-image: linear-gradient(90deg, #ffffff, var(--primary-orange), #f0f2f5, #ffffff) 1;
+  animation: borderColorChange 4s ease-in-out infinite;
+}
+
+@keyframes borderColorChange {
+  0% {
+    border-image: linear-gradient(90deg, var(--primary-orange), var(--primary-orange), var(--primary-orange), #f0f2f5) 1;
+  }
+  25% {
+    border-image: linear-gradient(90deg, var(--primary-orange), var(--primary-orange), #f0f2f5, #ffffff) 1;
+  }
+  50% {
+    border-image: linear-gradient(90deg, var(--primary-orange), #f0f2f5, #ffffff, var(--primary-orange)) 1;
+  }
+  75% {
+    border-image: linear-gradient(90deg, #f0f2f5, #ffffff, var(--primary-orange), var(--primary-orange)) 1;
+  }
+  100% {
+    border-image: linear-gradient(90deg, var(--primary-orange), var(--primary-orange), var(--primary-orange), #f0f2f5) 1;
+  }
 }
 
 .navbar-logo {
-  color: var(--primary-white);
+  color: #ffffff;
   font-size: 1.8rem;
   font-weight: 800;
   /* Optional: Add a touch of orange to the logo text */
@@ -47,7 +68,7 @@
 }
 
 .navbar-links a {
-  color: var(--secondary-white);
+  color: #ffffff;
   text-decoration: none;
   font-size: 1rem;
   font-weight: 600;
@@ -59,14 +80,14 @@
 
 .navbar-links a:hover,
 .navbar-links a.active { /* Style for the active page link */
-  color: var(--primary-white);
+  color: #ffffff;
   border-bottom-color: var(--primary-orange);
 }
 
 /* Styling for the sign-in/up button */
 .signbtn {
   background-color: var(--primary-orange);
-  color: var(--primary-white);
+  color: #ffffff;
   border: none;
   border-radius: 50px; /* Pill shape */
   padding: 0.6rem 1.5rem;

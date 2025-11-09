@@ -455,10 +455,13 @@
   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
   opacity: 0;
   animation: simpleFadeIn 1.5s ease-out forwards;
-  transform: none;
-  display: block;
-  width: 100%;
+  transform: translate(0px, 0px);
+  display: inline-block;
   text-align: center;
+  transition: transform 0.3s ease-out;
+  cursor: pointer;
+  will-change: transform;
+  position: relative;
 }
 
 .tagline {

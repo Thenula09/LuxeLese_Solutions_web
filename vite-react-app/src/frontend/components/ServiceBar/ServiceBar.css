@@ -23,12 +23,89 @@
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
 }
 
 .service-item:hover {
-  transform: translateY(-10px);
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(255, 140, 0, 0.4);
+  border-color: var(--bright-orange);
+}
+
+/* Video Background for All Service Cards */
+.service-video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+/* Dark Overlay for Better Text Visibility */
+.service-video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  z-index: 1;
+  backdrop-filter: blur(0.5px);
+  border-radius: 15px;
+}
+
+/* Content Above Video */
+.service-item .service-icon,
+.service-item h3,
+.service-item p {
+  position: relative;
+  z-index: 2;
+}
+
+/* Individual Card Accent Colors on Hover */
+.service-card-rent:hover .service-video-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(34, 139, 34, 0.3) 50%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+}
+
+.service-card-wedding:hover .service-video-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(255, 140, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+}
+
+.service-card-hire:hover .service-video-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(34, 139, 34, 0.3) 50%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+}
+
+.service-card-photoshoot:hover .service-video-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(255, 140, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
 }
 
 .service-icon {

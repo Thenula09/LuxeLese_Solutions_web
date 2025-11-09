@@ -4,6 +4,44 @@
   margin: 0 auto;
 }
 
+/* Custom Text Cursor Follower */
+#text-follower {
+  /* Required to position the element using JavaScript */
+  position: fixed;
+  
+  /* Initially hide the default cursor */
+  pointer-events: none;
+  
+  /* Ensure the text is always on top of other elements */
+  z-index: 9999;
+  
+  /* Basic styling for the text */
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Oswald', sans-serif;
+  color: var(--bright-orange); /* Bright Orange accent color */
+  background: linear-gradient(135deg, #FF8C00, #FFD700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 5px 10px;
+  border-radius: 8px;
+  
+  /* Smooth transition for a cleaner follow effect */
+  transition: opacity 0.2s ease-out;
+  
+  /* Start position (off-screen or hidden) */
+  top: 0;
+  left: 0;
+  
+  /* Add subtle glow effect */
+  filter: drop-shadow(0 0 8px rgba(255, 140, 0, 0.6));
+  
+  /* Text styling */
+  white-space: nowrap;
+  letter-spacing: 1px;
+}
+
 /* A general container class for consistent padding */
 .container {
   padding: 2rem;
