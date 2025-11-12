@@ -5,7 +5,7 @@ import './homepagecard.css';
 const HomepageCard = () => {
   return (
     <div className="cardhome">
-      <p>Welcome to LuxeLese Solutions!</p>
+      <p>Welcome to  Solutions!</p>
              
 
        
