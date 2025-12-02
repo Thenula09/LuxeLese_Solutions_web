@@ -167,12 +167,15 @@
 }
 .review {
   margin: 30px auto 0;
-  max-width: 1600px;
-  width: 95%;
+ 
+  margin-left: -5px;
+  
+
+
   overflow-x: hidden;
   border-radius: 40px;
   background-color: black;
-  height: 1500px;
+  height: 900px;
   padding: 20px;
 }
 
