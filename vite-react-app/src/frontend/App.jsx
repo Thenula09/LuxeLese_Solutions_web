@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useEffect, useRef } from 'react';
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
-import Blog from './pages/Blog.jsx';
+import Booking from './pages/booking.jsx';
 import Contact from './pages/Contact.jsx';
 import SignIn from './pages/Auth/SignIn.jsx';
 import Register from './pages/Auth/Register.jsx';
@@ -75,7 +75,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/blog" element={<Blog />} />
+            <Route path="/booking" element={<Booking />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/register" element={<Register />} />

@@ -66,7 +66,9 @@ const Contact = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <div className='footerbara'>
+        <Footer />
+      </div>
     </>
   );
 };

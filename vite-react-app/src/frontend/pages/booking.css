@@ -1,0 +1,341 @@
+/* Booking page styles */
+.booking-container {
+  max-width: 1400px;
+  margin: 100px auto 50px;
+  padding: 0 20px;
+}
+
+.booking-title {
+  font-size: 3rem;
+  color: var(--primary-orange);
+  text-align: center;
+  margin-bottom: 40px;
+  font-weight: bold;
+}
+
+/* Search Section */
+.search-section {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-bar {
+  flex: 1;
+  position: relative;
+  max-width: 600px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary-orange);
+  font-size: 1.2rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 15px 15px 15px 45px;
+  border: 2px solid rgba(255, 140, 0, 0.3);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--primary-white);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-orange);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* View Toggle */
+.view-toggle {
+  display: flex;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.view-btn {
+  padding: 10px 15px;
+  border: none;
+  background: transparent;
+  color: var(--primary-white);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+}
+
+.view-btn.active {
+  background: var(--primary-orange);
+  color: white;
+}
+
+.view-btn:hover {
+  background: rgba(255, 140, 0, 0.2);
+}
+
+/* Category Filter */
+.category-filter {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.category-btn {
+  padding: 10px 25px;
+  border: 2px solid rgba(255, 140, 0, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--primary-white);
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.category-btn.active {
+  background: var(--primary-orange);
+  border-color: var(--primary-orange);
+  color: white;
+}
+
+.category-btn:hover {
+  border-color: var(--primary-orange);
+  background: rgba(255, 140, 0, 0.1);
+}
+
+/* Cars Container */
+.cars-container {
+  display: grid;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.cars-container.grid {
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+
+.cars-container.list {
+  grid-template-columns: 1fr;
+}
+
+/* Car Card */
+.car-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.5s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.car-card.selected {
+  border: 3px solid var(--primary-orange);
+  background: rgba(255, 140, 0, 0.15);
+  transform: scale(1.02);
+}
+
+.car-card::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--primary-orange), #228B22);
+  z-index: -1;
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.car-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.car-card:hover::after {
+  opacity: 0.5;
+}
+
+/* Grid View */
+.car-card.grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.car-card.grid .car-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.car-card.grid .car-content {
+  padding: 20px;
+}
+
+/* List View */
+.car-card.list {
+  display: flex;
+  flex-direction: row;
+}
+
+.car-card.list .car-image {
+  width: 350px;
+  height: 250px;
+  object-fit: cover;
+}
+
+.car-card.list .car-content {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Car Content */
+.car-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.car-header h3 {
+  color: var(--primary-white);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--primary-orange);
+  font-size: 1.1rem;
+}
+
+.star-icon {
+  color: var(--primary-orange);
+}
+
+.car-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--primary-white);
+}
+
+.detail-item svg {
+  color: var(--primary-orange);
+  font-size: 1.1rem;
+}
+
+.car-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.car-price {
+  color: var(--primary-orange);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.book-btn {
+  padding: 12px 30px;
+  background: linear-gradient(135deg, var(--primary-orange), #ff7700);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+}
+
+.book-btn:hover {
+  background: linear-gradient(135deg, #228B22, #1a6b1a);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(34, 139, 34, 0.4);
+}
+
+/* No Results */
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--primary-white);
+  font-size: 1.2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .booking-container {
+    margin-top: 80px;
+  }
+  
+  .booking-title {
+    font-size: 2rem;
+  }
+
+  .search-section {
+    flex-direction: column;
+  }
+
+  .search-bar {
+    max-width: 100%;
+  }
+
+  .category-filter {
+    justify-content: flex-start;
+  }
+
+  .cars-container.grid {
+    grid-template-columns: 1fr;
+  }
+
+  .car-card.list {
+    flex-direction: column;
+  }
+
+  .car-card.list .car-image {
+    width: 100%;
+    height: 200px;
+  }
+}
+
+/* Footer styles - Same as About page */
+.footerA {
+  margin-top: -30px;
+  margin-bottom: -40px;
+  margin-left: -40px;
+  margin-right: -40px;
+}

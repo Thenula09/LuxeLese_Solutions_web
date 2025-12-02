@@ -125,3 +125,9 @@
     width: 100%;
   }
 }
+.footerbara{
+   margin-top: -30PX;
+  margin-bottom: -40PX;
+  margin-left: -40px; /* Adjust margin to fit new layout */
+  margin-right: -40px;
+}
