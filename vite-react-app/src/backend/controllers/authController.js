@@ -202,7 +202,7 @@ export const updateProfile = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: 'User no'
+        message: 'User not හමු නොවීය'
       });
     }
 
