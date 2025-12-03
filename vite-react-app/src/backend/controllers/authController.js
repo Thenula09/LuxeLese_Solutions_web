@@ -186,7 +186,7 @@ export const getMe = async (req, res) => {
     console.error('Get Me Error:', error);
     return res.status(500).json({
       success: false,
-      message: 'User data ලබා ගැනීම අසාර්ථක විය',
+      message: 'User.  data ලබා ගැනීම අසාර්ථක විය',
       error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
