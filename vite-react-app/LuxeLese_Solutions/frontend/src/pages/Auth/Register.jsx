@@ -12,10 +12,28 @@ const Register = () => {
     confirmPassword: '',
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+
     e.preventDefault();
-    // Handle registration logic here
-    console.log('Register:', formData);
+    try{
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            fullName: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            password: formData.password
+        })
+      });
+      const data = await res.json();
+      if(data.success){
+      }else{}
+    }catch (err){
+
+    }
+    
   };
 
   return (

@@ -9,10 +9,25 @@ const SignIn = () => {
     password: '',
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // Handle sign in logic here
-    console.log('Sign in:', formData);
+    try{
+      const res= await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password
+        })
+      });
+      const data = await res.json();
+      if(data.success){
+      }else{}
+    }catch (err){
+
+    }
+    
   };
 
   return (
