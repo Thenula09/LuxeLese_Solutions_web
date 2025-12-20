@@ -26,9 +26,9 @@ const SignIn = () => {
       if(data.success){
         localStorage.setItem('token', data.data.token);
         if(formData.email === 'admin@gmail.com') {
-          window.location = 'http://localhost:5174/admindashboard';
+          window.location.href = 'http://localhost:5174/admindashboard';
         } else {
-          window.location = '/';
+          window.location.href = '/';
         }
       }else{
         alert(data.message || 'Login failed');
