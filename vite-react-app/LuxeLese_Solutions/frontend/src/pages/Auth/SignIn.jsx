@@ -12,22 +12,30 @@ const SignIn = () => {
   const handleSubmit = async(e) => {
     e.preventDefault();
     try{
-      const res= await fetch('/api/auth/signin', {
+      const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
         })
       });
       const data = await res.json();
       if(data.success){
-      }else{}
+        localStorage.setItem('token', data.data.token);
+        if(formData.email === 'admin@gmail.com') {
+          window.location = 'http://localhost:5174/admindashboard';
+        } else {
+          window.location = '/';
+        }
+      }else{
+        alert(data.message || 'Login failed');
+      }
     }catch (err){
-
+      alert('Network error');
     }
-    
   };
 
   return (
