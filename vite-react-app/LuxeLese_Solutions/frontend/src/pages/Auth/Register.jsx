@@ -40,7 +40,7 @@ const Register = () => {
     <div className="auth-container">
       <div className="auth-card">
         <h2>Create Account</h2>
-        <p className="auth-subtitle">Join LuxeLese and discover premium car rentals</p>
+        <p className="auth-subtitle">Join     LuxeLese and discover premium car rentals</p>
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
