@@ -1,46 +1,65 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
 import { FaUser, FaEnvelope, FaLock, FaPhone } from 'react-icons/fa';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    fullName: '',
+    name: '',
     email: '',
     phone: '',
     password: '',
     confirmPassword: '',
   });
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
-    try{
+    setError(null);
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    try {
+      setLoading(true);
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            fullName: formData.fullName,
-            email: formData.email,
-            phone: formData.phone,
-            password: formData.password
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password
         })
       });
       const data = await res.json();
-      if(data.success){
-      }else{}
-    }catch (err){
+      setLoading(false);
 
+      if (data.success) {
+        navigate('/signin');
+      } else {
+        setError(data.message || 'Registration failed. Please try again.');
+      }
+    } catch (err) {
+      setLoading(false);
+      setError('Network error. Please check your connection.');
     }
-    
   };
 
   return (
     <div className="auth-container">
       <div className="auth-card">
         <h2>Create Account</h2>
-        <p className="auth-subtitle">Join     LuxeLese and discover premium car rentals</p>
+        <p className="auth-subtitle">Join LuxeLese and discover premium car rentals</p>
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
@@ -49,8 +68,9 @@ const Register = () => {
               <input
                 type="text"
                 placeholder="Full Name"
-                value={formData.fullName}
-                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                id="name"
+                value={formData.name}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -62,8 +82,9 @@ const Register = () => {
               <input
                 type="email"
                 placeholder="Email"
+                id="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -75,8 +96,9 @@ const Register = () => {
               <input
                 type="tel"
                 placeholder="Phone Number"
+                id="phone"
                 value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -88,8 +110,9 @@ const Register = () => {
               <input
                 type="password"
                 placeholder="Password"
+                id="password"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -101,12 +124,15 @@ const Register = () => {
               <input
                 type="password"
                 placeholder="Confirm Password"
+                id="confirmPassword"
                 value={formData.confirmPassword}
-                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                onChange={handleChange}
                 required
               />
             </div>
           </div>
+
+          {error && <p className="auth-error">{error}</p>}
 
           <div className="form-options">
             <label className="terms">
@@ -117,8 +143,8 @@ const Register = () => {
             </label>
           </div>
 
-          <button type="submit" className="auth-button">
-            Create Account
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
 

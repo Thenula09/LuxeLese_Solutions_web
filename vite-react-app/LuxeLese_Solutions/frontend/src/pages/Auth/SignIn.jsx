@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 
@@ -8,33 +8,44 @@ const SignIn = () => {
     email: '',
     password: '',
   });
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = async(e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
+    setError(null);
+    setLoading(true);
+
+    try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
-        })
+        body: JSON.stringify(formData)
       });
       const data = await res.json();
-      if(data.success){
+      setLoading(false);
+
+      if (data.success) {
         localStorage.setItem('token', data.data.token);
-        if(formData.email === 'admin@gmail.com') {
-          window.location.href = 'http://localhost:5174/admindashboard';
+        // Check user role from response for admin redirect
+        if (data.data.user.role === 'admin') {
+          navigate('/admindashboard');
         } else {
-          window.location.href = '/';
+          navigate('/');
         }
-      }else{
-        alert(data.message || 'Login failed');
+      } else {
+        setError(data.message || 'Login failed. Please check your credentials.');
       }
-    }catch (err){
-      alert('Network error');
+    } catch (err) {
+      setLoading(false);
+      setError('Network error. Please check your connection.');
     }
   };
 
@@ -51,8 +62,9 @@ const SignIn = () => {
               <input
                 type="email"
                 placeholder="Email"
+                id="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -64,12 +76,15 @@ const SignIn = () => {
               <input
                 type="password"
                 placeholder="Password"
+                id="password"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={handleChange}
                 required
               />
             </div>
           </div>
+
+          {error && <p className="auth-error">{error}</p>}
 
           <div className="form-options">
             <label className="remember-me">
@@ -80,8 +95,8 @@ const SignIn = () => {
             </Link>
           </div>
 
-          <button type="submit" className="auth-button">
-            Sign In
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
 
