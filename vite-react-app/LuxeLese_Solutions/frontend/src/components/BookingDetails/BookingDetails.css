@@ -1,18 +1,18 @@
 .booking-details-container {
   background: rgba(26, 26, 26, 0.95);
   border-radius: 15px;
-  padding: 25px;
+  padding: 20px;
   border: 2px solid rgba(236, 118, 7, 0.3);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .booking-title {
   color: #fff;
-  font-size: 1.8rem;
-  margin-bottom: 20px;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
   text-align: center;
   border-bottom: 2px solid rgba(236, 118, 7, 0.5);
-  padding-bottom: 15px;
+  padding-bottom: 10px;
 }
 
 /* Selected Dates Section */
@@ -20,14 +20,14 @@
   background: rgba(236, 118, 7, 0.1);
   border: 1px solid rgba(236, 118, 7, 0.3);
   border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 25px;
+  padding: 12px;
+  margin-bottom: 15px;
 }
 
 .selected-dates-section h3 {
   color: #ec7607;
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+  font-size: 1rem;
+  margin-bottom: 8px;
 }
 
 .dates-display {
@@ -69,19 +69,19 @@
 .booking-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .form-group label {
   color: #fff;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 .form-group input,
@@ -89,9 +89,9 @@
   background: rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(236, 118, 7, 0.3);
   border-radius: 8px;
-  padding: 12px 15px;
+  padding: 10px 12px;
   color: #fff;
-  font-size: 1rem;
+  font-size: 0.95rem;
   transition: all 0.3s ease;
   font-family: inherit;
 }
@@ -111,7 +111,7 @@
 
 .form-group textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 60px;
 }
 
 /* Booking Summary */
@@ -119,8 +119,8 @@
   background: rgba(236, 118, 7, 0.1);
   border: 1px solid rgba(236, 118, 7, 0.3);
   border-radius: 10px;
-  padding: 15px;
-  margin: 10px 0;
+  padding: 12px;
+  margin: 8px 0;
 }
 
 .summary-row {
@@ -128,14 +128,14 @@
   justify-content: space-between;
   align-items: center;
   color: #fff;
-  padding: 8px 0;
-  font-size: 1rem;
+  padding: 6px 0;
+  font-size: 0.95rem;
 }
 
 .summary-value {
   color: #ec7607;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 @media (max-width: 768px) {

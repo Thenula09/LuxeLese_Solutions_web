@@ -24,12 +24,12 @@ const BookingDetails = ({ selectedDates, formData, onChange, onSubmit }) => {
 
   return (
     <div className="booking-details-container">
-      <h2 className="booking-title">Booking Details</h2>
+      <h2 className="booking-title">Enter Your Information</h2>
 
       {/* Selected Dates Display */}
       {selectedDates.length > 0 && (
         <div className="selected-dates-section">
-          <h3>Selected Dates</h3>
+          <h3>Confirm Your Dates</h3>
           <div className="dates-display">
             {selectedDates.length === 1 ? (
               <p className="single-date">{formatDate(selectedDates[0])}</p>
@@ -99,7 +99,7 @@ const BookingDetails = ({ selectedDates, formData, onChange, onSubmit }) => {
             value={formData.address}
             onChange={onChange}
             placeholder="Enter your complete address"
-            rows="3"
+            rows="2"
             required
           />
         </div>
@@ -112,7 +112,7 @@ const BookingDetails = ({ selectedDates, formData, onChange, onSubmit }) => {
             value={formData.notes}
             onChange={onChange}
             placeholder="Any special requests or requirements"
-            rows="3"
+            rows="2"
           />
         </div>
 
@@ -128,7 +128,7 @@ const BookingDetails = ({ selectedDates, formData, onChange, onSubmit }) => {
         </div>
 
         <GradientButton type="submit">
-          Proceed to Payment
+          Confirm & Proceed to Payment
         </GradientButton>
       </form>
     </div>

@@ -79,76 +79,73 @@ const PlaceOrder = () => {
       <Navbar />
       
       <div className="place-order-container">
-        <h1 className="page-title">Complete Your Booking</h1>
+        <h1 className="page-title">Secure Your Ride: Complete Your Booking</h1>
         
         <div className="booking-layout">
-          <div className="vehicle-section">
-            <div className="vehicle-card">
-              <div className="vehicle-image">
-                <img 
-                  src={vehicleDetails.image} 
-                  alt={vehicleDetails.name}
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/400x250?text=Luxury+Vehicle';
-                  }}
-                />
-                <div className="vehicle-badge">Premium</div>
-              </div>
-              
-              <div className="vehicle-info">
-                <h2>{vehicleDetails.name}</h2>
-                <p className="vehicle-model">{vehicleDetails.model}</p>
-                
-                <div className="vehicle-price">
-                  <span className="price-label">Price:</span>
-                  <span className="price-amount">${vehicleDetails.pricePerDay}/day</span>
+          <div className="left-section">
+            <div className="vehicle-section">
+              <div className="vehicle-card">
+                <div className="vehicle-image">
+                  <img 
+                    src={vehicleDetails.image} 
+                    alt={vehicleDetails.name}
+                    onError={(e) => {
+                      e.target.src = 'https://via.placeholder.com/400x250?text=Luxury+Vehicle';
+                    }}
+                  />
+                  <div className="vehicle-badge">Premium</div>
                 </div>
                 
-                <div className="vehicle-features">
-                  <h3>Features</h3>
-                  <ul>
-                    {vehicleDetails.features.map((feature, index) => (
-                      <li key={index}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                        </svg>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {selectedDates.length > 0 && (
-                  <div className="total-section">
-                    <div className="total-row">
-                      <span>Total Amount:</span>
-                      <span className="total-amount">${calculateTotal()}</span>
-                    </div>
+                <div className="vehicle-info">
+                  <h2>Vehicle Summary</h2>
+                  <p className="vehicle-model">{vehicleDetails.name} - {vehicleDetails.model}</p>
+                  
+                  <div className="vehicle-price">
+                    <span className="price-label">Base Rate:</span>
+                    <span className="price-amount">${vehicleDetails.pricePerDay}/day</span>
                   </div>
-                )}
+                  
+                  <div className="vehicle-features">
+                    <h3>Key Features</h3>
+                    <ul>
+                      {vehicleDetails.features.map((feature, index) => (
+                        <li key={index}>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                          </svg>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {selectedDates.length > 0 && (
+                    <div className="total-section">
+                      <div className="total-row">
+                        <span>Estimated Total:</span>
+                        <span className="total-amount">${calculateTotal()}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
 
           <div className="booking-section">
             <div className="calendar-wrapper">
-              <h2 className="section-title">Select Your Dates</h2>
-              <Calendar  className="calender"
+              <h2 className="section-title">Choose Your Dates</h2>
+              <Calendar
+                className="calender"
                 onDateSelect={handleDateSelect}
                 selectedDates={selectedDates}
               />
             </div>
-
-            {selectedDates.length > 0 && (
-              <div className="booking-form-wrapper">
-                <BookingDetails
-                  selectedDates={selectedDates}
-                  formData={formData}
-                  onChange={handleInputChange}
-                  onSubmit={handleSubmit}
-                />
-              </div>
-            )}
+            <BookingDetails
+              selectedDates={selectedDates}
+              formData={formData}
+              onChange={handleInputChange}
+              onSubmit={handleSubmit}
+            />
           </div>
         </div>
       </div>

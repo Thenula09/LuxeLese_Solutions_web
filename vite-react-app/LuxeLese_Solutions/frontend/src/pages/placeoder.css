@@ -12,14 +12,14 @@
 .place-order-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 30px 20px;
 }
 
 .page-title {
   color: #fff;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
   background: linear-gradient(90deg, #ec7607, #ff9151);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -28,162 +28,38 @@
 
 .booking-layout {
   display: grid;
-  grid-template-columns: 400px 1fr;
-  
-  gap: 30px;
+  grid-template-columns: 1fr 2fr; /* Vehicle details | Calendar & Form */
+  gap: 40px;
   align-items: start;
 }
 
-/* Left Side - Vehicle Section */
-.vehicle-section {
+.left-section {
   position: sticky;
-  top: 90px;
+  top: 100px;
 }
 
-.vehicle-card {
+.booking-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.calendar-wrapper {
   background: rgba(26, 26, 26, 0.95);
   border-radius: 15px;
-  overflow: hidden;
+  padding: 15px;
   border: 2px solid rgba(236, 118, 7, 0.3);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
-.vehicle-image {
-  position: relative;
-  width: 100%;
-  height: 250px;
-  overflow: hidden;
-}
-
-.vehicle-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.vehicle-card:hover .vehicle-image img {
-  transform: scale(1.05);
-}
-
-.vehicle-badge {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: linear-gradient(135deg, #ec7607, #ff9151);
-  color: #fff;
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  box-shadow: 0 4px 10px rgba(236, 118, 7, 0.5);
-}
-
-.vehicle-info {
-  padding: 25px;
-}
-
-.vehicle-info h2 {
-  color: #fff;
-  font-size: 1.8rem;
-  margin-bottom: 8px;
-}
-
-.vehicle-model {
-  color: #ec7607;
-  font-size: 1.1rem;
-  margin-bottom: 20px;
-}
-
-.vehicle-price {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 15px;
-  background: rgba(236, 118, 7, 0.1);
-  border-radius: 10px;
-  border: 1px solid rgba(236, 118, 7, 0.3);
-  margin-bottom: 20px;
-}
-
-.price-label {
-  color: #fff;
-  font-size: 1rem;
-}
-
-.price-amount {
-  color: #ec7607;
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-.vehicle-features h3 {
-  color: #fff;
-  font-size: 1.2rem;
-  margin-bottom: 15px;
-}
-
-.vehicle-features ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.vehicle-features li {
-  color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1rem;
-}
-
-.vehicle-features li svg {
-  color: #ec7607;
-  flex-shrink: 0;
-}
-
-.total-section {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 2px solid rgba(236, 118, 7, 0.3);
-}
-
-.total-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1.2rem;
-  color: #fff;
-  font-weight: 600;
-}
-
-.total-amount {
-  color: #ec7607;
-  font-size: 1.8rem;
-  font-weight: 700;
-}
-
-.calender{
-    position: relative;
-    
-}
-
-/* Right Side - Booking Section */
-.booking-section {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
 .section-title {
   color: #fff;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  margin-left: 10px;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   text-align: center;
+  grid-column: 1 / -1; /* Span across both columns */
   background: linear-gradient(90deg, #fff, #ec7607, #fff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -191,63 +67,20 @@
   text-shadow: 0 0 30px rgba(236, 118, 7, 0.3);
 }
 
-.calendar-wrapper {
-  width: 500px;
-  height: 300px;
-  margin-left: 200px;
-}
-
-.booking-form-wrapper {
-    margin-top: 600px;
-  width: 100%;
-  animation: slideIn 0.4s ease;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* Responsive Design */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .booking-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Stack on smaller screens */
   }
 
-  .vehicle-section {
+  .left-section {
     position: relative;
     top: 0;
   }
 }
 
 @media (max-width: 768px) {
-  .place-order-container {
-    padding: 30px 15px;
-  }
-
-  .page-title {
-    font-size: 2rem;
-  }
-
-  .vehicle-info {
-    padding: 20px;
-  }
-
-  .vehicle-info h2 {
-    font-size: 1.5rem;
-  }
-
-  .price-amount {
-    font-size: 1.3rem;
-  }
-
-  .total-amount {
-    font-size: 1.5rem;
+  .booking-section {
+    grid-template-columns: 1fr; /* Stack calendar and form */
   }
 }
