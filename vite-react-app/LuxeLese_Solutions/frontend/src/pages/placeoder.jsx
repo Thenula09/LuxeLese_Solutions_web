@@ -133,7 +133,7 @@ const PlaceOrder = () => {
           <div className="booking-section">
             <div className="calendar-wrapper">
               <h2 className="section-title">Select Your Dates</h2>
-              <Calendar 
+              <Calendar  className="calender"
                 onDateSelect={handleDateSelect}
                 selectedDates={selectedDates}
               />

@@ -29,6 +29,7 @@
 .booking-layout {
   display: grid;
   grid-template-columns: 400px 1fr;
+  
   gap: 30px;
   align-items: start;
 }
@@ -164,6 +165,11 @@
   font-weight: 700;
 }
 
+.calender{
+    position: relative;
+    
+}
+
 /* Right Side - Booking Section */
 .booking-section {
   display: flex;
@@ -175,6 +181,7 @@
   color: #fff;
   font-size: 1.7rem;
   font-weight: 700;
+  margin-left: 10px;
   margin-bottom: 25px;
   text-align: center;
   background: linear-gradient(90deg, #fff, #ec7607, #fff);
@@ -185,10 +192,13 @@
 }
 
 .calendar-wrapper {
-  width: 100%;
+  width: 500px;
+  height: 300px;
+  margin-left: 200px;
 }
 
 .booking-form-wrapper {
+    margin-top: 600px;
   width: 100%;
   animation: slideIn 0.4s ease;
 }
