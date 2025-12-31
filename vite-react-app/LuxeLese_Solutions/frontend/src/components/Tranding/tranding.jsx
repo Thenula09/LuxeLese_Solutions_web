@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { FaStar, FaCarSide, FaClock, FaUsers } from "react-icons/fa";
 import "./tranding.css";
 
 function Tranding() {
+  const navigate = useNavigate();
+  
   const trendingCars = [
     {
       name: "BMW X5",
@@ -109,7 +112,7 @@ return (
                             </div>
                         </div>
                         
-                        <button className="book-now-btn">Book Now</button>
+                        <button className="book-now-btn" onClick={() => navigate('/placeorder')}>Book Now</button>
                     </div>
                 </div>
             ))}

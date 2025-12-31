@@ -107,7 +107,7 @@
 }
 
 .forgot-password:hover {
-  color: #e65c00;
+  color: #000000;
 }
 
 .auth-button {
@@ -125,7 +125,7 @@
 }
 
 .auth-button:hover {
-  background-color: #e65c00;
+  background-color: #000000;
 }
 
 .auth-footer {
@@ -143,6 +143,26 @@
 
 .auth-link:hover {
   color: #e65c00;
+}
+
+.auth-error {
+  background: rgba(220, 38, 38, 0.2);
+  color: #fca5a5;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+.auth-success {
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
 /* Responsive design */

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
 import { FaUser, FaEnvelope, FaLock, FaPhone } from 'react-icons/fa';
+import GradientButton from '../../components/GradientButton/GradientButton';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const Register = () => {
     confirmPassword: '',
   });
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -22,9 +24,17 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setSuccess(null);
 
+    // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match.");
+      return;
+    }
+
+    // Validate password length
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters long.");
       return;
     }
 
@@ -45,13 +55,23 @@ const Register = () => {
       setLoading(false);
 
       if (data.success) {
-        navigate('/signin');
+        // Store the token
+        localStorage.setItem('token', data.data.token);
+        localStorage.setItem('user', JSON.stringify(data.data.user));
+        
+        setSuccess('Account created successfully! Redirecting...');
+        
+        // Redirect after 1.5 seconds
+        setTimeout(() => {
+          navigate('/');
+        }, 1500);
       } else {
         setError(data.message || 'Registration failed. Please try again.');
       }
     } catch (err) {
       setLoading(false);
       setError('Network error. Please check your connection.');
+      console.error('Registration error:', err);
     }
   };
 
@@ -90,19 +110,8 @@ const Register = () => {
             </div>
           </div>
 
-          <div className="form-group">
-            <div className="input-with-icon">
-              <FaPhone className="input-icon" />
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                id="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
+         
+         
 
           <div className="form-group">
             <div className="input-with-icon">
@@ -133,6 +142,7 @@ const Register = () => {
           </div>
 
           {error && <p className="auth-error">{error}</p>}
+          {success && <p className="auth-success">{success}</p>}
 
           <div className="form-options">
             <label className="terms">
@@ -143,9 +153,9 @@ const Register = () => {
             </label>
           </div>
 
-          <button type="submit" className="auth-button" disabled={loading}>
+          <GradientButton type="submit" disabled={loading}>
             {loading ? 'Creating Account...' : 'Create Account'}
-          </button>
+          </GradientButton>
         </form>
 
         <div className="auth-footer">

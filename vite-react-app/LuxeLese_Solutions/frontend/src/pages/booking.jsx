@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './booking.css';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/footer';
 import { FaStar, FaCarSide, FaClock, FaUsers, FaSearch, FaTh, FaList } from 'react-icons/fa';
 
 const Booking = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
@@ -172,7 +174,7 @@ const Booking = () => {
                       className="book-btn"
                       onClick={(e) => {
                         e.stopPropagation();
-                        alert(`Booking ${car.name}!`);
+                        navigate('/placeorder');
                       }}
                     >
                       Book Now

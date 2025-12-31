@@ -1,0 +1,155 @@
+.booking-details-container {
+  background: rgba(26, 26, 26, 0.95);
+  border-radius: 15px;
+  padding: 25px;
+  border: 2px solid rgba(236, 118, 7, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.booking-title {
+  color: #fff;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  text-align: center;
+  border-bottom: 2px solid rgba(236, 118, 7, 0.5);
+  padding-bottom: 15px;
+}
+
+/* Selected Dates Section */
+.selected-dates-section {
+  background: rgba(236, 118, 7, 0.1);
+  border: 1px solid rgba(236, 118, 7, 0.3);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 25px;
+}
+
+.selected-dates-section h3 {
+  color: #ec7607;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.dates-display {
+  color: #fff;
+}
+
+.single-date {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ec7607;
+  margin: 0;
+}
+
+.date-range {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+.date-label {
+  color: #ec7607;
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.duration {
+  margin-top: 10px;
+}
+
+.duration-badge {
+  background: linear-gradient(135deg, #ec7607, #ff9151);
+  color: #fff;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: 700;
+  display: inline-block;
+}
+
+/* Booking Form */
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.form-group input,
+.form-group textarea {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(236, 118, 7, 0.3);
+  border-radius: 8px;
+  padding: 12px 15px;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #ec7607;
+  box-shadow: 0 0 10px rgba(236, 118, 7, 0.3);
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Booking Summary */
+.booking-summary {
+  background: rgba(236, 118, 7, 0.1);
+  border: 1px solid rgba(236, 118, 7, 0.3);
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px 0;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  padding: 8px 0;
+  font-size: 1rem;
+}
+
+.summary-value {
+  color: #ec7607;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .booking-details-container {
+    padding: 20px;
+  }
+
+  .booking-title {
+    font-size: 1.5rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+}

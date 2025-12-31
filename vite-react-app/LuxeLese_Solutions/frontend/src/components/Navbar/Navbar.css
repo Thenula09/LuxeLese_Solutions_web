@@ -84,18 +84,59 @@
   border-bottom-color: var(--primary-orange);
 }
 
-/* Styling for the sign-in/up button */
-.signbtn {
-  background-color: var(--primary-orange);
-  color: #ffffff;
-  border: none;
-  border-radius: 50px; /* Pill shape */
-  padding: 0.6rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-left: 2rem;
-  transition: background-color 0.3s, transform 0.3s;
+/* Styling for the sign-in button */
+.user-profile {
+  width: 131px;
+  height: 51px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  background: linear-gradient(
+    to bottom right,
+    #ec7607 0%,
+    rgba(236, 118, 7, 0) 30%
+  );
+  background-color: rgba(236, 118, 7, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  margin-left: 1rem;
+  border: 2px solid rgba(236, 118, 7, 0.5);
+}
+
+.user-profile:hover,
+.user-profile:focus {
+  background-color: rgba(236, 118, 7, 0.7);
+  box-shadow: 0 0 15px rgba(236, 118, 7, 0.6);
+  border-color: #ec7607;
+  outline: none;
+  border-bottom: 2px solid #ec7607;
+}
+
+.user-profile-inner {
+  width: 127px;
+  height: 47px;
+  border-radius: 13px;
+  background-color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.user-profile-inner svg {
+  width: 27px;
+  height: 27px;
+  fill: #ec7607;
+  transition: fill 0.3s ease;
+}
+
+.user-profile:hover .user-profile-inner svg {
+  fill: #ff9151;
 }
 
 .signbtn:hover {

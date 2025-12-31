@@ -7,6 +7,7 @@ import Booking from './pages/booking.jsx';
 import Contact from './pages/Contact.jsx';
 import SignIn from './pages/Auth/SignIn.jsx';
 import Register from './pages/Auth/Register.jsx';
+import PlaceOrder from './pages/placeoder.jsx';
 
 function App() {
   const followerRef = useRef(null);
@@ -79,6 +80,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/placeorder" element={<PlaceOrder />} />
           </Routes>
         </main>
       </div>

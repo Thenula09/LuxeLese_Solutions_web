@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
+import GradientButton from '../../components/GradientButton/GradientButton';
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ const SignIn = () => {
     password: '',
   });
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -19,6 +21,7 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setSuccess(null);
     setLoading(true);
 
     try {
@@ -33,19 +36,28 @@ const SignIn = () => {
       setLoading(false);
 
       if (data.success) {
+        // Store token and user data
         localStorage.setItem('token', data.data.token);
-        // Check user role from response for admin redirect
-        if (data.data.user.role === 'admin') {
-          navigate('/admindashboard');
-        } else {
-          navigate('/');
-        }
+        localStorage.setItem('user', JSON.stringify(data.data.user));
+        
+        setSuccess('Login successful! Redirecting...');
+        
+        // Redirect after 1 second
+        setTimeout(() => {
+          // Check user role from response for admin redirect
+          if (data.data.user.role === 'admin') {
+            navigate('/admindashboard');
+          } else {
+            navigate('/');
+          }
+        }, 1000);
       } else {
         setError(data.message || 'Login failed. Please check your credentials.');
       }
     } catch (err) {
       setLoading(false);
       setError('Network error. Please check your connection.');
+      console.error('Login error:', err);
     }
   };
 
@@ -85,6 +97,7 @@ const SignIn = () => {
           </div>
 
           {error && <p className="auth-error">{error}</p>}
+          {success && <p className="auth-success">{success}</p>}
 
           <div className="form-options">
             <label className="remember-me">
@@ -95,9 +108,9 @@ const SignIn = () => {
             </Link>
           </div>
 
-          <button type="submit" className="auth-button" disabled={loading}>
+          <GradientButton type="submit" disabled={loading}>
             {loading ? 'Signing In...' : 'Sign In'}
-          </button>
+          </GradientButton>
         </form>
 
         <div className="auth-footer">

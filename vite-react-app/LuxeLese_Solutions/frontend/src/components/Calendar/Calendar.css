@@ -1,0 +1,207 @@
+.calendar-container {
+  background: linear-gradient(135deg, rgba(26, 26, 26, 0.98), rgba(40, 40, 40, 0.95));
+  border-radius: 20px;
+  padding: 30px;
+  border: 2px solid rgba(236, 118, 7, 0.4);
+  box-shadow: 0 10px 40px rgba(236, 118, 7, 0.2), 0 0 80px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.calendar-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(236, 118, 7, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 145, 81, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.calendar-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid rgba(236, 118, 7, 0.2);
+}
+
+.calendar-month-year {
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(90deg, #fff, #ec7607);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(236, 118, 7, 0.3);
+}
+
+.calendar-nav-btn {
+  background: linear-gradient(135deg, rgba(236, 118, 7, 0.2), rgba(255, 145, 81, 0.2));
+  border: 2px solid rgba(236, 118, 7, 0.5);
+  border-radius: 12px;
+  color: #ec7607;
+  cursor: pointer;
+  padding: 12px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.calendar-nav-btn:hover {
+  background: linear-gradient(135deg, #ec7607, #ff9151);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(236, 118, 7, 0.6);
+  transform: scale(1.1);
+}
+
+.calendar-nav-btn:active {
+  transform: scale(0.95);
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.calendar-weekdays div {
+  color: #ec7607;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 12px;
+  background: rgba(236, 118, 7, 0.1);
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.calendar-day::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent, rgba(236, 118, 7, 0.2));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.calendar-day:not(.empty):hover {
+  background: linear-gradient(135deg, rgba(236, 118, 7, 0.4), rgba(255, 145, 81, 0.3));
+  border-color: #ec7607;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(236, 118, 7, 0.4);
+}
+
+.calendar-day:not(.empty):hover::before {
+  opacity: 1;
+}
+
+.calendar-day.empty {
+  cursor: default;
+  background: transparent;
+  border: none;
+}
+
+.calendar-day.selected {
+  background: linear-gradient(135deg, #ec7607, #ff9151);
+  color: #fff;
+  font-weight: 700;
+  border-color: #ec7607;
+  box-shadow: 0 0 25px rgba(236, 118, 7, 0.8), 0 0 50px rgba(236, 118, 7, 0.4);
+  transform: scale(1.05);
+  z-index: 2;
+}
+
+.calendar-day.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.3);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-day.today {
+  border: 3px solid #ec7607;
+  font-weight: 700;
+  box-shadow: 0 0 15px rgba(236, 118, 7, 0.5);
+}
+
+.calendar-day.today.selected {
+  border: 3px solid #fff;
+}
+
+@media (max-width: 768px) {
+  .calendar-container {
+    padding: 20px;
+  }
+
+  .calendar-month-year {
+    font-size: 1.3rem;
+  }
+
+  .calendar-weekdays div {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+
+  .calendar-day {
+    font-size: 1rem;
+  }
+
+  .calendar-days {
+    gap: 6px;
+  }
+
+  .calendar-weekdays {
+    gap: 6px;
+  }
+}
