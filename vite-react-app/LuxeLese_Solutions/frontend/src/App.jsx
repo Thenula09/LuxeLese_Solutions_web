@@ -8,6 +8,8 @@ import Contact from './pages/Contact.jsx';
 import SignIn from './pages/Auth/SignIn.jsx';
 import Register from './pages/Auth/Register.jsx';
 import PlaceOrder from './pages/placeoder.jsx';
+import Payment from './pages/payment.jsx';
+import Loading from './pages/Loading.jsx';
 
 function App() {
   const followerRef = useRef(null);
@@ -81,6 +83,8 @@ function App() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/register" element={<Register />} />
             <Route path="/placeorder" element={<PlaceOrder />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/loading" element={<Loading />} />
           </Routes>
         </main>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Calendar.css';
 
-const Calendar = ({ onDateSelect, selectedDates = [] }) => {
+const Calendar = ({ onDateSelect, selectedDates = [], className }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   
   const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -75,7 +75,7 @@ const Calendar = ({ onDateSelect, selectedDates = [] }) => {
   };
 
   return (
-    <div className="calendar-container">
+    <div className={`calendar-container ${className}`}>
       <div className="calendar-header">
         <button onClick={handlePrevMonth} className="calendar-nav-btn">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">

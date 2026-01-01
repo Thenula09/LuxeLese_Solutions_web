@@ -12,6 +12,7 @@ function Tranding() {
       rating: 4.8,
       users: 150,
       category: "Luxury SUV",
+      price: 150,
       timeFrame: "Day/Week/Month"
     },
     {
@@ -19,6 +20,7 @@ function Tranding() {
       rating: 4.9,
       users: 180,
       category: "Premium Sedan",
+      price: 120,
       timeFrame: "Day/Week/Month"
     },
     {
@@ -26,6 +28,7 @@ function Tranding() {
       rating: 4.7,
       users: 120,
       category: "Premium SUV",
+      price: 180,
       timeFrame: "Day/Week/Month"
     },
     {
@@ -33,25 +36,10 @@ function Tranding() {
       rating: 4.6,
       users: 130,
       category: "Luxury Sedan",
+      price: 140,
       timeFrame: "Day/Week/Month"
-    },
-    {
-        name: "Audi A6",
-        rating: 4.6,
-        users: 130,
-        category: "Luxury Sedan",
-        timeFrame: "Day/Week/Month" 
-
     }
-    ,{
-        name: "Audi A6",
-        rating: 4.6,
-        users: 130,
-        category: "Luxury Sedan",
-        timeFrame: "Day/Week/Month" 
-    }
-    
-    ];
+  ];
 
 // Add images and vehicle types to each car
 const carImages = [
@@ -112,7 +100,19 @@ return (
                             </div>
                         </div>
                         
-                        <button className="book-now-btn" onClick={() => navigate('/placeorder')}>Book Now</button>
+                        <button className="book-now-btn" onClick={() => navigate('/placeorder', { 
+                          state: { 
+                            vehicle: {
+                              name: car.name,
+                              model: car.category,
+                              image: carImages[index] || "https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=400&q=80",
+                              pricePerDay: car.price,
+                              features: ['Automatic', 'Air Conditioning', 'GPS', 'Bluetooth'],
+                              rating: car.rating,
+                              users: car.users
+                            }
+                          } 
+                        })}>Book Now</button>
                     </div>
                 </div>
             ))}

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
 import { FaUser, FaEnvelope, FaLock, FaPhone } from 'react-icons/fa';
 import GradientButton from '../../components/GradientButton/GradientButton';
+import BackArrowIcon from '../../components/BackArrowIcon';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -78,7 +79,24 @@ const Register = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>Create Account</h2>
+        <button
+          type="button"
+          aria-label="Go back"
+          onClick={() => navigate(-1)}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            position: 'absolute',
+            top: 24,
+            left: 24,
+            padding: 0,
+            zIndex: 2
+          }}
+        >
+          <BackArrowIcon size={28} color="#FF8C00" />
+        </button>
+        <h2 style={{marginTop: 0}}>Create Account</h2>
         <p className="auth-subtitle">Join LuxeLese and discover premium car rentals</p>
 
         <form onSubmit={handleSubmit} className="auth-form">

@@ -1,4 +1,8 @@
 /* Auth pages shared styles */
+.input-move-placeholder::placeholder {
+  position: relative;
+  left: -100px;
+}
 .auth-container {
   min-height: 100vh;
   display: flex;

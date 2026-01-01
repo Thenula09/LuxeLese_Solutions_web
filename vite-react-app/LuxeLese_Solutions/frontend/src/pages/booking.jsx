@@ -90,7 +90,10 @@ const Booking = () => {
     <>
       <Navbar />
       <div className="booking-container">
-        <h1 className="booking-title">Book Your Perfect Ride</h1>
+        <button onClick={() => navigate('/')} className="auth-back-btn">
+          &larr; Back to Home
+        </button>
+        <h1 className="booking-itle">Book Your Perfect Ride</h1>
         
         {/* Search Bar */}
         <div className="search-section">
@@ -174,7 +177,19 @@ const Booking = () => {
                       className="book-btn"
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate('/placeorder');
+                        navigate('/placeorder', { 
+                          state: { 
+                            vehicle: {
+                              name: car.name,
+                              model: car.category,
+                              image: car.image,
+                              pricePerDay: parseInt(car.price.replace('$', '').replace('/day', '')),
+                              features: ['Automatic', 'Air Conditioning', 'GPS', 'Bluetooth'],
+                              rating: car.rating,
+                              users: car.users
+                            }
+                          } 
+                        });
                       }}
                     >
                       Book Now

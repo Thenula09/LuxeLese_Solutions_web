@@ -1,86 +1,51 @@
-.place-order-page {
-  min-height: 100vh;
-  background: 
-    radial-gradient(ellipse at top, rgba(236, 118, 7, 0.15), transparent),
-    radial-gradient(ellipse at bottom, rgba(255, 145, 81, 0.1), transparent),
-    linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-  padding-top: 70px;
-  padding-bottom: 60px;
-  position: relative;
-}
-
 .place-order-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 30px 20px;
+  padding: 20px;
+  display: grid;
+  gap: 30px;
+  /* Define the grid layout for larger screens */
+  /* Title and Vehicle span full width, Calendar and Booking are side-by-side */
+  grid-template-areas:
+    "title title"
+    "vehicle vehicle"
+    "calendar booking";
+  grid-template-columns: 0.8fr 1.2fr; /* Adjust column widths as needed */
 }
 
 .page-title {
-  color: #fff;
-  font-size: 2.2rem;
+  grid-area: title;
+  font-size: clamp(2rem, 4vw, 2.5rem);
   text-align: center;
-  margin-bottom: 25px;
-  background: linear-gradient(90deg, #ec7607, #ff9151);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.booking-layout {
-  display: grid;
-  grid-template-columns: 1fr 2fr; /* Vehicle details | Calendar & Form */
-  gap: 40px;
-  align-items: start;
-}
-
-.left-section {
-  position: sticky;
-  top: 100px;
-}
-
-.booking-section {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  align-items: start;
-}
-
-.calendar-wrapper {
-  background: rgba(26, 26, 26, 0.95);
-  border-radius: 15px;
-  padding: 15px;
-  border: 2px solid rgba(236, 118, 7, 0.3);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-}
-
-.section-title {
-  color: #fff;
-  font-size: 1.5rem;
+  margin-bottom: 0; /* Grid gap will handle spacing */
+  color: #FF8C00;
+  margin-top: 50px;
   font-weight: 700;
-  margin-bottom: 15px;
-  text-align: center;
-  grid-column: 1 / -1; /* Span across both columns */
-  background: linear-gradient(90deg, #fff, #ec7607, #fff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 0 30px rgba(236, 118, 7, 0.3);
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .booking-layout {
-    grid-template-columns: 1fr; /* Stack on smaller screens */
-  }
-
-  .left-section {
-    position: relative;
-    top: 0;
-  }
+.vehicle-details-section {
+  grid-area: vehicle;
+  width: 100%; /* Take full width of its area */
 }
 
-@media (max-width: 768px) {
-  .booking-section {
-    grid-template-columns: 1fr; /* Stack calendar and form */
+.calendar-section {
+  grid-area: calendar;
+}
+
+.booking-details-section {
+  grid-area: booking;
+  width: 100%;
+  height: auto; /* CRITICAL: Remove fixed height to prevent overflow */
+}
+
+/* Add a media query for smaller screens to stack everything */
+@media (max-width: 1024px) {
+  .place-order-container {
+    grid-template-areas:
+      "title"
+      "vehicle"
+      "booking" /* On mobile, booking form might be more important to see first */
+      "calendar";
+    grid-template-columns: 1fr; /* Single column */
   }
 }

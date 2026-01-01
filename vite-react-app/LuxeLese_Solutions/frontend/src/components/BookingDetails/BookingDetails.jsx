@@ -2,7 +2,7 @@ import React from 'react';
 import './BookingDetails.css';
 import GradientButton from '../GradientButton/GradientButton';
 
-const BookingDetails = ({ selectedDates, formData, onChange, onSubmit }) => {
+const BookingDetails = ({ selectedDates, formData, onChange, onSubmit, className }) => {
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('en-US', {
       month: 'short',
@@ -23,7 +23,7 @@ const BookingDetails = ({ selectedDates, formData, onChange, onSubmit }) => {
   };
 
   return (
-    <div className="booking-details-container">
+    <div className={`booking-details-container ${className}`}>
       <h2 className="booking-title">Enter Your Information</h2>
 
       {/* Selected Dates Display */}
@@ -61,7 +61,6 @@ const BookingDetails = ({ selectedDates, formData, onChange, onSubmit }) => {
             value={formData.name}
             onChange={onChange}
             placeholder="Enter your full name"
-            required
           />
         </div>
 
@@ -74,7 +73,6 @@ const BookingDetails = ({ selectedDates, formData, onChange, onSubmit }) => {
             value={formData.email}
             onChange={onChange}
             placeholder="your.email@example.com"
-            required
           />
         </div>
 
@@ -87,7 +85,6 @@ const BookingDetails = ({ selectedDates, formData, onChange, onSubmit }) => {
             value={formData.phone}
             onChange={onChange}
             placeholder="+1 (555) 123-4567"
-            required
           />
         </div>
 
@@ -100,7 +97,6 @@ const BookingDetails = ({ selectedDates, formData, onChange, onSubmit }) => {
             onChange={onChange}
             placeholder="Enter your complete address"
             rows="2"
-            required
           />
         </div>
 

@@ -1,202 +1,453 @@
-/* Main container - centered and with controlled width */
-.about-container {
-  background: transparent;
-  backdrop-filter: blur(10px);
-  padding: 40px 20px;
-  text-align: center;
-  margin: 51px auto;
-  border-radius: 31px;
-  max-width: 100%;
+/* About Page Main Container */
+.about-page {
   width: 100%;
   overflow-x: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  color: #ffffff;
-}
-
-/* Global text styles for about page */
-.about-container p,
-.about-container h1,
-.about-container h2,
-.about-container h3,
-.about-container h4,
-.about-container h5,
-.about-container h6,
-.about-container span,
-.about-container div {
-  color: #ffffff;
-}
-
-/* Positioning context for the cards */
-.card-container {
+  background: linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%);
   position: relative;
-  height: 1700px;
-  margin: 50px auto;
-  padding: 20px;
-  text-align: center;
-  overflow-x: hidden;
-  max-width: 100%;
-  width: 100%;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.05) 0%,
-    rgba(255, 255, 255, 0.1) 100%
-  );
+  padding-top: 80px;
 }
 
-/* Base styles for all cards and positioned images */
-.card, .about-image1 {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
-  transition: all 0.4s ease;
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+/* Hero Section */
+.about-hero {
+  min-height: 35vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 140px 20px 60px;
+  background: linear-gradient(135deg, rgba(255, 140, 0, 0.1) 0%, rgba(255, 87, 34, 0.1) 100%);
+  position: relative;
   overflow: hidden;
 }
 
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(31, 38, 135, 0.25);
-  background: rgba(255, 255, 255, 0.2);
+.about-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 140, 0, 0.15), transparent 70%);
+  animation: pulse 4s ease-in-out infinite;
 }
 
-.card h2 {
-  margin-bottom: 20px;
-  color: #ffffff;
-  font-weight: 600;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
 }
 
-.card p {
-  color: #ffffff;
-  line-height: 1.6;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+.hero-content {
+  text-align: center;
+  z-index: 1;
+  position: relative;
 }
 
-/* Specific positions and styles based on user's original CSS */
-.card1 {
-  background: transparent;
-  border-top: 5px solid rgba(255, 87, 34, 0.8);
-  width: 700px;
-  height: 700px;
-  padding: 30px;
- text-align: center;
- 
-  top: 90px;
-  left: 190px;
-}
-
-.about-image1 {
-  width: 700px;
-  height: 500px;
-  top: 195px;
-  left: 880px;
-  object-fit: cover;
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
-  transform: perspective(1000px) rotateY(-5deg);
-  transition: transform 0.5s ease;
-}
-
-.about-image1:hover {
-  transform: perspective(1000px) rotateY(0deg);
-}
-
-.card2 {
-  background: transparent
-  ;
-  border-top: 5px solid rgba(253, 122, 0, 0.8);
-  width: 701px;
-  height: 700px;
-  padding: 30px;
-  top: 900px;
-  left: 180px;
-  backdrop-filter: blur(10px);
-}
-
-.card3 {
-  background: transparent;
-  border-top: 5px solid rgba(255, 119, 0, 0.8);
-  width: 670px;
-  height: 700px;
-  padding: 30px;
-  top: 900px;
-  left: 980px;
-  backdrop-filter: blur(10px);
-}
-
-/* General styles from user's file */
-.fotterA {
-  margin-top: -30PX;
-  margin-bottom: -40PX;
-  margin-left: -40px; /* Adjust margin to fit new layout */
-  margin-right: -40px;
-}
-
-.topic1 {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 36px;
-  color: #ffffff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
-  font-weight: 600;
-  background: linear-gradient(90deg, #ffffff, #ffffff);
-  background-clip: text;
+.hero-title {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #FF8C00 0%, #FF5722 50%, #FF8C00 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: transparent;
-}
-
-.about-image {
-  width: 100%;
-  max-width: 300px;
-  border-radius: 20px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease;
-  height: auto;
-  margin: 80px;
-  border-radius: 40px;
-  box-shadow: 14px 20px 0 rgba(0, 0, 0, 0.2);
-  
-}
-.ourmission {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 50px;
-  color: #ff5722;
-}
-.review {
-  margin: 30px auto 0;
- 
-  margin-left: -5px;
-  
-
-
-  overflow-x: hidden;
-  border-radius: 40px;
-  background-color: black;
-  height: 901px;
-  padding: 20px;
-}
-
-.UserStats {
-  margin: 30px auto 0;
-  max-width: 1500px;
-  width: 95%;
-  overflow-x: hidden;
-  border-radius: 40px;
-  background-color: rgb(216, 120, 52);
-  padding: 20px;
-}
-.card-container {
-  position: relative;
-  height: 1700px; /* Set a height to contain all absolutely positioned cards */
-  margin-top: 200px;
-  margin-bottom: 50px;
-  margin-left: -40px;
-  margin-right: 10px;
-  overflow-x: hidden; /* Safeguard against any accidental overflow */
-  background-color: transparent;
-  padding: 20px;
+  background-clip: text;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
   text-align: center;
+  animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.hero-subtitle {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 300;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.hero-divider {
+  width: 150px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #FF8C00, transparent);
+  margin: 30px auto;
+  border-radius: 2px;
+}
+
+/* Story Section */
+.about-story {
+  padding: 100px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #FF8C00;
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #FF5722, transparent);
+}
+
+.story-text {
+  font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+  font-weight: 300;
+}
+
+/* Gallery Section */
+.about-gallery {
+  padding: 80px 20px;
+  background: transparent;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: 40px;
+  overflow: hidden;
+  height: 400px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.gallery-item:hover {
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 25px 70px rgba(255, 140, 0, 0.4);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1);
+}
+
+.gallery-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 30px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+  transform: translateY(0);
+}
+
+.gallery-overlay span {
+  color: #FF8C00;
+  font-size: 1.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* Mission Section */
+.about-mission {
+  padding: 100px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mission-text {
+  font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+  font-weight: 300;
+}
+
+/* Features Section */
+.about-features {
+  padding: 100px 20px;
+  background: transparent;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 40px;
+  max-width: 1400px;
+  margin: 60px auto 0;
+}
+
+.feature-card {
+  background: transparent;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 140, 0, 0.3);
+  border-radius: 35px;
+  padding: 40px 30px;
+  text-align: center;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.feature-card:hover::before {
+  left: 100%;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  border-color: #FF8C00;
+  box-shadow: 0 20px 60px rgba(255, 140, 0, 0.3);
+  background: rgba(255, 140, 0, 0.1);
+}
+
+.feature-icon {
+  font-size: 4rem;
+  color: #FF8C00;
+  margin-bottom: 25px;
+  transition: transform 0.4s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.2) rotateY(360deg);
+}
+
+.feature-card h3 {
+  font-size: 2rem;
+  color: #FFFFFF;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.feature-card p {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+/* Commitment Section */
+.about-commitment {
+  padding: 100px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.commitment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.commitment-content h2 {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.commitment-content h2::after {
+  left: 0;
+  transform: none;
+}
+
+.commitment-text {
+  font-size: 1.4rem;
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.commitment-points {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.point {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: transparent;
+  border-radius: 25px;
+  border-left: 4px solid #FF8C00;
+  transition: all 0.3s ease;
+}
+
+.point:hover {
+  background: rgba(255, 140, 0, 0.15);
+  transform: translateX(10px);
+}
+
+.point-icon {
+  color: #FF8C00;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.point span:last-child {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.2rem;
+}
+
+.commitment-image {
+  border-radius: 40px;
+  overflow: hidden;
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.commitment-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 140, 0, 0.2), transparent);
+  z-index: 1;
+}
+
+.commitment-image img {
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.commitment-image:hover img {
+  transform: scale(1.1);
+}
+
+/* Reviews Section */
+.about-reviews {
+  margin: 80px 0;
+  padding: 0 20px;
+}
+
+/* Stats Section */
+.about-stats {
+  margin: 80px 0;
+  padding: 0 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .commitment-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .commitment-content h2::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .commitment-text {
+    text-align: center;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    min-height: 50vh;
+    padding: 80px 20px 60px;
+  }
+
+  .about-story,
+  .about-mission,
+  .about-features,
+  .about-commitment {
+    padding: 60px 20px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .gallery-item {
+    height: 300px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-card {
+    padding: 30px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .story-text,
+  .mission-text,
+  .commitment-text {
+    font-size: 1rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.5rem;
+  }
+
+  .commitment-image img {
+    height: 400px;
+  }
 }
