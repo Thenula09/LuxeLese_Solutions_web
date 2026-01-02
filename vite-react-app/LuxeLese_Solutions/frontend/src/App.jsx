@@ -1,6 +1,7 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useEffect, useRef } from 'react';
+import Navbar from './components/Navbar/Navbar.jsx';
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
 import Booking from './pages/booking.jsx';
@@ -68,6 +69,7 @@ function App() {
 
   return (
     <Router>
+      <Navbar />
       <div className="app-background min-h-screen font-sans antialiased">
         {/* Custom Text Cursor Follower */}
         <div id="text-follower" ref={followerRef}>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './booking.css';
-import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/footer';
 import { FaStar, FaCarSide, FaClock, FaUsers, FaSearch, FaTh, FaList } from 'react-icons/fa';
 
@@ -88,7 +87,7 @@ const Booking = () => {
 
   return (
     <>
-      <Navbar />
+
       <div className="booking-container">
         <button onClick={() => navigate('/')} className="auth-back-btn">
           &larr; Back to Home

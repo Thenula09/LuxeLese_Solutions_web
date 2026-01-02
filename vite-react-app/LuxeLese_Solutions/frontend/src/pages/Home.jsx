@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import HomepageCard from '../components/homepagecard/homepagecard.jsx';
 import './Home.css';
-import Navbar from '../components/Navbar/Navbar.jsx';
 import Footer from '../components/Footer/footer.jsx';
 import VehicleTypes from '../components/VehicleTypes/VehicleTypes.jsx';
 import ServiceBar from '../components/ServiceBar/ServiceBar.jsx';
@@ -10,17 +9,22 @@ import MemorableMoments from '../components/MemorableMoments/memorable_moments.j
 import WelcomeBox from '../components/WelcomeBox/WelcomeBox.jsx';
 import Loading from './Loading.jsx';
 
+
 const Home = () => {
-  const [showLoading, setShowLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(() => {
+    // Only show loading if not shown before in this session
+    return !window.localStorage.getItem('luxelese_loading_shown');
+  });
 
   useEffect(() => {
-    // Show loading animation for 2 seconds on first page load
-    const timer = setTimeout(() => {
-      setShowLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
+    if (showLoading) {
+      const timer = setTimeout(() => {
+        setShowLoading(false);
+        window.localStorage.setItem('luxelese_loading_shown', 'true');
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showLoading]);
 
   useEffect(() => {
     // Initialize AOS animation library only after loading finishes
@@ -32,14 +36,12 @@ const Home = () => {
     }
   }, [showLoading]);
 
-  // Show loading page for 10 seconds on initial load
   if (showLoading) {
     return <Loading />;
   }
 
   return (
     <>
-      <Navbar />
       <div className="hero-section">
         <div className="hero-content">
           <div className="welcome-text">

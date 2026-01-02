@@ -1,13 +1,11 @@
 import React from 'react';
 import './Contact.css';
-import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/footer';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
 const Contact = () => {
   return (
     <>
-      <Navbar />
       <div className="contact-container">
         <h1 className="contact-title">Contact Us</h1>
         <div className="contact-content">

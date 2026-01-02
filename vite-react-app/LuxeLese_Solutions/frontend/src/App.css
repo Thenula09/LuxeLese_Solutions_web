@@ -13,7 +13,7 @@
   pointer-events: none;
   
   /* Ensure the text is always on top of other elements */
-  z-index: 9999;
+  z-index: 999;
   
   /* Basic styling for the text */
   font-size: 16px;

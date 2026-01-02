@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import './About.css';
-import Navbar from '../components/Navbar/Navbar.jsx';
 import Footer from '../components/Footer/footer.jsx';
 import about1 from '../../assets/about1.jpg';
 import about2 from '../../assets/about2.jpg';
@@ -24,7 +23,6 @@ const About = () => {
 
   return (
     <>
-      <Navbar />
       <div className="about-page">
         {/* Story Section */}
         <section className="about-story" data-aos="fade-up">

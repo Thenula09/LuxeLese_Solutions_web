@@ -1,19 +1,61 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './footer.css';
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { FaGooglePlay, FaApple } from 'react-icons/fa';
+import { getCurrentUser } from '../../utils/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Check for logged in user
+    const currentUser = getCurrentUser();
+    setUser(currentUser);
+
+    // Update user when localStorage changes
+    const interval = setInterval(() => {
+      const updatedUser = getCurrentUser();
+      if (JSON.stringify(updatedUser) !== JSON.stringify(user)) {
+        setUser(updatedUser);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [user]);
+
   return (
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-cta">
-          <h4>Join LuxeLese Solutions</h4>
-          <p>Register to get updates, promotions, and more.</p>
-          <div className="email-signup">
-            <input type="email" placeholder="Your email address" />
-            <button type="submit">Signup</button>
-          </div>
+          {user ? (
+            <>
+              <h4>Welcome, {user.name}! 👋</h4>
+              <p>Logged in as: <strong>{user.email}</strong></p>
+              <div className="user-info-display" style={{
+                marginTop: '15px',
+                padding: '15px',
+                background: 'rgba(255, 140, 0, 0.1)',
+                border: '1px solid rgba(255, 140, 0, 0.3)',
+                borderRadius: '8px',
+                textAlign: 'center'
+              }}>
+                <p style={{ margin: 0, color: '#FF8C00', fontWeight: 'bold', fontSize: '16px' }}>
+                  {user.name}
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <h4>Join LuxeLese Solutions</h4>
+              <p>Register to get updates, promotions, and more.</p>
+              <div className="email-signup">
+                <input type="email" placeholder="Your email address" />
+                <button type="submit" onClick={() => navigate('/signin')}>Sign In</button>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="footer-sections-container">
