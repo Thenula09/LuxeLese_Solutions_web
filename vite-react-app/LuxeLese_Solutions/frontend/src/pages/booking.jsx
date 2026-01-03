@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './booking.css';
 import Footer from '../components/Footer/footer';
@@ -10,73 +10,199 @@ const Booking = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const [selectedCar, setSelectedCar] = useState(null);
+  const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState(['All']);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [totalCars, setTotalCars] = useState(0);
+  const [loadingMore, setLoadingMore] = useState(false);
 
-  const availableCars = [
+  // Fallback data if API fails or no data
+  const fallbackCars = [
     {
+      _id: 'fallback-1',
       name: "BMW X5",
+      model: "Luxury SUV",
       rating: 4.8,
       users: 150,
       category: "Luxury SUV",
-      price: "$150/day",
+      pricePerDay: 150,
       image: "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=400&q=80",
       type: "SUV",
-      timeFrame: "Day/Week/Month"
+      timeFrame: "Day/Week/Month",
+      features: ['Automatic', 'Air Conditioning', 'GPS', 'Bluetooth']
     },
     {
+      _id: 'fallback-2',
       name: "Mercedes C-Class",
+      model: "Premium Sedan",
       rating: 4.9,
       users: 180,
       category: "Premium Sedan",
-      price: "$120/day",
+      pricePerDay: 120,
       image: "https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=400&q=80",
       type: "Sedan",
-      timeFrame: "Day/Week/Month"
+      timeFrame: "Day/Week/Month",
+      features: ['Automatic', 'Air Conditioning', 'GPS', 'Bluetooth']
     },
     {
+      _id: 'fallback-3',
       name: "Toyota Land Cruiser",
+      model: "Premium SUV",
       rating: 4.7,
       users: 120,
       category: "Premium SUV",
-      price: "$180/day",
+      pricePerDay: 180,
       image: "https://images.unsplash.com/photo-1461632830798-3adb3034e4c8?auto=format&fit=crop&w=400&q=80",
       type: "SUV",
-      timeFrame: "Day/Week/Month"
+      timeFrame: "Day/Week/Month",
+      features: ['Automatic', 'Air Conditioning', 'GPS', 'Bluetooth']
     },
     {
+      _id: 'fallback-4',
       name: "Audi A6",
+      model: "Luxury Sedan",
       rating: 4.6,
       users: 130,
       category: "Luxury Sedan",
-      price: "$140/day",
+      pricePerDay: 140,
       image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80",
       type: "Sedan",
-      timeFrame: "Day/Week/Month"
+      timeFrame: "Day/Week/Month",
+      features: ['Automatic', 'Air Conditioning', 'GPS', 'Bluetooth']
     },
     {
+      _id: 'fallback-5',
       name: "Range Rover Sport",
+      model: "Premium SUV",
       rating: 4.9,
       users: 200,
       category: "Premium SUV",
-      price: "$200/day",
+      pricePerDay: 200,
       image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=400&q=80",
       type: "SUV",
-      timeFrame: "Day/Week/Month"
+      timeFrame: "Day/Week/Month",
+      features: ['Automatic', 'Air Conditioning', 'GPS', 'Bluetooth']
     },
     {
+      _id: 'fallback-6',
       name: "Tesla Model S",
+      model: "Electric Sedan",
       rating: 4.8,
       users: 175,
       category: "Electric Sedan",
-      price: "$160/day",
+      pricePerDay: 160,
       image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=400&q=80",
       type: "Sedan",
-      timeFrame: "Day/Week/Month"
+      timeFrame: "Day/Week/Month",
+      features: ['Electric', 'Autopilot', 'GPS', 'Premium Audio']
     }
   ];
 
-  const categories = ['All', 'SUV', 'Sedan', 'Luxury SUV', 'Premium Sedan'];
+  // Function to get image based on brand/category
+  const getCarImage = (car) => {
+    if (car.image) return car.image;
+    
+    // Default images based on brand or category
+    const brandImages = {
+      'Toyota': 'https://images.unsplash.com/photo-1623909794321-386106839f17?auto=format&fit=crop&w=400&q=80',
+      'BMW': 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=400&q=80',
+      'Mercedes': 'https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=400&q=80',
+      'Audi': 'https://images.unsplash.com/photo-1610768764270-790fbec18178?auto=format&fit=crop&w=400&q=80',
+      'Ford': 'https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=400&q=80',
+      'Range Rover': 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=400&q=80',
+      'Lamborghini': 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=400&q=80',
+      'Suzuki': 'https://images.unsplash.com/photo-1541443131876-44b03de101c5?auto=format&fit=crop&w=400&q=80'
+    };
 
-  const filteredCars = availableCars.filter(car => {
+    const categoryImages = {
+      'SUV': 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=400&q=80',
+      'Sedan': 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=400&q=80',
+      'Sports': 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=400&q=80',
+      'Luxury': 'https://images.unsplash.com/photo-1563720360172-67b8f3dce741?auto=format&fit=crop&w=400&q=80'
+    };
+
+    // Try to match by brand
+    if (car.brand && brandImages[car.brand]) {
+      return brandImages[car.brand];
+    }
+
+    // Try to match by category
+    if (car.category && categoryImages[car.category]) {
+      return categoryImages[car.category];
+    }
+
+    // Default car image
+    return 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=400&q=80';
+  };
+
+  // Fetch cars from API with pagination
+  const fetchCars = async (pageNum = 1, append = false) => {
+    const startTime = performance.now();
+    
+    if (append) setLoadingMore(true);
+    
+    try {
+      const response = await fetch(`http://localhost:5002/api/cars?page=${pageNum}&limit=20`, {
+        headers: {
+          'Accept-Encoding': 'gzip, deflate'
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        const loadTime = performance.now() - startTime;
+        const cacheStatus = data.cached ? '(cached)' : '';
+        console.log(`✅ Cars loaded in ${loadTime.toFixed(0)}ms ${cacheStatus}`);
+        
+        if (data.success && data.data.length > 0) {
+          if (append) {
+            setCars(prev => [...prev, ...data.data]);
+          } else {
+            setCars(data.data);
+            // Extract unique categories - optimized
+            const categorySet = new Set(['All']);
+            data.data.forEach(car => car.category && categorySet.add(car.category));
+            setCategories([...categorySet]);
+          }
+          
+          setTotalCars(data.total);
+          setHasMore(data.page < data.totalPages);
+          setPage(pageNum);
+        } else if (!append) {
+          setCars(fallbackCars);
+          setCategories(['All', ...new Set(fallbackCars.map(car => car.category).filter(Boolean))]);
+        }
+      } else if (!append) {
+        setCars(fallbackCars);
+        setCategories(['All', ...new Set(fallbackCars.map(car => car.category).filter(Boolean))]);
+      }
+    } catch (error) {
+      console.error('Error fetching cars:', error);
+      if (!append) {
+        setCars(fallbackCars);
+        setCategories(['All', ...new Set(fallbackCars.map(car => car.category).filter(Boolean))]);
+      }
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
+    }
+  };
+
+  // Initial load
+  useEffect(() => {
+    fetchCars(1, false);
+  }, []);
+
+  // Load more function
+  const loadMore = () => {
+    if (!loadingMore && hasMore) {
+      fetchCars(page + 1, true);
+    }
+  };
+
+  const filteredCars = cars.filter(car => {
     const matchesSearch = car.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          car.category.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || 
@@ -138,14 +264,26 @@ const Booking = () => {
         </div>
         {/* Cars Grid/List */}
         <div className={`cars-container ${viewMode}`}>
-          {filteredCars.length > 0 ? (
+          {loading ? (
+            <div className="loading">
+              <p>Loading cars...</p>
+            </div>
+          ) : filteredCars.length > 0 ? (
             filteredCars.map((car, index) => (
               <div 
-                key={index} 
+                key={car._id || index} 
                 className={`car-card ${viewMode} ${selectedCar === index ? 'selected' : ''}`}
                 onClick={() => setSelectedCar(index)}
               >
-                <img src={car.image} alt={car.name} className="car-image" />
+                <img 
+                  src={car.image} 
+                  alt={car.name} 
+                  className="car-image" 
+                  loading="lazy"
+                  onError={(e) => {
+                    e.target.src = 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=400&q=80';
+                  }}
+                />
                 <div className="car-content">
                   <div className="car-header">
                     <h3>{car.name}</h3>
@@ -171,7 +309,7 @@ const Booking = () => {
                   </div>
 
                   <div className="car-footer">
-                    <span className="car-price">{car.price}</span>
+                    <span className="car-price">${car.pricePerDay}/day</span>
                     <button 
                       className="book-btn"
                       onClick={(e) => {
@@ -182,8 +320,8 @@ const Booking = () => {
                               name: car.name,
                               model: car.category,
                               image: car.image,
-                              pricePerDay: parseInt(car.price.replace('$', '').replace('/day', '')),
-                              features: ['Automatic', 'Air Conditioning', 'GPS', 'Bluetooth'],
+                              pricePerDay: car.pricePerDay,
+                              features: car.features || ['Automatic', 'Air Conditioning', 'GPS', 'Bluetooth'],
                               rating: car.rating,
                               users: car.users
                             }
@@ -203,6 +341,33 @@ const Booking = () => {
             </div>
           )}
         </div>
+
+        {/* Load More Button */}
+        {!loading && hasMore && filteredCars.length > 0 && (
+          <div style={{ textAlign: 'center', margin: '30px 0' }}>
+            <button 
+              className="book-btn" 
+              onClick={loadMore}
+              disabled={loadingMore}
+              style={{ 
+                padding: '12px 40px',
+                fontSize: '16px',
+                cursor: loadingMore ? 'not-allowed' : 'pointer',
+                opacity: loadingMore ? 0.6 : 1
+              }}
+            >
+              {loadingMore ? 'Loading...' : `Load More (${totalCars - cars.length} remaining)`}
+            </button>
+          </div>
+        )}
+
+        {/* Stats */}
+        {!loading && (
+          <div style={{ textAlign: 'center', color: '#666', margin: '20px 0', fontSize: '14px' }}>
+            Showing {filteredCars.length} of {totalCars} cars
+            {filteredCars.length !== cars.length && ` (${cars.length} loaded)`}
+          </div>
+        )}
       </div>
       
       <div className='footerA'>

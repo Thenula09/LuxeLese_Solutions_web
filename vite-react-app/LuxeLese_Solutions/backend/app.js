@@ -1,8 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
+import carRoutes from './routes/carRoutes.js';
 
 const app = express();
+
+// Enable compression for faster API responses (reduces response size by 70-80%)
+// app.use(compression());
 
 // CORS Configuration - සියලු origins වලින් requests accept කරයි
 app.use(cors({
@@ -26,6 +30,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/cars', carRoutes);
 
 // Test route
 app.get('/', (req, res) => {
@@ -33,8 +38,18 @@ app.get('/', (req, res) => {
     success: true,
     message: 'Car Rental API is running!',
     endpoints: {
-      register: 'POST /api/auth/register',
-      login: 'POST /api/auth/login'
+      auth: {
+        register: 'POST /api/auth/register',
+        login: 'POST /api/auth/login'
+      },
+      cars: {
+        getAll: 'GET /api/cars',
+        getById: 'GET /api/cars/:id',
+        add: 'POST /api/cars',
+        update: 'PUT /api/cars/:id',
+        delete: 'DELETE /api/cars/:id',
+        search: 'GET /api/cars/search?query=...'
+      }
     }
   });
 });
