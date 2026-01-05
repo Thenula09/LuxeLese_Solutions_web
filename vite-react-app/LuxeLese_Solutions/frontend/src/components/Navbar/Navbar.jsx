@@ -19,20 +19,11 @@ function Navbar() {
     };
 
     window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
-
-  // Update user when localStorage changes in same tab
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const currentUser = getCurrentUser();
-      if (JSON.stringify(currentUser) !== JSON.stringify(user)) {
-        setUser(currentUser);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [user]);
 
   const handleLogout = () => {
     logout();
@@ -130,41 +121,6 @@ function Navbar() {
                 </div>
 
                 {/* Menu Items */}
-                <button
-                  onClick={() => {
-                    setShowDropdown(false);
-                    navigate('/about');
-                  }}
-                  style={dropdownButtonStyle}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 140, 0, 0.2)';
-                    e.currentTarget.style.color = '#FF8C00';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent';
-                    e.currentTarget.style.color = '#fff';
-                  }}
-                >
-                  <span>ℹ️</span> About
-                </button>
-                <button
-                  onClick={() => {
-                    setShowDropdown(false);
-                    navigate('/booking');
-                  }}
-                  style={dropdownButtonStyle}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 140, 0, 0.2)';
-                    e.currentTarget.style.color = '#FF8C00';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent';
-                    e.currentTarget.style.color = '#fff';
-                  }}
-                >
-                  <span>🚗</span> My Bookings
-                </button>
-
                 <button
                   onClick={() => {
                     setShowDropdown(false);

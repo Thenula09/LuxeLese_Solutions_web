@@ -144,7 +144,7 @@ const Booking = () => {
     if (append) setLoadingMore(true);
     
     try {
-      const response = await fetch(`http://localhost:5002/api/cars?page=${pageNum}&limit=20`, {
+      const response = await fetch(`/api/cars?page=${pageNum}&limit=20`, {
         headers: {
           'Accept-Encoding': 'gzip, deflate'
         }

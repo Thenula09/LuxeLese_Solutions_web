@@ -12,7 +12,7 @@ function Tranding() {
   useEffect(() => {
     const fetchTrendingCars = async () => {
       try {
-        const response = await fetch('http://localhost:5002/api/cars?page=1&limit=6');
+        const response = await fetch('/api/cars?page=1&limit=6');
         if (response.ok) {
           const data = await response.json();
           if (data.success && data.data.length > 0) {

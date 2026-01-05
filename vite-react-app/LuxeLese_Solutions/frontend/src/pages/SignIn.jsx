@@ -4,8 +4,6 @@ import BackArrowIcon from '../components/BackArrowIcon';
 import { useNavigate } from 'react-router-dom';
 import './booking.css';
 
-const API_URL = 'http://localhost:5001/api';
-
 const SignIn = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -26,7 +24,7 @@ const SignIn = () => {
     setError('');
 
     try {
-      const response = await fetch(`${API_URL}/auth/login`, {
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,8 +39,8 @@ const SignIn = () => {
         localStorage.setItem('token', data.data.token);
         localStorage.setItem('user', JSON.stringify(data.data.user));
         
-        // Navigate to home page
-        navigate('/');
+        // Navigate to booking page
+        navigate('/booking');
       } else {
         setError(data.message || 'Login failed. Please try again.');
       }

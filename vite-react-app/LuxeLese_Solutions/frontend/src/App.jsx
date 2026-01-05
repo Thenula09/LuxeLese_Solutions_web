@@ -11,6 +11,7 @@ import Register from './pages/Auth/Register.jsx';
 import PlaceOrder from './pages/placeoder.jsx';
 import Payment from './pages/payment.jsx';
 import Loading from './pages/Loading.jsx';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx';
 
 function App() {
   const followerRef = useRef(null);
@@ -84,8 +85,8 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/placeorder" element={<PlaceOrder />} />
-            <Route path="/payment" element={<Payment />} />
+            <Route path="/placeorder" element={<ProtectedRoute><PlaceOrder /></ProtectedRoute>} />
+            <Route path="/payment" element={<ProtectedRoute><Payment /></ProtectedRoute>} />
             <Route path="/loading" element={<Loading />} />
           </Routes>
         </main>

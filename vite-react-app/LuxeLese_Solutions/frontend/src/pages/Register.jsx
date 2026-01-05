@@ -4,8 +4,6 @@ import BackArrowIcon from '../components/BackArrowIcon';
 import { useNavigate } from 'react-router-dom';
 import './booking.css';
 
-const API_URL = 'http://localhost:5001/api';
-
 const Register = () => {
   const navigate = useNavigate();
   const [name, setName] = useState('');
@@ -40,7 +38,7 @@ const Register = () => {
     setSuccess('');
 
     try {
-      const response = await fetch(`${API_URL}/auth/register`, {
+      const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
