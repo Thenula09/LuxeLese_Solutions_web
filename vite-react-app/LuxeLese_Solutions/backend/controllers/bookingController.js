@@ -3,7 +3,7 @@ import Booking from '../models/Booking.js';
 // Create a new booking
 export const createBooking = async (req, res) => {
   try {
-    const {
+    let {
       fullName,
       email,
       phoneNumber,
@@ -14,6 +14,13 @@ export const createBooking = async (req, res) => {
       carName,
       userId
     } = req.body;
+
+    // If user is logged in, get userId and name from req.user
+    if (req.user) {
+      userId = req.user._id;
+      fullName = req.user.name;
+      email = req.user.email;
+    }
 
     if (!fullName || !email || !phoneNumber || !address || !selectedDate || !carId || !carName) {
       return res.status(400).json({ success: false, message: 'Missing required fields' });
