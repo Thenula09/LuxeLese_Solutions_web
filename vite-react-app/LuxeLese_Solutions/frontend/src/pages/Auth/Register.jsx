@@ -4,6 +4,7 @@ import './Auth.css';
 import { FaUser, FaEnvelope, FaLock, FaPhone } from 'react-icons/fa';
 import GradientButton from '../../components/GradientButton/GradientButton';
 import BackArrowIcon from '../../components/BackArrowIcon';
+import { setAuthData } from '../../utils/auth';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -56,9 +57,8 @@ const Register = () => {
       setLoading(false);
 
       if (data.success) {
-        // Store the token
-        localStorage.setItem('token', data.data.token);
-        localStorage.setItem('user', JSON.stringify(data.data.user));
+        // Store the token using setAuthData (broadcasts to all components)
+        setAuthData(data.data.token, data.data.user);
         
         setSuccess('Account created successfully! Redirecting...');
         

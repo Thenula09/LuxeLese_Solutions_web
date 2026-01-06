@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './booking.css';
 import Footer from '../components/Footer/footer';
 import { FaStar, FaCarSide, FaClock, FaUsers, FaSearch, FaTh, FaList } from 'react-icons/fa';
+import { isAuthenticated, getCurrentUser, onAuthStateChange } from '../utils/auth';
 
 const Booking = () => {
   const navigate = useNavigate();
@@ -17,6 +18,16 @@ const Booking = () => {
   const [hasMore, setHasMore] = useState(true);
   const [totalCars, setTotalCars] = useState(0);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [user, setUser] = useState(getCurrentUser());
+
+  // Listen for auth changes to update user state
+  useEffect(() => {
+    const cleanup = onAuthStateChange(() => {
+      setUser(getCurrentUser());
+    });
+
+    return cleanup;
+  }, []);
 
   // Fallback data if API fails or no data
   const fallbackCars = [

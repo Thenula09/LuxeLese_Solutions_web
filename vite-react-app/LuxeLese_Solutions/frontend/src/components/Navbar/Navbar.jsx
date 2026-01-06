@@ -1,35 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { getCurrentUser, logout } from '../../utils/auth';
+import { Link } from 'react-router-dom';
+import { getCurrentUser, logout, onAuthStateChange } from '../../utils/auth';
 import './Navbar.css';
 
 function Navbar() {
-  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
-    // Check for logged in user
+    // Check for logged in user initially
     const currentUser = getCurrentUser();
     setUser(currentUser);
 
-    // Listen for storage changes (login/logout from other tabs)
-    const handleStorageChange = () => {
-      setUser(getCurrentUser());
-    };
+    // Listen for auth state changes (works in same tab and other tabs)
+    const cleanup = onAuthStateChange(() => {
+      const updatedUser = getCurrentUser();
+      setUser(updatedUser);
+    });
 
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
+    return cleanup;
   }, []);
 
   const handleLogout = () => {
     logout();
     setUser(null);
     setShowDropdown(false);
-    navigate('/signin');
   };
 
   // Close dropdown when clicking outside
@@ -66,11 +61,26 @@ function Navbar() {
       </div>
       <div className="navbar-menu">
         <ul className="navbar-links">
-          <li><Link to="/">🏠 Home</Link></li>
-          <li><Link to="/about">ℹ️ About</Link></li>
-          {user && <li><Link to="/booking">🚗 My Bookings</Link></li>}
-          {!user && <li><Link to="/booking">🚗 Booking</Link></li>}
-          <li><Link to="/contact">📞 Contact</Link></li>
+          <li>
+            <Link to="/">
+               Home
+            </Link>
+          </li>
+          <li>
+            <Link to="/about">
+              About
+            </Link>
+          </li>
+          <li>
+            <Link to="/booking">
+              {user ? 'My Bookings' : 'Booking'}
+            </Link>
+          </li>
+          <li>
+            <Link to="/contact">
+              Contact
+            </Link>
+          </li>
         </ul>
         {user ? (
           <div 
@@ -120,31 +130,7 @@ function Navbar() {
                   </div>
                 </div>
 
-                {/* Menu Items */}
-                <button
-                  onClick={() => {
-                    setShowDropdown(false);
-                    navigate('/profile');
-                  }}
-                  style={dropdownButtonStyle}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 140, 0, 0.2)';
-                    e.currentTarget.style.color = '#FF8C00';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent';
-                    e.currentTarget.style.color = '#fff';
-                  }}
-                >
-                  <span>👤</span> Profile
-                </button>
-
-                <div style={{
-                  height: '1px',
-                  background: 'rgba(255, 140, 0, 0.2)',
-                  margin: '8px 0'
-                }} />
-
+                {/* Logout Button */}
                 <button
                   onClick={handleLogout}
                   style={{

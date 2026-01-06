@@ -5,6 +5,7 @@ import { FaEnvelope, FaLock } from 'react-icons/fa';
 import GradientButton from '../../components/GradientButton/GradientButton';
 import BackArrowIcon from '../../components/BackArrowIcon';
 import DotGridBackground from './DotGridBackground';
+import { setAuthData } from '../../utils/auth';
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -38,9 +39,8 @@ const SignIn = () => {
       setLoading(false);
 
       if (data.success) {
-        // Store token and user data
-        localStorage.setItem('token', data.data.token);
-        localStorage.setItem('user', JSON.stringify(data.data.user));
+        // Store token and user data using setAuthData (broadcasts to all components)
+        setAuthData(data.data.token, data.data.user);
         
         setSuccess('Login successful! Redirecting...');
         

@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import React, { useEffect, useRef } from 'react';
 import Navbar from './components/Navbar/Navbar.jsx';
 import Home from './pages/Home.jsx';
@@ -12,6 +12,17 @@ import PlaceOrder from './pages/placeoder.jsx';
 import Payment from './pages/payment.jsx';
 import Loading from './pages/Loading.jsx';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx';
+
+// Scroll to top on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  
+  return null;
+}
 
 function App() {
   const followerRef = useRef(null);
@@ -31,6 +42,8 @@ function App() {
     // Store the current position of the follower element
     let currentX = 0;
     let currentY = 0;
+
+    let animationFrameId = null;
 
     // Event listener to capture mouse movement
     const handleMouseMove = (e) => {
@@ -53,7 +66,7 @@ function App() {
       follower.style.transform = `translate(${currentX + 20}px, ${currentY + 20}px)`;
 
       // Request the next frame for smooth animation
-      requestAnimationFrame(animateFollower);
+      animationFrameId = requestAnimationFrame(animateFollower);
     }
 
     // Add event listener
@@ -65,11 +78,15 @@ function App() {
     // Cleanup
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
     };
   }, []);
 
   return (
     <Router>
+      <ScrollToTop />
       <Navbar />
       <div className="app-background min-h-screen font-sans antialiased">
         {/* Custom Text Cursor Follower */}

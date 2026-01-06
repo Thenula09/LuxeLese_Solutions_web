@@ -7,23 +7,18 @@ import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => getCurrentUser());
 
   useEffect(() => {
-    // Check for logged in user
-    const currentUser = getCurrentUser();
-    setUser(currentUser);
-
-    // Update user when localStorage changes
-    const interval = setInterval(() => {
-      const updatedUser = getCurrentUser();
-      if (JSON.stringify(updatedUser) !== JSON.stringify(user)) {
-        setUser(updatedUser);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [user]);
+    // Listen for auth state changes (custom event)
+    const updateUser = () => setUser(getCurrentUser());
+    window.addEventListener('authStateChanged', updateUser);
+    window.addEventListener('storage', updateUser);
+    return () => {
+      window.removeEventListener('authStateChanged', updateUser);
+      window.removeEventListener('storage', updateUser);
+    };
+  }, []);
 
   return (
     <footer className="footer">
