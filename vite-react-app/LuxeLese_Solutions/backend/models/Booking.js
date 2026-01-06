@@ -6,10 +6,10 @@ const BookingSchema = new mongoose.Schema({
   phoneNumber: { type: String, required: true },
   address: { type: String, required: true },
   additionalNote: { type: String },
-  selectedDate: { type: Date, required: true },
+  selectedDates: [{ type: Date, required: true }],
   carId: { type: mongoose.Schema.Types.ObjectId, ref: 'Car', required: true },
   carName: { type: String, required: true },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
   createdAt: { type: Date, default: Date.now }
 });
 

@@ -54,6 +54,13 @@ const PlaceOrder = () => {
       return;
     }
 
+    // Get userId from localStorage if available
+    let userId = null;
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (user && user._id) userId = user._id;
+    } catch {}
+
     // Prepare booking data for backend
     const bookingPayload = {
       fullName: formData.name,
@@ -61,17 +68,25 @@ const PlaceOrder = () => {
       phoneNumber: formData.phone,
       address: formData.address,
       additionalNote: formData.notes,
-      selectedDate: selectedDates[0], // Only first date for now
+      selectedDates,
       carId: vehicleDetails?._id,
       carName: vehicleDetails?.name,
-      userId: null // Set userId if available
+      userId
     };
+    if (!bookingPayload.carId) {
+      alert('Booking failed: Car ID missing. Please select a valid car.');
+      return;
+    }
+
+    // Get JWT token
+    const token = localStorage.getItem('token');
 
     try {
       const res = await fetch('/api/bookings', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
         },
         body: JSON.stringify(bookingPayload)
       });

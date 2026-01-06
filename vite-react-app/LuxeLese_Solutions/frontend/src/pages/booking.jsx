@@ -327,15 +327,7 @@ const Booking = () => {
                         e.stopPropagation();
                         navigate('/placeorder', { 
                           state: { 
-                            vehicle: {
-                              name: car.name,
-                              model: car.category,
-                              image: car.image,
-                              pricePerDay: car.pricePerDay,
-                              features: car.features || ['Automatic', 'Air Conditioning', 'GPS', 'Bluetooth'],
-                              rating: car.rating,
-                              users: car.users
-                            }
+                            vehicle: car // pass full car object including _id
                           } 
                         });
                       }}
