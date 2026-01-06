@@ -1,6 +1,8 @@
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import process from 'process';
+import sendEmail from './sendEmail.js';
+import crypto from 'crypto';
 
 // JWT Token generate කරනවා
 const generateToken = (id) => {
@@ -164,6 +166,110 @@ export const login = async (req, res) => {
     });
   }
 };
+
+// Forgot Password
+export const forgotPassword = async (req, res) => {
+  try {
+    // 1) Get user based on POSTed email
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'මෙම email address එකతో user කෙනෙක් නැත',
+      });
+    }
+
+    // 2) Generate the random reset token
+    const resetToken = user.createPasswordResetToken();
+    await user.save({ validateBeforeSave: false });
+
+    // 3) Send it to user's email
+    const message = `ඔබේ password reset කිරීමට, කරුණාකර මෙම code එක භාවිතා කරන්න: ${resetToken}. \n\nඔබ password reset කිරීමට ඉල්ලුවේ නැත්නම්, කරුණාකර මෙම email එක නොසලකා හරින්න.`;
+
+    try {
+      await sendEmail({
+        email: user.email,
+        subject: 'ඔබේ password reset code එක (විනාඩි 10කින් කල් ඉකුත් වේ)',
+        message,
+      });
+
+      res.status(200).json({
+        success: true,
+        message: 'Code එක email එකට යවන ලදී!',
+      });
+    } catch (err) {
+      user.passwordResetToken = undefined;
+      user.passwordResetExpires = undefined;
+      await user.save({ validateBeforeSave: false });
+
+      return res.status(500).json({
+        success: false,
+        message: 'Email එක යැවීමේදී දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.',
+      });
+    }
+  } catch (error) {
+    console.error('Forgot Password Error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'දෝෂයක් ඇතිවිය',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+    });
+  }
+};
+
+// Reset Password
+export const resetPassword = async (req, res) => {
+  try {
+    // 1) Get user based on the code
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(req.body.code)
+      .digest('hex');
+
+    const user = await User.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() },
+    });
+
+    // 2) If token has not expired, and there is user, log the user in
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'Code එක වැරදියි හෝ කල් ඉකුත් වී ඇත',
+      });
+    }
+
+    // Clear the reset token
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    // 3) Log the user in, send JWT
+    const token = generateToken(user._id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Login සාර්ථකයි',
+      data: {
+        token,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Reset Password Error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Password reset කිරීමේදී දෝෂයක් ඇතිවිය',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+    });
+  }
+};
+
 
 // Get Current User
 export const getMe = async (req, res) => {
