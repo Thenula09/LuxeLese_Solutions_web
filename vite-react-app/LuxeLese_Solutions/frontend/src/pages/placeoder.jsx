@@ -23,13 +23,25 @@ const PlaceOrder = () => {
   const vehicleDetails = location.state?.vehicle || null;
 
   const handleDateSelect = (date) => {
-    const dateString = date.toISOString();
+    // Convert date to start of day in local timezone
+    const localDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const dateString = localDate.toISOString();
 
     setSelectedDates(prev => {
-      const exists = prev.some(d => new Date(d).toDateString() === date.toDateString());
+      const exists = prev.some(d => {
+        const existingDate = new Date(d);
+        return existingDate.getFullYear() === localDate.getFullYear() &&
+               existingDate.getMonth() === localDate.getMonth() &&
+               existingDate.getDate() === localDate.getDate();
+      });
 
       if (exists) {
-        return prev.filter(d => new Date(d).toDateString() !== date.toDateString());
+        return prev.filter(d => {
+          const existingDate = new Date(d);
+          return !(existingDate.getFullYear() === localDate.getFullYear() &&
+                   existingDate.getMonth() === localDate.getMonth() &&
+                   existingDate.getDate() === localDate.getDate());
+        });
       } else {
         return [...prev, dateString].sort((a, b) => new Date(a) - new Date(b));
       }
@@ -97,7 +109,8 @@ const PlaceOrder = () => {
           ...bookingPayload,
           totalAmount: calculateTotal(),
           vehicle: vehicleDetails,
-          dates: selectedDates
+          dates: selectedDates,
+          bookingId: data.data._id
         }});
       } else {
         alert('Booking failed: ' + (data.message || 'Unknown error'));
@@ -108,6 +121,7 @@ const PlaceOrder = () => {
   };
 
   const calculateTotal = () => {
+    // Calculate based on number of selected dates only
     return selectedDates.length * (vehicleDetails?.pricePerDay || 150);
   };
 
@@ -125,12 +139,14 @@ const PlaceOrder = () => {
           formData={formData}
           onChange={handleInputChange}
           onSubmit={handleSubmit}
+          vehicle={vehicleDetails}
         />
         
         <Calendar
           className="calendar-section"
           selectedDates={selectedDates}
-          onDateSelect={handleDateSelect} />
+          onDateSelect={handleDateSelect}
+          carId={vehicleDetails?._id || vehicleDetails?.id} />
       </div>
       <Footer />
     </div>

@@ -1,8 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Calendar.css';
+import { API_ENDPOINTS } from '../../config/api';
 
-const Calendar = ({ onDateSelect, selectedDates = [], className }) => {
+const Calendar = ({ onDateSelect, selectedDates = [], className, carId }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [bookedDates, setBookedDates] = useState([]);
+  const [loading, setLoading] = useState(false);
+  
+  // Fetch booked dates when carId changes
+  useEffect(() => {
+    if (carId) {
+      fetchBookedDates();
+    }
+  }, [carId]);
+
+  const fetchBookedDates = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(API_ENDPOINTS.BOOKED_DATES(carId));
+      const data = await response.json();
+      if (data.success) {
+        setBookedDates(data.bookedDates);
+      }
+    } catch (error) {
+      console.error('Error fetching booked dates:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
   
   const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -47,6 +72,11 @@ const Calendar = ({ onDateSelect, selectedDates = [], className }) => {
            currentMonth.getFullYear() === today.getFullYear();
   };
 
+  const isDateBooked = (day) => {
+    const dateString = `${currentMonth.getFullYear()}-${String(currentMonth.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    return bookedDates.includes(dateString);
+  };
+
   const renderCalendarDays = () => {
     const days = [];
     
@@ -59,12 +89,13 @@ const Calendar = ({ onDateSelect, selectedDates = [], className }) => {
     for (let day = 1; day <= daysInMonth; day++) {
       const selected = isDateSelected(day);
       const today = isToday(day);
+      const booked = isDateBooked(day);
       
       days.push(
         <div
           key={day}
-          className={`calendar-day ${selected ? 'selected' : ''} ${today ? 'today' : ''}`}
-          onClick={() => handleDateClick(day)}
+          className={`calendar-day ${selected ? 'selected' : ''} ${today ? 'today' : ''} ${booked ? 'booked' : ''}`}
+          onClick={() => !booked && handleDateClick(day)} // Prevent clicking on booked dates
         >
           {day}
         </div>

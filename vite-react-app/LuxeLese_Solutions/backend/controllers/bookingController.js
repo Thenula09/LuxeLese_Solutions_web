@@ -55,13 +55,22 @@ export const createBooking = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Missing required fields' });
     }
 
+    // Calculate start date, end date, and number of days based on selected dates count
+    const parsedDates = selectedDates.map(d => new Date(d)).sort((a, b) => a - b);
+    const startDate = parsedDates[0];
+    const endDate = parsedDates[parsedDates.length - 1];
+    const numberOfDays = parsedDates.length;  // Count of selected dates only
+
     const booking = new Booking({
       fullName,
       email,
       phoneNumber,
       address,
       additionalNote,
-      selectedDates,
+      selectedDates: parsedDates,
+      startDate,
+      endDate,
+      numberOfDays,
       carId,
       carName,
       userId
@@ -75,6 +84,35 @@ export const createBooking = async (req, res) => {
     }
     
     res.status(201).json(response);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Get booked dates for a specific car
+export const getBookedDates = async (req, res) => {
+  try {
+    const { carId } = req.params;
+    
+    if (!carId) {
+      return res.status(400).json({ success: false, message: 'Car ID is required' });
+    }
+
+    // Find all bookings for this car
+    const bookings = await Booking.find({ carId });
+    
+    // Collect all selected dates from all bookings
+    const bookedDates = [];
+    bookings.forEach(booking => {
+      booking.selectedDates.forEach(date => {
+        bookedDates.push(date.toISOString().split('T')[0]); // Format as YYYY-MM-DD
+      });
+    });
+    
+    // Remove duplicates
+    const uniqueBookedDates = [...new Set(bookedDates)];
+    
+    res.status(200).json({ success: true, bookedDates: uniqueBookedDates });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

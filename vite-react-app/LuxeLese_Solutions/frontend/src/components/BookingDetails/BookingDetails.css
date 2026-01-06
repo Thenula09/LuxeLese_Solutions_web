@@ -119,8 +119,17 @@
   background: rgba(236, 118, 7, 0.1);
   border: 1px solid rgba(236, 118, 7, 0.3);
   border-radius: 10px;
-  padding: 12px;
-  margin: 8px 0;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+.booking-summary h3 {
+  color: #ff9500;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  text-align: center;
+  border-bottom: 2px solid rgba(236, 118, 7, 0.5);
+  padding-bottom: 10px;
 }
 
 .summary-row {
@@ -128,8 +137,24 @@
   justify-content: space-between;
   align-items: center;
   color: #fff;
-  padding: 6px 0;
+  padding: 8px 0;
   font-size: 0.95rem;
+}
+
+.summary-row.calculation {
+  padding: 6px 0;
+  margin-top: 5px;
+  justify-content: center;
+  text-align: center;
+}
+
+.summary-row.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  margin-top: 12px;
+  border-top: 2px solid rgba(236, 118, 7, 0.6);
 }
 
 .summary-value {

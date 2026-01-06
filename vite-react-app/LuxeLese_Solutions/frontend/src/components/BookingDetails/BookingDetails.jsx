@@ -2,7 +2,7 @@ import React from 'react';
 import './BookingDetails.css';
 import GradientButton from '../GradientButton/GradientButton';
 
-const BookingDetails = ({ selectedDates, formData, onChange, onSubmit, className }) => {
+const BookingDetails = ({ selectedDates, formData, onChange, onSubmit, className, vehicle }) => {
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('en-US', {
       month: 'short',
@@ -12,14 +12,22 @@ const BookingDetails = ({ selectedDates, formData, onChange, onSubmit, className
   };
 
   const calculateDuration = () => {
-    if (selectedDates.length >= 2) {
-      const sorted = [...selectedDates].sort((a, b) => new Date(a) - new Date(b));
-      const start = new Date(sorted[0]);
-      const end = new Date(sorted[sorted.length - 1]);
-      const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
-      return days;
-    }
+    // Duration based on number of selected dates only
     return selectedDates.length;
+  };
+
+  const calculateTotalAmount = () => {
+    const pricePerDay = vehicle?.pricePerDay || 150;
+    return selectedDates.length * pricePerDay;
+  };
+
+  const getDateRangeString = () => {
+    if (selectedDates.length === 0) return '';
+    if (selectedDates.length === 1) {
+      return formatDate(selectedDates[0]);
+    }
+    const sorted = [...selectedDates].sort((a, b) => new Date(a) - new Date(b));
+    return `${formatDate(sorted[0])} to ${formatDate(sorted[sorted.length - 1])}`;
   };
 
   return (
@@ -29,20 +37,22 @@ const BookingDetails = ({ selectedDates, formData, onChange, onSubmit, className
       {/* Selected Dates Display */}
       {selectedDates.length > 0 && (
         <div className="selected-dates-section">
-          <h3>Confirm Your Dates</h3>
+          <h3>📅 Confirm Your Dates</h3>
           <div className="dates-display">
             {selectedDates.length === 1 ? (
-              <p className="single-date">{formatDate(selectedDates[0])}</p>
+              <p className="single-date">
+                <strong>Date:</strong> {formatDate(selectedDates[0])} (1 Day)
+              </p>
             ) : (
               <>
                 <p className="date-range">
-                  <span className="date-label">From:</span> {formatDate(selectedDates[0])}
+                  <strong>Check-in:</strong> {formatDate(selectedDates[0])}
                 </p>
                 <p className="date-range">
-                  <span className="date-label">To:</span> {formatDate(selectedDates[selectedDates.length - 1])}
+                  <strong>Check-out:</strong> {formatDate(selectedDates[selectedDates.length - 1])}
                 </p>
                 <p className="duration">
-                  <span className="duration-badge">{calculateDuration()} Days</span>
+                  <span className="duration-badge">📆 {calculateDuration()} Days</span>
                 </p>
               </>
             )}
@@ -61,6 +71,7 @@ const BookingDetails = ({ selectedDates, formData, onChange, onSubmit, className
             value={formData.name}
             onChange={onChange}
             placeholder="Enter your full name"
+            required
           />
         </div>
 
@@ -113,14 +124,33 @@ const BookingDetails = ({ selectedDates, formData, onChange, onSubmit, className
         </div>
 
         <div className="booking-summary">
-          <div className="summary-row">
-            <span>Rental Duration:</span>
-            <span className="summary-value">{calculateDuration()} Day(s)</span>
-          </div>
-          <div className="summary-row">
-            <span>Selected Dates:</span>
-            <span className="summary-value">{selectedDates.length} Date(s)</span>
-          </div>
+          <h3>💰 Booking Summary</h3>
+          
+          {selectedDates.length > 0 ? (
+            <>
+              <div className="summary-row">
+                <span>� Selected Dates:</span>
+                <span className="summary-value"><strong>{selectedDates.length} Day(s)</strong></span>
+              </div>
+              <div className="summary-row">
+                <span>💲 Price per Day:</span>
+                <span className="summary-value">${vehicle?.pricePerDay || 150}</span>
+              </div>
+              <div className="summary-row calculation">
+                <span style={{ fontSize: '0.85rem', color: '#bbb' }}>Calculation: {selectedDates.length} days × ${vehicle?.pricePerDay || 150}/day</span>
+              </div>
+              <div className="summary-row total" style={{ borderTop: '2px solid #ff9500', paddingTop: '10px', marginTop: '10px' }}>
+                <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#fff' }}>💳 Total Amount:</span>
+                <span className="summary-value" style={{ fontSize: '20px', color: '#ff9500', fontWeight: 'bold' }}>
+                  ${calculateTotalAmount()}
+                </span>
+              </div>
+            </>
+          ) : (
+            <div style={{ color: '#ff9500', textAlign: 'center', padding: '10px' }}>
+              📅 Select dates on the calendar to calculate rental amount
+            </div>
+          )}
         </div>
 
         <GradientButton type="submit">

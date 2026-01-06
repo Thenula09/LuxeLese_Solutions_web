@@ -3,6 +3,7 @@ import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
 import carRoutes from './routes/carRoutes.js';
 import bookingRoutes from './routes/bookingRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/cars', carRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/payments', paymentRoutes);
 
 // Test route
 app.get('/', (req, res) => {
