@@ -44,21 +44,52 @@ const PlaceOrder = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    // Prevent default only if event exists (for form submission)
+  const handleSubmit = async (e) => {
     if (e && e.preventDefault) {
       e.preventDefault();
     }
 
-    const bookingData = {
-      ...formData,
-      dates: selectedDates,
-      vehicle: vehicleDetails,
-      totalAmount: calculateTotal()
+    if (!formData.name || !formData.email || !formData.phone || !formData.address || selectedDates.length === 0) {
+      alert('Please fill all required fields and select at least one date.');
+      return;
+    }
+
+    // Prepare booking data for backend
+    const bookingPayload = {
+      fullName: formData.name,
+      email: formData.email,
+      phoneNumber: formData.phone,
+      address: formData.address,
+      additionalNote: formData.notes,
+      selectedDate: selectedDates[0], // Only first date for now
+      carId: vehicleDetails?._id,
+      carName: vehicleDetails?.name,
+      userId: null // Set userId if available
     };
 
-    console.log('Booking Data:', bookingData);
-    navigate('/payment', { state: bookingData });
+    try {
+      const res = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(bookingPayload)
+      });
+      const data = await res.json();
+      if (data.success) {
+        // Pass booking data to payment page
+        navigate('/payment', { state: {
+          ...bookingPayload,
+          totalAmount: calculateTotal(),
+          vehicle: vehicleDetails,
+          dates: selectedDates
+        }});
+      } else {
+        alert('Booking failed: ' + (data.message || 'Unknown error'));
+      }
+    } catch (err) {
+      alert('Network error: ' + err.message);
+    }
   };
 
   const calculateTotal = () => {
