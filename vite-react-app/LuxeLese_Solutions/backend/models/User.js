@@ -31,14 +31,15 @@ const userSchema = new mongoose.Schema({
     default: Date.now
   },
   passwordResetToken: String,
-  passwordResetExpires: Date
+  passwordResetExpires: Date,
+  otp: String,
+  otpExpires: Date
 });
 
 // Password encrypt කරනවා save කරන්න කලින්
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
+userSchema.pre('save', async function() {
+  if (!this.isModified('password')) return;
   this.password = await bcrypt.hash(this.password, 12);
-  next();
 });
 
 // Password compare method
@@ -58,6 +59,20 @@ userSchema.methods.createPasswordResetToken = function() {
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
 
   return resetToken;
+};
+
+// OTP generate කරනවා
+userSchema.methods.createOTP = function() {
+  const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
+
+  this.otp = crypto
+    .createHash('sha256')
+    .update(otp)
+    .digest('hex');
+
+  this.otpExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+  return otp;
 };
 
 const User = mongoose.model('User', userSchema);

@@ -179,27 +179,31 @@ export const forgotPassword = async (req, res) => {
       });
     }
 
-    // 2) Generate the random reset token
-    const resetToken = user.createPasswordResetToken();
+    // 2) Generate the random OTP
+    const otp = user.createOTP();
     await user.save({ validateBeforeSave: false });
 
     // 3) Send it to user's email
-    const message = `ඔබේ password reset කිරීමට, කරුණාකර මෙම code එක භාවිතා කරන්න: ${resetToken}. \n\nඔබ password reset කිරීමට ඉල්ලුවේ නැත්නම්, කරුණාකර මෙම email එක නොසලකා හරින්න.`;
+    const message = `ඔබේ password reset කිරීමට, කරුණාකර මෙම OTP code එක භාවිතා කරන්න: ${otp}. \n\nඔබ password reset කිරීමට ඉල්ලුවේ නැත්නම්, කරුණාකර මෙම email එක නොසලකා හරින්න.`;
+
+    console.log(`🔄 Sending OTP ${otp} to ${user.email}`);
 
     try {
       await sendEmail({
         email: user.email,
-        subject: 'ඔබේ password reset code එක (විනාඩි 10කින් කල් ඉකුත් වේ)',
+        subject: 'ඔබේ password reset OTP code එක (විනාඩි 10කින් කල් ඉකුත් වේ)',
         message,
       });
 
+      console.log(`✅ Forgot password success for ${user.email}`);
       res.status(200).json({
         success: true,
         message: 'Code එක email එකට යවන ලදී!',
       });
     } catch (err) {
-      user.passwordResetToken = undefined;
-      user.passwordResetExpires = undefined;
+      console.error(`❌ Forgot password failed for ${user.email}:`, err.message);
+      user.otp = undefined;
+      user.otpExpires = undefined;
       await user.save({ validateBeforeSave: false });
 
       return res.status(500).json({
@@ -220,36 +224,41 @@ export const forgotPassword = async (req, res) => {
 // Reset Password
 export const resetPassword = async (req, res) => {
   try {
-    // 1) Get user based on the code
-    const hashedToken = crypto
+    // 1) Get user based on the OTP
+    const hashedOTP = crypto
       .createHash('sha256')
-      .update(req.body.code)
+      .update(req.body.otp)
       .digest('hex');
 
     const user = await User.findOne({
-      passwordResetToken: hashedToken,
-      passwordResetExpires: { $gt: Date.now() },
+      otp: hashedOTP,
+      otpExpires: { $gt: Date.now() },
     });
 
-    // 2) If token has not expired, and there is user, log the user in
+    // 2) If OTP has not expired, and there is user, update password and log the user in
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: 'Code එක වැරදියි හෝ කල් ඉකුත් වී ඇත',
+        message: 'OTP එක වැරදියි හෝ කල් ඉකුත් වී ඇත',
       });
     }
 
-    // Clear the reset token
-    user.passwordResetToken = undefined;
-    user.passwordResetExpires = undefined;
+    // 3) Update password if provided
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+
+    // Clear the OTP
+    user.otp = undefined;
+    user.otpExpires = undefined;
     await user.save();
 
-    // 3) Log the user in, send JWT
+    // 4) Log the user in, send JWT
     const token = generateToken(user._id);
 
     res.status(200).json({
       success: true,
-      message: 'Login සාර්ථකයි',
+      message: 'Password reset සාර්ථකයි',
       data: {
         token,
         user: {

@@ -19,6 +19,7 @@ const ForgotPassword = () => {
     try {
       const response = await axios.post(API_ENDPOINTS.FORGOT_PASSWORD, { email });
       setMessage(response.data.message);
+      localStorage.setItem('resetEmail', email); // Store email for reset page
       setTimeout(() => {
         navigate('/reset-password');
       }, 2000);

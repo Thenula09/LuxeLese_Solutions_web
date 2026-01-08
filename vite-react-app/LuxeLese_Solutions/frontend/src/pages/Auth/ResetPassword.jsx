@@ -7,10 +7,12 @@ import { setAuthData } from '../../utils/auth';
 
 
 const ResetPassword = () => {
-  const [code, setCode] = useState('');
+  const [otp, setOtp] = useState('');
+  const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const email = localStorage.getItem('resetEmail') || '';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,10 +20,11 @@ const ResetPassword = () => {
     setError('');
 
     try {
-      const response = await axios.post(API_ENDPOINTS.RESET_PASSWORD, { code });
+      const response = await axios.post(API_ENDPOINTS.RESET_PASSWORD, { otp, password });
       setMessage(response.data.message);
       // Store token and user data
       setAuthData(response.data.data.token, response.data.data.user);
+      localStorage.removeItem('resetEmail'); // Clean up
       setTimeout(() => {
         navigate('/');
       }, 2000);
@@ -33,19 +36,32 @@ const ResetPassword = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>Enter Code</h2>
+        <h2>Reset Password</h2>
+        <p>We sent a 6-digit OTP to <strong>{email}</strong></p>
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-            <label htmlFor="code">Enter the code sent to your email</label>
+            <label htmlFor="otp">Enter OTP</label>
             <input
               type="text"
-              id="code"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
+              id="otp"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
               required
+              maxLength="6"
             />
           </div>
-          <button type="submit" className="auth-button">Login</button>
+          <div className="input-group">
+            <label htmlFor="password">New Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength="6"
+            />
+          </div>
+          <button type="submit" className="auth-button">Reset Password</button>
         </form>
         {message && <p className="success-message">{message}</p>}
         {error && <p className="error-message">{error}</p>}

@@ -1,11 +1,32 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Car from './models/Car.js';
+import User from './models/User.js';
 
 // Load environment variables
 dotenv.config();
 
+const users = [
+  {
+    name: 'Test User',
+    email: 'test@example.com',
+    password: 'password123'
+  }
+];
+
 const cars = [
+  {
+    name: "BMW X5",
+    model: "Luxury SUV",
+    type: "SUV",
+    category: "Luxury SUV",
+    pricePerDay: 150,
+    image: "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=400&q=80",
+    rating: 4.8,
+    users: 150,
+    features: ['Automatic', 'Air Conditioning', 'GPS', 'Bluetooth'],
+    timeFrame: "Day/Week/Month"
+  },
   {
     name: "BMW X5",
     model: "Luxury SUV",
@@ -86,13 +107,18 @@ const seedDatabase = async () => {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('✅ Connected to MongoDB');
 
-    // Clear existing cars
+    // Clear existing data
+    await User.deleteMany({});
     await Car.deleteMany({});
-    console.log('🗑️  Cleared existing cars');
+    console.log('🗑️  Cleared existing data');
+
+    // Insert new users
+    const insertedUsers = await User.insertMany(users);
+    console.log(`👤 Successfully seeded ${insertedUsers.length} users`);
 
     // Insert new cars
     const insertedCars = await Car.insertMany(cars);
-    console.log(`✅ Successfully seeded ${insertedCars.length} cars`);
+    console.log(`🚗 Successfully seeded ${insertedCars.length} cars`);
 
     // Disconnect
     await mongoose.disconnect();
