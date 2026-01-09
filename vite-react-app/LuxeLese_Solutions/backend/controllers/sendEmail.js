@@ -2,11 +2,15 @@ import nodemailer from 'nodemailer';
 import process from 'process';
 
 const sendEmail = async (options) => {
-  // Testing: Use Ethereal (works perfectly for development/testing)
+  // Use Gmail if credentials are provided, otherwise use Ethereal for testing
   let transporter;
   
-  if (process.env.NODE_ENV === 'production' && process.env.EMAIL_USERNAME) {
-    // Production: Gmail
+  console.log('EMAIL_USERNAME:', process.env.EMAIL_USERNAME);
+  console.log('EMAIL_PASSWORD exists:', !!process.env.EMAIL_PASSWORD);
+  
+  if (process.env.EMAIL_USERNAME && process.env.EMAIL_PASSWORD) {
+    console.log('Using Gmail transporter');
+    // Production or Dev with credentials: Gmail
     transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -15,7 +19,8 @@ const sendEmail = async (options) => {
       },
     });
   } else {
-    // Development: Ethereal (free test emails)
+    console.log('Using Ethereal transporter');
+    // Development without credentials: Ethereal (free test emails)
     const testAccount = await nodemailer.createTestAccount();
     transporter = nodemailer.createTransport({
       host: 'smtp.ethereal.email',
@@ -39,7 +44,8 @@ const sendEmail = async (options) => {
     const info = await transporter.sendMail(mailOptions);
     console.log(`✅ Email sent to ${options.email}`);
     
-    if (info.response && info.response.includes('250')) {
+    // Only log test URL for Ethereal
+    if (transporter.options.host === 'smtp.ethereal.email') {
       console.log(`📧 Test email preview: ${nodemailer.getTestMessageUrl(info)}`);
     }
     return info;

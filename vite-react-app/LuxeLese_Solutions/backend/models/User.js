@@ -70,7 +70,7 @@ userSchema.methods.createOTP = function() {
     .update(otp)
     .digest('hex');
 
-  this.otpExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+  this.otpExpires = Date.now() + 5 * 60 * 1000; // 5 minutes
 
   return otp;
 };

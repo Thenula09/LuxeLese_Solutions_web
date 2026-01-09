@@ -8,7 +8,6 @@ import { setAuthData } from '../../utils/auth';
 
 const ResetPassword = () => {
   const [otp, setOtp] = useState('');
-  const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -20,7 +19,7 @@ const ResetPassword = () => {
     setError('');
 
     try {
-      const response = await axios.post(API_ENDPOINTS.RESET_PASSWORD, { otp, password });
+      const response = await axios.post(API_ENDPOINTS.RESET_PASSWORD, { otp });
       setMessage(response.data.message);
       // Store token and user data
       setAuthData(response.data.data.token, response.data.data.user);
@@ -36,7 +35,7 @@ const ResetPassword = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>Reset Password</h2>
+        <h2>Verify OTP</h2>
         <p>We sent a 6-digit OTP to <strong>{email}</strong></p>
         <form onSubmit={handleSubmit}>
           <div className="input-group">
@@ -50,18 +49,7 @@ const ResetPassword = () => {
               maxLength="6"
             />
           </div>
-          <div className="input-group">
-            <label htmlFor="password">New Password</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength="6"
-            />
-          </div>
-          <button type="submit" className="auth-button">Reset Password</button>
+          <button type="submit" className="auth-button">Verify OTP & Login</button>
         </form>
         {message && <p className="success-message">{message}</p>}
         {error && <p className="error-message">{error}</p>}

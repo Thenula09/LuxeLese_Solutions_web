@@ -10,6 +10,7 @@ import SignIn from './pages/Auth/SignIn.jsx';
 import Register from './pages/Auth/Register.jsx';
 import ForgotPassword from './pages/Auth/ForgotPassword.jsx';
 import ResetPassword from './pages/Auth/ResetPassword.jsx';
+import ResetPasswordToken from './pages/Auth/ResetPasswordToken.jsx';
 import PlaceOrder from './pages/placeoder.jsx';
 import Payment from './pages/payment.jsx';
 import Loading from './pages/Loading.jsx';
@@ -106,6 +107,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPasswordToken />} />
             <Route path="/placeorder" element={<ProtectedRoute><PlaceOrder /></ProtectedRoute>} />
             <Route path="/payment" element={<ProtectedRoute><Payment /></ProtectedRoute>} />
             <Route path="/loading" element={<Loading />} />

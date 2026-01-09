@@ -199,6 +199,7 @@ export const forgotPassword = async (req, res) => {
       res.status(200).json({
         success: true,
         message: 'Code එක email එකට යවන ලදී!',
+        ...(process.env.NODE_ENV === 'development' && { otp: otp }) // Return OTP in development for testing
       });
     } catch (err) {
       console.error(`❌ Forgot password failed for ${user.email}:`, err.message);
@@ -235,7 +236,7 @@ export const resetPassword = async (req, res) => {
       otpExpires: { $gt: Date.now() },
     });
 
-    // 2) If OTP has not expired, and there is user, update password and log the user in
+    // 2) If OTP has not expired, and there is user, log them in directly
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -243,22 +244,17 @@ export const resetPassword = async (req, res) => {
       });
     }
 
-    // 3) Update password if provided
-    if (req.body.password) {
-      user.password = req.body.password;
-    }
-
-    // Clear the OTP
+    // 3) Clear the OTP and log the user in
     user.otp = undefined;
     user.otpExpires = undefined;
     await user.save();
 
-    // 4) Log the user in, send JWT
+    // 4) Generate JWT token
     const token = generateToken(user._id);
 
     res.status(200).json({
       success: true,
-      message: 'Password reset සාර්ථකයි',
+      message: 'OTP verified successfully! You are now logged in.',
       data: {
         token,
         user: {
@@ -273,7 +269,7 @@ export const resetPassword = async (req, res) => {
     console.error('Reset Password Error:', error);
     return res.status(500).json({
       success: false,
-      message: 'Password reset කිරීමේදී දෝෂයක් ඇතිවිය',
+      message: 'OTP verification failed',
       error: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
@@ -423,6 +419,59 @@ export const changePassword = async (req, res) => {
       success: false,
       message: 'Password වෙනස් කිරීම අසාර්ථක විය',
       error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
+export const resetPasswordWithToken = async (req, res) => {
+  try {
+    // 1) Get user based on the token
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(req.params.token)
+      .digest('hex');
+
+    const user = await User.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() },
+    });
+
+    // 2) If token has not expired, and there is user, set the new password
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'Token එක වැරදියි හෝ කල් ඉකුත් වී ඇත',
+      });
+    }
+
+    // 3) Update password
+    user.password = req.body.password;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    // 4) Log the user in, send JWT
+    const token = generateToken(user._id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Password reset සාර්ථකයි',
+      data: {
+        token,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Reset Password with Token Error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Password reset කිරීමේදී දෝෂයක් ඇතිවිය',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
 };
