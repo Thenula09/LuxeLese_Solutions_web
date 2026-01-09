@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DotGridBackground from './Auth/DotGridBackground';
 import BackArrowIcon from '../components/BackArrowIcon';
 import { useNavigate } from 'react-router-dom';
-import './booking.css';
+import './SignIn.css';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ const SignIn = () => {
 
   return (
     <DotGridBackground>
-      <div className="contactus-section" style={{maxWidth: 400}}>
+      <div className="contactus-section signin-form">
         <h2 className="contactus-title">Sign In</h2>
         <form className="contactus-form" onSubmit={handleSubmit}>
           <input

@@ -292,7 +292,8 @@ const CheckoutForm = ({ navigate }) => {
                           borderRadius: '6px',
                           fontSize: '16px',
                           fontFamily: 'monospace',
-                          boxSizing: 'border-box'
+                          boxSizing: 'border-box',
+                          color: '#000000'
                         }}
                       />
                     </div>
@@ -319,7 +320,8 @@ const CheckoutForm = ({ navigate }) => {
                             border: '1px solid #ccc',
                             borderRadius: '6px',
                             fontSize: '16px',
-                            boxSizing: 'border-box'
+                            boxSizing: 'border-box',
+                            color: '#000000'
                           }}
                         />
                       </div>
@@ -342,7 +344,8 @@ const CheckoutForm = ({ navigate }) => {
                             border: '1px solid #ccc',
                             borderRadius: '6px',
                             fontSize: '16px',
-                            boxSizing: 'border-box'
+                            boxSizing: 'border-box',
+                            color: '#000000'
                           }}
                         />
                       </div>

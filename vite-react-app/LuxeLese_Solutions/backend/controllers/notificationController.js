@@ -1,5 +1,11 @@
 import twilio from 'twilio';
+import dotenv from 'dotenv';
 import process from 'process';
+
+// Load environment variables if not already loaded
+if (!process.env.TWILIO_ACCOUNT_SID) {
+  dotenv.config();
+}
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;

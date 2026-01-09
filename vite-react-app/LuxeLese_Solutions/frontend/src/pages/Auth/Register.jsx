@@ -1,188 +1,147 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
-import { FaUser, FaEnvelope, FaLock, FaPhone } from 'react-icons/fa';
 import GradientButton from '../../components/GradientButton/GradientButton';
 import BackArrowIcon from '../../components/BackArrowIcon';
 import { setAuthData } from '../../utils/auth';
 
 const Register = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
-  });
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-  };
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(null);
-
-    // Validate passwords match
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
+    
+    // Validation
+    if (!name || !email || !password || !confirmPassword) {
+      setError('Please fill in all fields.');
+      return;
+    }
+    
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
       return;
     }
 
-    // Validate password length
-    if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters long.");
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters.');
       return;
     }
+
+    setLoading(true);
+    setError('');
+    setSuccess('');
 
     try {
-      setLoading(true);
-      const res = await fetch('/api/auth/register', {
+      const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password
-        })
+        body: JSON.stringify({ name, email, password }),
       });
-      const data = await res.json();
-      setLoading(false);
+
+      const data = await response.json();
 
       if (data.success) {
-        // Store the token using setAuthData (broadcasts to all components)
-        setAuthData(data.data.token, data.data.user);
+        setSuccess('Registration successful! Redirecting to sign in...');
+        // Clear form
+        setName('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
         
-        setSuccess('Account created successfully! Redirecting...');
-        
-        // Redirect after 1.5 seconds
+        // Redirect to sign in page after 2 seconds
         setTimeout(() => {
-          navigate('/');
-        }, 1500);
+          navigate('/signin');
+        }, 2000);
       } else {
         setError(data.message || 'Registration failed. Please try again.');
       }
     } catch (err) {
-      setLoading(false);
-      setError('Network error. Please check your connection.');
       console.error('Registration error:', err);
+      setError('Connection error. Please check if the server is running.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <button
-          type="button"
-          aria-label="Go back"
-          onClick={() => navigate(-1)}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            position: 'absolute',
-            top: 24,
-            left: 24,
-            padding: 0,
-            zIndex: 2
-          }}
-        >
-          <BackArrowIcon size={28} color="#FF8C00" />
-        </button>
-        <h2 style={{marginTop: 0}}>Create Account</h2>
-        <p className="auth-subtitle">Join LuxeLese and discover premium car rentals</p>
-
-        <form onSubmit={handleSubmit} className="auth-form">
-          <div className="form-group">
-            <div className="input-with-icon">
-              <FaUser className="input-icon" />
+    <div className="login-page-container">
+      <div className="login-image-section">
+        <img src="/background-image.png" alt="background" className="side-image" />
+        <div className="image-overlay">
+          <div className="overlay-content">
+            <h2>Join LuxeLese Solutions</h2>
+            <p>Create your account to start booking premium vehicles</p>
+          </div>
+        </div>
+      </div>
+      <div className="login-form-container">
+        <div className="login-form-card register-form">
+          <h2 className="login-title">Register</h2>
+          <form className="auth-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Full Name</label>
               <input
                 type="text"
                 placeholder="Full Name"
-                id="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
+                value={name}
+                onChange={e => setName(e.target.value)}
               />
             </div>
-          </div>
-
-          <div className="form-group">
-            <div className="input-with-icon">
-              <FaEnvelope className="input-icon" />
+            <div className="form-group">
+              <label>Email</label>
               <input
                 type="email"
                 placeholder="Email"
-                id="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
+                value={email}
+                onChange={e => setEmail(e.target.value)}
               />
             </div>
-          </div>
-
-         
-         
-
-          <div className="form-group">
-            <div className="input-with-icon">
-              <FaLock className="input-icon" />
+            <div className="form-group">
+              <label>Password</label>
               <input
                 type="password"
                 placeholder="Password"
-                id="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
+                value={password}
+                onChange={e => setPassword(e.target.value)}
               />
             </div>
-          </div>
-
-          <div className="form-group">
-            <div className="input-with-icon">
-              <FaLock className="input-icon" />
+            <div className="form-group">
+              <label>Confirm Password</label>
               <input
                 type="password"
                 placeholder="Confirm Password"
-                id="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
               />
             </div>
-          </div>
-
-          {error && <p className="auth-error">{error}</p>}
-          {success && <p className="auth-success">{success}</p>}
-
-          <div className="form-options">
-            <label className="terms">
-              <input type="checkbox" required /> I agree to the{' '}
-              <Link to="/terms" className="auth-link">
-                Terms & Conditions
-              </Link>
-            </label>
-          </div>
-
-          <GradientButton type="submit" disabled={loading}>
-            {loading ? 'Creating Account...' : 'Create Account'}
-          </GradientButton>
-        </form>
-
-        <div className="auth-footer">
-          <p>
+            {error && <div style={{color: 'red', textAlign: 'center', marginBottom: '10px'}}>{error}</div>}
+            {success && <div style={{color: '#4CAF50', textAlign: 'center', marginBottom: '10px'}}>{success}</div>}
+            <GradientButton type="submit" disabled={loading}>
+              {loading ? 'Registering...' : 'Register'}
+            </GradientButton>
+            <button
+              type="button"
+              className="contactus-btn"
+              style={{background: '#444', marginTop: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8}}
+              onClick={() => navigate(-1)}
+            >
+              <BackArrowIcon size={20} color="#fff" />
+              Back
+            </button>
+          </form>
+          <div className="auth-footer">
             Already have an account?{' '}
-            <Link to="/signin" className="auth-link">
-              Sign in
-            </Link>
-          </p>
+            <Link to="/signin" className="auth-link">Sign In</Link>
+          </div>
         </div>
       </div>
     </div>

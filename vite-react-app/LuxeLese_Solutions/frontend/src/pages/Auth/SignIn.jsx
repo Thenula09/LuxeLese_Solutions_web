@@ -7,6 +7,8 @@ import BackArrowIcon from '../../components/BackArrowIcon';
 import DotGridBackground from './DotGridBackground';
 import { setAuthData } from '../../utils/auth';
 
+import loginImage from '../../assets/81fb9550abc9c1128c999670af31f609.jpg';
+
 const SignIn = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -64,92 +66,56 @@ const SignIn = () => {
   };
 
   return (
-    <DotGridBackground>
-      {/* Transparent background image above DotGrid */}
-      <img 
-        src="/background-image.png" 
-        alt="background" 
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          opacity: 0.25,
-          zIndex: 1,
-          pointerEvents: 'none'
-        }}
-      />
-      <div className="auth-container">
-        <div className="auth-card">
-          <button
-            type="button"
-            aria-label="Go home"
-            onClick={() => navigate('/')}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              position: 'absolute',
-              top: 24,
-              left: 8,
-              padding: 0,
-              zIndex: 2
-            }}
-          >
-            <BackArrowIcon size={28} color="#FF8C00" />
-          </button>
-          <h2 style={{marginTop: 0}}>Welcome Back</h2>
-          <p className="auth-subtitle">Sign in to continue to LuxeLese</p>
-
+    <div className="login-page-container">
+      <div className="login-image-section">
+        <img src={loginImage} alt="Decorative background" className="side-image" />
+        <div className="image-overlay">
+          <div className="overlay-content">
+            <h2>Hello!</h2>
+            <p>Have a GOOD DAY</p>
+          </div>
+        </div>
+      </div>
+      <div className="login-form-container">
+        <div className="login-form-card">
+          <h2 className="login-title">Login</h2>
+          
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
-              <div className="input-with-icon">
-                <FaEnvelope className="input-icon" />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  style={{ textAlign: 'center' }}
-                  className="input-move-placeholder"
-                />
-              </div>
+              <label htmlFor="email">Username</label>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                id="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
             </div>
 
             <div className="form-group">
-              <div className="input-with-icon">
-                <FaLock className="input-icon" />
-                <input
-                  type="password"
-                  placeholder="Password"
-                  id="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  style={{ textAlign: 'center' }}
-                  className="input-move-placeholder"
-                />
-              </div>
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                placeholder="Enter your password"
+                id="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
             </div>
 
             {error && <p className="auth-error">{error}</p>}
             {success && <p className="auth-success">{success}</p>}
 
             <div className="form-options">
-              <label className="remember-me">
-                <input type="checkbox" /> Remember me
-              </label>
-              <Link to="/forgot-password" className="forgot-password">
+              <Link to="/forgot-password" className="forgot-password-link">
                 Forgot Password?
               </Link>
             </div>
 
             <GradientButton type="submit" disabled={loading}>
-              {loading ? 'Signing In...' : 'Sign In'}
+              {loading ? 'Signing In...' : 'Login'}
             </GradientButton>
           </form>
 
@@ -157,13 +123,13 @@ const SignIn = () => {
             <p>
               Don't have an account?{' '}
               <Link to="/register" className="auth-link">
-                Register now
+                Create an account
               </Link>
             </p>
           </div>
         </div>
       </div>
-    </DotGridBackground>
+    </div>
   );
 };
 
