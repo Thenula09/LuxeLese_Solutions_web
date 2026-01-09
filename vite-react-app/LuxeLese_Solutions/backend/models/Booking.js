@@ -4,6 +4,7 @@ const BookingSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
   email: { type: String, required: true },
   phoneNumber: { type: String, required: true },
+  whatsappNumber: { type: String },
   address: { type: String, required: true },
   additionalNote: { type: String },
   selectedDates: [{ type: Date, required: true }],

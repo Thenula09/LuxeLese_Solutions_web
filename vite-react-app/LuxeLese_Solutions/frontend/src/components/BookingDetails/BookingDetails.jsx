@@ -100,6 +100,21 @@ const BookingDetails = ({ selectedDates, formData, onChange, onSubmit, className
         </div>
 
         <div className="form-group">
+          <label htmlFor="whatsappNumber">WhatsApp Number (for notifications)</label>
+          <input
+            type="tel"
+            id="whatsappNumber"
+            name="whatsappNumber"
+            value={formData.whatsappNumber}
+            onChange={onChange}
+            placeholder="+1 (555) 123-4567"
+          />
+          <small style={{ color: '#666', fontSize: '12px' }}>
+            We'll send booking confirmation to this WhatsApp number
+          </small>
+        </div>
+
+        <div className="form-group">
           <label htmlFor="address">Address *</label>
           <textarea
             id="address"

@@ -1,6 +1,7 @@
 import Stripe from 'stripe';
 import Payment from '../models/Payment.js';
 import Booking from '../models/Booking.js';
+import { sendPaymentSuccessNotification } from './notificationController.js';
 
 let stripe = null;
 
@@ -109,6 +110,26 @@ export const confirmPayment = async (req, res) => {
       });
 
       const savedPayment = await payment.save();
+
+      // Send WhatsApp notification
+      try {
+        const bookingDetails = {
+          carName: booking.carName,
+          date: booking.selectedDates?.join(', ') || 'N/A',
+          amount: amount
+        };
+        
+        // Send notification if WhatsApp number is available
+        if (booking.whatsappNumber) {
+          await sendPaymentSuccessNotification(booking.whatsappNumber, bookingDetails);
+        } else if (booking.phoneNumber) {
+          // Fallback to phone number if WhatsApp not provided
+          await sendPaymentSuccessNotification(booking.phoneNumber, bookingDetails);
+        }
+      } catch (notificationError) {
+        console.error('WhatsApp notification failed:', notificationError);
+        // Don't fail the payment if notification fails
+      }
 
       res.status(200).json({ 
         success: true, 

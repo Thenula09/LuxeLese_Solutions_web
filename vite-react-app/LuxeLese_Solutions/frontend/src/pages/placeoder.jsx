@@ -15,6 +15,7 @@ const PlaceOrder = () => {
     name: '',
     email: '',
     phone: '',
+    whatsappNumber: '',
     address: '',
     notes: ''
   });
@@ -66,6 +67,17 @@ const PlaceOrder = () => {
       return;
     }
 
+    // Format WhatsApp number to international format if provided
+    let formattedWhatsappNumber = formData.whatsappNumber;
+    if (formattedWhatsappNumber && !formattedWhatsappNumber.startsWith('+')) {
+      // Assume Sri Lankan number if it starts with 0
+      if (formattedWhatsappNumber.startsWith('0')) {
+        formattedWhatsappNumber = '+94' + formattedWhatsappNumber.substring(1);
+      } else {
+        formattedWhatsappNumber = '+' + formattedWhatsappNumber;
+      }
+    }
+
     // Get userId from localStorage if available
     let userId = null;
     try {
@@ -78,6 +90,7 @@ const PlaceOrder = () => {
       fullName: formData.name,
       email: formData.email,
       phoneNumber: formData.phone,
+      whatsappNumber: formattedWhatsappNumber,
       address: formData.address,
       additionalNote: formData.notes,
       selectedDates,
