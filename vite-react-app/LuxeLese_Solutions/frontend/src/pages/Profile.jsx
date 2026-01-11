@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Profile.css';
 import Footer from '../components/Footer/footer';
-import { FaUser, FaCamera, FaEdit, FaEye, FaCalendarAlt, FaCar, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
+import { FaUser, FaCamera, FaEdit, FaEye, FaCalendarAlt, FaCar, FaMapMarkerAlt, FaPhone, FaEnvelope, FaStar } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,8 +17,12 @@ const Profile = () => {
     name: '',
     phone: '',
     address: ''
+  });  const [reviewForm, setReviewForm] = useState({
+    rating: 5,
+    comment: ''
   });
-  const fileInputRef = useRef(null);
+  const [bookingReview, setBookingReview] = useState(null);
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);  const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -141,10 +145,69 @@ const Profile = () => {
       if (response.data.success) {
         setSelectedBooking(response.data.data);
         setActiveTab('booking-details');
+        
+        // Fetch review if exists
+        fetchBookingReview(bookingId);
       }
     } catch (error) {
       console.error('Error fetching booking details:', error);
       alert('Failed to load booking details.');
+    }
+  };
+
+  const fetchBookingReview = async (bookingId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`http://localhost:5002/api/reviews/booking/${bookingId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (response.data.success && response.data.data) {
+        setBookingReview(response.data.data);
+        setReviewForm({
+          rating: response.data.data.rating,
+          comment: response.data.data.comment
+        });
+      } else {
+        setBookingReview(null);
+        setReviewForm({
+          rating: 5,
+          comment: ''
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching review:', error);
+    }
+  };
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    
+    if (!reviewForm.comment.trim()) {
+      alert('Please write a comment');
+      return;
+    }
+
+    setIsSubmittingReview(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post('http://localhost:5002/api/reviews', {
+        bookingId: selectedBooking._id,
+        rating: reviewForm.rating,
+        comment: reviewForm.comment
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (response.data.success) {
+        alert('Review submitted successfully!');
+        fetchBookingReview(selectedBooking._id);
+      }
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      alert(error.response?.data?.message || 'Failed to submit review');
+    } finally {
+      setIsSubmittingReview(false);
     }
   };
 
@@ -361,11 +424,6 @@ const Profile = () => {
                           <p>{formatDate(booking.selectedDates[booking.selectedDates.length - 1])}</p>
                         </div>
                       </div>
-                      <div className="booking-status">
-                        <span className={`status-badge ${booking.status?.toLowerCase() || 'pending'}`}>
-                          {booking.status || 'Pending'}
-                        </span>
-                      </div>
                     </div>
                   ))}
                 </div>
@@ -455,6 +513,61 @@ const Profile = () => {
                       </span>
                     </div>
                   </div>
+                </div>
+
+                {/* Review Section */}
+                <div className="review-section">
+                  <h3>Rate Your Experience</h3>
+                  {bookingReview ? (
+                    <div className="existing-review">
+                      <div className="review-header">
+                        <div className="review-stars">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <FaStar
+                              key={star}
+                              className={star <= bookingReview.rating ? 'star-filled' : 'star-empty'}
+                            />
+                          ))}
+                        </div>
+                        <span className="review-date">
+                          Reviewed on {formatDate(bookingReview.createdAt)}
+                        </span>
+                      </div>
+                      <p className="review-comment">{bookingReview.comment}</p>
+                    </div>
+                  ) : (
+                    <form className="review-form" onSubmit={handleSubmitReview}>
+                      <div className="rating-input">
+                        <label>Rating:</label>
+                        <div className="star-rating">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <FaStar
+                              key={star}
+                              className={star <= reviewForm.rating ? 'star-filled star-clickable' : 'star-empty star-clickable'}
+                              onClick={() => setReviewForm({ ...reviewForm, rating: star })}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <div className="comment-input">
+                        <label>Your Review:</label>
+                        <textarea
+                          value={reviewForm.comment}
+                          onChange={(e) => setReviewForm({ ...reviewForm, comment: e.target.value })}
+                          placeholder="Share your experience with this booking..."
+                          rows="4"
+                          required
+                        />
+                      </div>
+                      <button 
+                        type="submit" 
+                        className="submit-review-btn"
+                        disabled={isSubmittingReview}
+                      >
+                        {isSubmittingReview ? 'Submitting...' : 'Submit Review'}
+                      </button>
+                    </form>
+                  )}
                 </div>
               </div>
             </div>

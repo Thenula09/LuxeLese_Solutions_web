@@ -398,7 +398,7 @@ const Payment = () => {
             <h2>Payment Successful!</h2>
             <p>Thank you for your booking{bookingData.name ? `, ${bookingData.name}` : ''}.</p>
             <p>Your ride has been secured successfully.</p>
-            <button className="home-btn" onClick={() => navigate('/')}>
+            <button className="home-btn" onClick={() => navigate('/home')}>
               Go to Home
             </button>
           </div>

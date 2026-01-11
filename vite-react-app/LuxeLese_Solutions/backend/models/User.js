@@ -17,9 +17,16 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Please provide a password'],
+    required: function() {
+      // Password is not required for Google OAuth users
+      return !this.googleId;
+    },
     minlength: 6,
     select: false
+  },
+  googleId: {
+    type: String,
+    sparse: true
   },
   role: {
     type: String,

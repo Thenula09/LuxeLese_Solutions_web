@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './booking.css';
+import DotGridBackground from '../components/DotGridBackground';
 import Footer from '../components/Footer/footer';
 import { FaStar, FaCarSide, FaClock, FaUsers, FaSearch, FaTh, FaList } from 'react-icons/fa';
 import { isAuthenticated, getCurrentUser, onAuthStateChange } from '../utils/auth';
@@ -224,62 +225,61 @@ const Booking = () => {
 
   return (
     <>
+      <DotGridBackground>
+        <div className="booking-container">
+          <h1 className="booking-title">Booking</h1>
+          
+          <div className="booking-main-content">
+            {/* Search Bar */}
+            <div className="search-section glass-section">
+              <div className="search-bar glass-input">
+                <FaSearch className="search-icon" />
+                <input
+                  type="text"
+                  placeholder="Search by car name or category..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="search-input"
+                />
+              </div>
 
-      <div className="booking-container">
-        <button onClick={() => navigate('/')} className="auth-back-btn">
-          &larr; Back to Home
-        </button>
-        <h1 className="booking-itle">Book Your Perfect Ride</h1>
-        
-        {/* Search Bar */}
-        <div className="search-section">
-          <div className="search-bar">
-            <FaSearch className="search-icon" />
-            <input
-              type="text"
-              placeholder="Search by car name or category..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
-            />
-          </div>
-
-          {/* View Toggle */}
-          <div className="view-toggle">
-            <button 
-              className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`}
-              onClick={() => setViewMode('grid')}
-            >
-              <FaTh />
-            </button>
-            <button 
-              className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
-              onClick={() => setViewMode('list')}
-            >
-              <FaList />
-            </button>
-          </div>
-        </div>
-
-        {/* Category Filter */}
-        <div className="category-filter">
-          {categories.map((category) => (
-            <button
-              key={category}
-              className={`category-btn ${selectedCategory === category ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-        {/* Cars Grid/List */}
-        <div className={`cars-container ${viewMode}`}>
-          {loading ? (
-            <div className="loading">
-              <p>Loading cars...</p>
+              {/* View Toggle */}
+              <div className="view-toggle">
+              <button 
+                className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`}
+                onClick={() => setViewMode('grid')}
+              >
+                <FaTh />
+              </button>
+              <button 
+                className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
+                onClick={() => setViewMode('list')}
+              >
+                <FaList />
+              </button>
             </div>
-          ) : filteredCars.length > 0 ? (
+          </div>
+
+          {/* Category Filter */}
+          <div className="category-filter">
+            {categories.map((category) => (
+              <button
+                key={category}
+                className={`category-btn ${selectedCategory === category ? 'active' : ''}`}
+                onClick={() => setSelectedCategory(category)}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+          
+          {/* Cars Grid/List */}
+          <div className={`cars-container ${viewMode}`}>
+            {loading ? (
+              <div className="loading">
+                <p>Loading cars...</p>
+              </div>
+            ) : filteredCars.length > 0 ? (
             filteredCars.map((car, index) => (
               <div 
                 key={car._id || index} 
@@ -366,12 +366,15 @@ const Booking = () => {
 
         {/* Stats */}
         {!loading && (
-          <div style={{ textAlign: 'center', color: '#666', margin: '20px 0', fontSize: '14px' }}>
+          <div style={{ textAlign: 'center', color: '#fff', margin: '20px 0', fontSize: '14px', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
             Showing {filteredCars.length} of {totalCars} cars
             {filteredCars.length !== cars.length && ` (${cars.length} loaded)`}
           </div>
         )}
+        
+        </div>
       </div>
+      </DotGridBackground>
       
       <div className='footerA'>
         <Footer />

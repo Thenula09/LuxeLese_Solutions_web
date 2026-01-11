@@ -1,6 +1,6 @@
 import './App.css'
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import React, { useEffect, useRef } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
 import Navbar from './components/Navbar/Navbar.jsx';
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
@@ -11,6 +11,7 @@ import SignIn from './pages/Auth/SignIn.jsx';
 import Register from './pages/Auth/Register.jsx';
 import ForgotPassword from './pages/Auth/ForgotPassword.jsx';
 import OTPVerification from './pages/Auth/OTPVerification.jsx';
+import AuthSuccess from './pages/Auth/AuthSuccess.jsx';
 import ResetPassword from './pages/Auth/ResetPassword.jsx';
 import ResetPasswordToken from './pages/Auth/ResetPasswordToken.jsx';
 import PlaceOrder from './pages/placeoder.jsx';
@@ -27,6 +28,25 @@ function ScrollToTop() {
   }, [pathname]);
   
   return null;
+}
+
+// Initial Loading Component
+function InitialLoader() {
+  const [showLoading, setShowLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoading(false);
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (showLoading) {
+    return <Loading />;
+  }
+
+  return <Navigate to="/home" replace />;
 }
 
 function App() {
@@ -101,7 +121,8 @@ function App() {
 
         <main className="container mx-auto p-4 sm:p-6 lg:p-8 mt-24">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<InitialLoader />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/booking" element={<Booking />} />
             <Route path="/contact" element={<Contact />} />
@@ -110,6 +131,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/otp-verification" element={<OTPVerification />} />
+            <Route path="/auth/success" element={<AuthSuccess />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/reset-password/:token" element={<ResetPasswordToken />} />
             <Route path="/placeorder" element={<ProtectedRoute><PlaceOrder /></ProtectedRoute>} />

@@ -586,3 +586,146 @@
   margin-left: -40px;
   margin-right: -40px;
 }
+/* Review Section */
+.review-section {
+  margin-top: 30px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 140, 0, 0.2);
+}
+
+.review-section h3 {
+  color: #FF8C00;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.existing-review {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.review-stars {
+  display: flex;
+  gap: 5px;
+}
+
+.star-filled {
+  color: #FFD700;
+  font-size: 1.3rem;
+}
+
+.star-empty {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 1.3rem;
+}
+
+.star-clickable {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.star-clickable:hover {
+  transform: scale(1.2);
+}
+
+.review-date {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.review-comment {
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.rating-input {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rating-input label {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.star-rating {
+  display: flex;
+  gap: 8px;
+}
+
+.comment-input {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comment-input label {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.comment-input textarea {
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 140, 0, 0.3);
+  border-radius: 10px;
+  color: white;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.3s;
+}
+
+.comment-input textarea:focus {
+  outline: none;
+  border-color: #FF8C00;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
+}
+
+.comment-input textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.submit-review-btn {
+  padding: 12px 30px;
+  background: linear-gradient(135deg, #FF8C00, #FFA500);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  align-self: flex-start;
+}
+
+.submit-review-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(255, 140, 0, 0.4);
+}
+
+.submit-review-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}

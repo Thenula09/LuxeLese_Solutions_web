@@ -54,7 +54,7 @@ const ResetPasswordToken = () => {
       // Store token and user data
       setAuthData(response.data.data.token, response.data.data.user);
       setTimeout(() => {
-        navigate('/');
+        navigate('/home');
       }, 2000);
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred. Please try again.');

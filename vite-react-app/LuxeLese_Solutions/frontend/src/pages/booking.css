@@ -17,26 +17,52 @@
 	text-shadow: 0 2px 10px rgba(255,140,0,0.18), 0 1px 0 #fff;
 }
 
-/* Back Button for Auth Pages */
-.auth-back-btn {
-	background: #222;
-	color: #fff;
-	border: none;
-	border-radius: 8px;
-	padding: 12px 0;
+/* Back Button for Auth Pages with Glass Effect */
+.glass-btn {
+	background: rgba(255, 255, 255, 0.08) !important;
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	border: 1px solid rgba(255, 140, 0, 0.3) !important;
+	color: #fff !important;
+	border-radius: 12px !important;
+	padding: 12px 0 !important;
 	font-size: 1.1rem;
 	font-weight: 600;
 	margin-top: 0;
 	margin-bottom: 8px;
 	cursor: pointer;
-	transition: background 0.3s, color 0.3s, transform 0.2s;
-	box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 	width: 100%;
+	position: relative;
+	overflow: hidden;
 }
-.auth-back-btn:hover {
-	background: #FF8C00;
-	color: #fff;
-	transform: translateY(-2px) scale(1.03);
+
+.glass-btn::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		rgba(255, 140, 0, 0.3),
+		transparent
+	);
+	transition: left 0.5s ease;
+}
+
+.glass-btn:hover::before {
+	left: 100%;
+}
+
+.glass-btn:hover {
+	background: rgba(255, 140, 0, 0.2) !important;
+	border-color: rgba(255, 140, 0, 0.6) !important;
+	transform: translateY(-2px) !important;
+	box-shadow: 0 6px 20px rgba(255, 140, 0, 0.3) !important;
 }
 /* Contact Us Section */
 .contactus-section {
@@ -112,15 +138,31 @@
 	}
 }
 /* Booking Page Title Enhancement */
-.booking-itle {
-	font-size: 45px;
+.booking-title {
+	font-size: clamp(1.8rem, 3.5vw, 2.5rem);
 	color: #FF8C00;
 	text-align: center;
-	margin-bottom: 60px;
-	font-weight: 800;
-	padding: 30px 0 20px 0;
-	letter-spacing: 2px;
-	text-shadow: 0 2px 10px rgba(255,140,0,0.2), 0 1px 0 #dc7a09;
+	margin-bottom: 40px;
+	padding-bottom: 20px;
+	font-weight: 700;
+	text-shadow: 
+		0 0 20px rgba(255, 140, 0, 0.5),
+		0 0 40px rgba(255, 140, 0, 0.3);
+	animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+	0%, 100% {
+		text-shadow: 
+			0 0 20px rgba(255, 140, 0, 0.5),
+			0 0 40px rgba(255, 140, 0, 0.3);
+	}
+	50% {
+		text-shadow: 
+			0 0 30px rgba(255, 140, 0, 0.8),
+			0 0 60px rgba(255, 140, 0, 0.5),
+			0 0 80px rgba(255, 140, 0, 0.3);
+	}
 }
 
 /* Booking Container */
@@ -128,9 +170,62 @@
 	max-width: 1400px;
 	margin: 100px auto 50px;
 	padding: 0 20px;
+	position: relative;
+	z-index: 2;
 }
 
-/* Search Section */
+/* Main Content Wrapper with Glass Effect */
+.booking-main-content {
+	background: rgba(255, 255, 255, 0.05);
+	backdrop-filter: blur(20px) saturate(180%);
+	-webkit-backdrop-filter: blur(20px) saturate(180%);
+	border: 1px solid rgba(255, 140, 0, 0.2);
+	box-shadow: 
+		0 8px 32px 0 rgba(0, 0, 0, 0.37),
+		inset 0 0 80px rgba(255, 140, 0, 0.1);
+	border-radius: 30px;
+	padding: 40px;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 50px;
+}
+
+.booking-main-content::before {
+	content: '';
+	position: absolute;
+	top: -50%;
+	left: -50%;
+	width: 200%;
+	height: 200%;
+	background: radial-gradient(
+		circle at center,
+		rgba(255, 140, 0, 0.15) 0%,
+		transparent 70%
+	);
+	animation: liquidMove 10s ease-in-out infinite;
+	z-index: -1;
+}
+
+@keyframes liquidMove {
+	0%, 100% {
+		transform: translate(0, 0) rotate(0deg);
+	}
+	33% {
+		transform: translate(10%, 10%) rotate(120deg);
+	}
+	66% {
+		transform: translate(-10%, 10%) rotate(240deg);
+	}
+}
+
+/* Search Section with Glass Effect */
+.glass-section {
+	background: transparent;
+	border: none;
+	box-shadow: none;
+	padding: 0;
+}
+
 .search-section {
 	display: flex;
 	gap: 20px;
@@ -138,11 +233,19 @@
 	align-items: center;
 	justify-content: space-between;
 }
+
+.glass-input {
+	flex: 1; 
+	position: relative;
+	max-width: 600px;
+}
+
 .search-bar {
 	flex: 1; 
 	position: relative;
 	max-width: 600px;
 }
+
 .search-icon {
 	position: absolute;
 	left: 15px;
@@ -150,34 +253,49 @@
 	transform: translateY(-50%);
 	color: var(--primary-orange);
 	font-size: 1.2rem;
+	filter: drop-shadow(0 0 5px rgba(255, 140, 0, 0.5));
+	z-index: 1;
 }
+
 .search-input {
 	width: 100%;
 	padding: 15px 15px 15px 45px;
-	border: 2px solid rgba(255, 140, 0, 0.3);
-	border-radius: 10px;
-	background: rgba(255, 255, 255, 0.05);
-	color: #000000;
+	border: 1px solid rgba(255, 140, 0, 0.3);
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.08);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	color: #FFFFFF;
 	font-size: 1rem;
 	transition: all 0.3s ease;
+	box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
 }
+
 .search-input:focus {
 	outline: none;
 	border-color: var(--primary-orange);
-	background: rgba(255, 255, 255, 0.1);
-}
-.search-input::placeholder {
-	color: rgba(255, 255, 255, 0.5);
+	background: rgba(255, 255, 255, 0.12);
+	box-shadow: 
+		0 0 20px rgba(255, 140, 0, 0.3),
+		inset 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* View Toggle */
+.search-input::placeholder {
+	color: rgba(255, 255, 255, 0.6);
+}
+
+/* View Toggle with Glass Effect */
 .view-toggle {
 	display: flex;
 	gap: 10px;
-	background: rgba(255, 255, 255, 0.05);
+	background: rgba(255, 255, 255, 0.08);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
 	padding: 5px;
-	border-radius: 10px;
+	border-radius: 12px;
+	border: 1px solid rgba(255, 140, 0, 0.2);
 }
+
 .view-btn {
 	padding: 10px 15px;
 	border: none;
@@ -188,12 +306,16 @@
 	transition: all 0.3s ease;
 	font-size: 1.2rem;
 }
+
 .view-btn.active {
-	background: var(--primary-orange);
+	background: linear-gradient(135deg, #FF8C00 0%, #FF6B00 100%);
 	color: white;
+	box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
 }
+
 .view-btn:hover {
 	background: rgba(255, 140, 0, 0.2);
+	transform: scale(1.05);
 }
 
 /* Category Filter */
@@ -206,22 +328,58 @@
 }
 .category-btn {
 	padding: 10px 25px;
-	border: 2px solid rgba(255, 140, 0, 0.3);
-	background: rgba(255, 255, 255, 0.05);
+	border: 1px solid rgba(255, 140, 0, 0.3);
+	background: rgba(255, 255, 255, 0.08);
+	backdrop-filter: blur(15px) saturate(150%);
+	-webkit-backdrop-filter: blur(15px) saturate(150%);
 	color: var(--primary-white);
 	border-radius: 25px;
 	cursor: pointer;
-	transition: all 0.3s ease;
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 	font-weight: 500;
+	box-shadow: 
+		0 4px 15px rgba(0, 0, 0, 0.2),
+		inset 0 0 30px rgba(255, 140, 0, 0.03);
+	position: relative;
+	overflow: hidden;
 }
+
+.category-btn::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(
+		135deg,
+		rgba(255, 140, 0, 0.1),
+		transparent 50%,
+		rgba(255, 140, 0, 0.1)
+	);
+	animation: liquidMove 12s ease-in-out infinite;
+	z-index: -1;
+}
+
 .category-btn.active {
-	background: var(--primary-orange);
-	border-color: var(--primary-orange);
+	background: linear-gradient(135deg, 
+		rgba(255, 140, 0, 0.9) 0%, 
+		rgba(255, 100, 0, 0.9) 100%);
+	border-color: rgba(255, 140, 0, 0.6);
 	color: white;
+	box-shadow: 
+		0 8px 30px rgba(255, 140, 0, 0.4),
+		inset 0 0 40px rgba(255, 200, 100, 0.2);
+	transform: translateY(-2px);
 }
+
 .category-btn:hover {
-	border-color: var(--primary-orange);
-	background: rgba(255, 140, 0, 0.1);
+	border-color: rgba(255, 140, 0, 0.6);
+	background: rgba(255, 140, 0, 0.15);
+	transform: translateY(-2px) scale(1.02);
+	box-shadow: 
+		0 6px 25px rgba(255, 140, 0, 0.3),
+		inset 0 0 40px rgba(255, 140, 0, 0.08);
 }
 
 /* Cars Container */
@@ -237,42 +395,74 @@
 	grid-template-columns: 1fr;
 }
 
-/* Car Card */
+/* Car Card with Enhanced Glass Effect */
 .car-card {
-	background: rgba(255, 255, 255, 0.05);
+	background: rgba(255, 255, 255, 0.08);
+	backdrop-filter: blur(20px) saturate(180%);
+	-webkit-backdrop-filter: blur(20px) saturate(180%);
 	border-radius: 20px;
 	overflow: hidden;
-	backdrop-filter: blur(10px);
-	border: 1px solid rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(255, 140, 0, 0.2);
 	transition: all 0.5s ease;
 	position: relative;
 	cursor: pointer;
+	box-shadow: 
+		0 8px 32px 0 rgba(0, 0, 0, 0.37),
+		inset 0 0 60px rgba(255, 140, 0, 0.05);
 }
+
+.car-card::before {
+	content: '';
+	position: absolute;
+	top: -50%;
+	left: -50%;
+	width: 200%;
+	height: 200%;
+	background: radial-gradient(
+		circle at center,
+		rgba(255, 140, 0, 0.1) 0%,
+		transparent 70%
+	);
+	animation: liquidMove 15s ease-in-out infinite;
+	pointer-events: none;
+}
+
 .car-card.selected {
-	border: 3px solid var(--primary-orange);
+	border: 2px solid var(--primary-orange);
 	background: rgba(255, 140, 0, 0.15);
 	transform: scale(1.02);
+	box-shadow: 
+		0 12px 40px rgba(255, 140, 0, 0.4),
+		inset 0 0 80px rgba(255, 140, 0, 0.15);
 }
+
 .car-card::after {
 	content: '';
 	position: absolute;
-	top: -2px;
-	left: -2px;
-	right: -2px;
-	bottom: -2px;
-	background: linear-gradient(45deg, var(--primary-orange), #228B22);
-	z-index: -1;
-	border-radius: 20px;
-	opacity: 0;
-	transition: opacity 0.3s ease;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		rgba(255, 140, 0, 0.3),
+		transparent
+	);
+	transition: left 0.6s ease;
+	pointer-events: none;
 }
+
 .car-card:hover {
 	transform: translateY(-10px);
-	box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.4);
-	background: rgba(255, 255, 255, 0.1);
+	border-color: rgba(255, 140, 0, 0.6);
+	box-shadow: 
+		0 20px 50px rgba(255, 140, 0, 0.3),
+		inset 0 0 80px rgba(255, 140, 0, 0.1);
 }
+
 .car-card:hover::after {
-	opacity: 0.5;
+	left: 100%;
 }
 
 /* Grid View */
@@ -359,19 +549,49 @@
 }
 .book-btn {
 	padding: 12px 30px;
-	background: linear-gradient(135deg, var(--primary-orange), #ff7700);
+	background: linear-gradient(135deg, 
+		rgba(255, 140, 0, 0.9) 0%, 
+		rgba(255, 100, 0, 0.9) 100%);
 	color: white;
-	border: none;
+	border: 1px solid rgba(255, 140, 0, 0.3);
 	border-radius: 25px;
 	cursor: pointer;
 	font-weight: 600;
-	transition: all 0.3s ease;
-	box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	box-shadow: 
+		0 4px 15px rgba(255, 140, 0, 0.3),
+		inset 0 0 30px rgba(255, 200, 100, 0.1);
+	position: relative;
+	overflow: hidden;
 }
+
+.book-btn::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.3);
+	transform: translate(-50%, -50%);
+	transition: width 0.6s, height 0.6s;
+}
+
+.book-btn:hover::before {
+	width: 300px;
+	height: 300px;
+}
+
 .book-btn:hover {
-	background: linear-gradient(135deg, #228B22, #1a6b1a);
-	transform: translateY(-2px);
-	box-shadow: 0 6px 20px rgba(34, 139, 34, 0.4);
+	background: linear-gradient(135deg, 
+		rgba(255, 140, 0, 1) 0%, 
+		rgba(255, 100, 0, 1) 100%);
+	transform: translateY(-3px) scale(1.02);
+	box-shadow: 
+		0 8px 30px rgba(255, 140, 0, 0.5),
+		inset 0 0 40px rgba(255, 200, 100, 0.2);
+	border-color: rgba(255, 140, 0, 0.6);
 }
 
 /* No Results */
@@ -418,14 +638,4 @@
 	margin-left: -40px;
 	margin-right: -40px;
 }
-/* Booking Page Title Enhancement */
-.booking-title {
-	font-size: clamp(3rem, 6vw, 4rem);
-	color: #FF8C00;
-	text-align: center;
-	margin-bottom: 60px;
-	font-weight: 800;
-	padding: 30px 0 20px 0;
-	letter-spacing: 2px;
-	text-shadow: 0 2px 10px rgba(255,140,0,0.2), 0 1px 0 #fff;
-}
+/* Booking Page Title Enhancement - Duplicate removed */

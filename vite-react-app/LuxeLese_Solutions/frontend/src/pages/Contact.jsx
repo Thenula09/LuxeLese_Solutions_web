@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Contact.css';
+import DotGridBackground from '../components/DotGridBackground';
 import Footer from '../components/Footer/footer';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 import axios from 'axios';
@@ -50,54 +51,55 @@ const Contact = () => {
   };
   return (
     <>
-      <div className="contact-container">
-        <h1 className="contact-title">Contact Us</h1>
-        <div className="contact-content">
-          <div className="contact-info">
-            <h2>Get in Touch</h2>
-            <p>We're here to help and answer any question you might have.</p>
-            
-            <div className="contact-details">
-              <div className="contact-item">
-                <FaPhone className="contact-icon" />
-                <div>
-                  <h3>Phone</h3>
-                  <p>+94 77 123 4567</p>
-                </div>
-              </div>
+      <DotGridBackground>
+        <div className="contact-container">
+          <h1 className="contact-title">Contact Us</h1>
+          <div className="contact-content glass-effect">
+            <div className="contact-info">
+              <h2>Get in Touch</h2>
+              <p>We're here to help and answer any question you might have.</p>
               
-              <div className="contact-item">
-                <FaEnvelope className="contact-icon" />
-                <div>
-                  <h3>Email</h3>
-                  <p>info@luxelese.com</p>
+              <div className="contact-details">
+                <div className="contact-item glass-card">
+                  <FaPhone className="contact-icon" />
+                  <div>
+                    <h3>Phone</h3>
+                    <p>+94 77 123 4567</p>
+                  </div>
                 </div>
-              </div>
-              
-              <div className="contact-item">
-                <FaMapMarkerAlt className="contact-icon" />
-                <div>
-                  <h3>Location</h3>
-                  <p>123 Car Street, Colombo, Sri Lanka</p>
+                
+                <div className="contact-item glass-card">
+                  <FaEnvelope className="contact-icon" />
+                  <div>
+                    <h3>Email</h3>
+                    <p>info@luxelese.com</p>
+                  </div>
+                </div>
+                
+                <div className="contact-item glass-card">
+                  <FaMapMarkerAlt className="contact-icon" />
+                  <div>
+                    <h3>Location</h3>
+                    <p>123 Car Street, Colombo, Sri Lanka</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="contact-form">
-            <h2>Send us a Message</h2>
+            <div className="contact-form glass-form">
+              <h2>Send us a Message</h2>
 
-            {submitStatus === 'success' && (
-              <div className="alert alert-success">
-                <FaCheckCircle className="alert-icon" />
-                <span>Thank you! Your message has been sent successfully. We'll get back to you soon.</span>
-              </div>
-            )}
+              {submitStatus === 'success' && (
+                <div className="alert alert-success">
+                  <FaCheckCircle className="alert-icon" />
+                  <span>Thank you! Your message has been sent successfully. We'll get back to you soon.</span>
+                </div>
+              )}
 
-            {submitStatus === 'error' && (
-              <div className="alert alert-error">
-                <FaExclamationCircle className="alert-icon" />
-                <span>Sorry, there was an error sending your message. Please try again.</span>
+              {submitStatus === 'error' && (
+                <div className="alert alert-error">
+                  <FaExclamationCircle className="alert-icon" />
+                  <span>Sorry, there was an error sending your message. Please try again.</span>
               </div>
             )}
 
@@ -167,6 +169,7 @@ const Contact = () => {
           </div>
         </div>
       </div>
+      </DotGridBackground>
       <div className='footerbara'>
         <Footer />
       </div>

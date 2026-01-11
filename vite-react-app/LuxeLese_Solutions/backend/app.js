@@ -5,14 +5,19 @@ dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
+import passport from './config/passport.js';
 import authRoutes from './routes/authRoutes.js';
 import carRoutes from './routes/carRoutes.js';
 import bookingRoutes from './routes/bookingRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
+import reviewRoutes from './routes/reviewRoutes.js';
 
 const app = express();
+
+// Initialize Passport
+app.use(passport.initialize());
 
 // Enable compression for faster API responses (reduces response size by 70-80%)
 // app.use(compression());
@@ -46,6 +51,7 @@ app.use('/api/cars', carRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/reviews', reviewRoutes);
 app.use('/api/profile', profileRoutes);
 
 // Test route

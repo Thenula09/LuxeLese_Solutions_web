@@ -19,6 +19,14 @@ const SignIn = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  const handleGoogleAuth = async () => {
+    try {
+      window.location.href = '/api/auth/google';
+    } catch (err) {
+      setError('Google sign-in is currently unavailable. Please use email/password login.');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -36,9 +44,15 @@ const SignIn = () => {
       if (data.success) {
         setAuthData(data.data.token, data.data.user);
         setSuccess('Login successful!');
-        setTimeout(() => {
-          navigate(data.data.user.role === 'admin' ? '/admindashboard' : '/');
-        }, 1000);
+        
+        // Navigate to loading page first, then to final destination
+        const finalDestination = data.data.user.role === 'admin' ? '/admindashboard' : '/home';
+        navigate('/loading', {
+          state: {
+            redirectTo: finalDestination,
+            delay: 2000
+          }
+        });
       } else {
         setError(data.message || 'Login failed.');
       }
@@ -116,7 +130,7 @@ const SignIn = () => {
             </div>
 
             <div className="social-login-icons">
-              <div className="social-icon-button google">
+              <div className="social-icon-button google" onClick={handleGoogleAuth} style={{ cursor: 'pointer' }}>
                 <FcGoogle />
               </div>
               <div className="social-icon-button facebook">

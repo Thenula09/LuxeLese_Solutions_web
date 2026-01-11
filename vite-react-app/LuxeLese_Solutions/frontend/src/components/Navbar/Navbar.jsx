@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getCurrentUser, logout, onAuthStateChange } from '../../utils/auth';
 import './Navbar.css';
 
 function Navbar() {
   const [user, setUser] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Check for logged in user initially
@@ -25,6 +26,14 @@ function Navbar() {
     logout();
     setUser(null);
     setShowDropdown(false);
+    
+    // Navigate to loading page then to signin
+    navigate('/loading', {
+      state: {
+        redirectTo: '/signin',
+        delay: 2000
+      }
+    });
   };
 
   // Close dropdown when clicking outside
@@ -62,7 +71,7 @@ function Navbar() {
       <div className="navbar-menu">
         <ul className="navbar-links">
           <li>
-            <Link to="/">
+            <Link to="/home">
                Home
             </Link>
           </li>
@@ -129,6 +138,29 @@ function Navbar() {
                     {user.email}
                   </div>
                 </div>
+
+                {/* Profile Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowDropdown(false);
+                    navigate('/profile');
+                  }}
+                  style={{
+                    ...dropdownButtonStyle,
+                    color: '#FF8C00'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 140, 0, 0.2)';
+                    e.currentTarget.style.color = '#FFA500';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.color = '#FF8C00';
+                  }}
+                >
+                  <span>👤</span> Profile
+                </button>
 
                 {/* Logout Button */}
                 <button

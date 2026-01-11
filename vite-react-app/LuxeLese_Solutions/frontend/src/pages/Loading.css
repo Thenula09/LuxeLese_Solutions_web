@@ -5,7 +5,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
   position: fixed;
   top: 0;
   left: 0;
@@ -19,6 +18,8 @@
   justify-content: center;
   align-items: center;
   gap: 30px;
+  position: relative;
+  z-index: 1;
 }
 
 /* Wave Animation Styles */
@@ -47,6 +48,10 @@
 .wave-text {
   font-size: 4rem;
   color: #FF8C00;
+  text-shadow: 
+    0 0 10px rgba(255, 140, 0, 0.5),
+    0 0 20px rgba(255, 140, 0, 0.3),
+    0 0 30px rgba(255, 140, 0, 0.2);
 }
 
 .wave-subtitle {
@@ -140,6 +145,7 @@
   font-weight: 300;
   opacity: 0.9;
   animation: fadeInOut 2s ease-in-out infinite;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 @keyframes fadeInOut {
@@ -305,33 +311,8 @@
   }
 }
 
-/* Background Animation Effect */
-.loading-page::before {
-  content: '';
-  position: absolute;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 140, 0, 0.1) 0%, transparent 50%);
-  animation: float-gradient 8s ease-in-out infinite;
-  top: -50%;
-  left: -50%;
-  z-index: -1;
-}
-
-@keyframes float-gradient {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  25% {
-    transform: translate(50px, 50px);
-  }
-  50% {
-    transform: translate(0, 100px);
-  }
-  75% {
-    transform: translate(-50px, 50px);
-  }
-}
+/* Background Animation Effect - Removed old gradient */
+/* Dot grid is now the primary background effect */
 
 /* Responsive Design */
 @media (max-width: 768px) {

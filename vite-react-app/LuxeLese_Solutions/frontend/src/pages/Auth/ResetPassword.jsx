@@ -25,7 +25,7 @@ const ResetPassword = () => {
       setAuthData(response.data.data.token, response.data.data.user);
       localStorage.removeItem('resetEmail'); // Clean up
       setTimeout(() => {
-        navigate('/');
+        navigate('/home');
       }, 2000);
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred. Please try again.');
