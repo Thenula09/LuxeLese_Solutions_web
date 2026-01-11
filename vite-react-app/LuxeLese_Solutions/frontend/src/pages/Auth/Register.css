@@ -1,0 +1,305 @@
+/* මුළු පිටුවටම background එකක් එක් කිරීම */
+.register-page-wrapper {
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* ඔබේ background image එක මෙතැනට path එක දෙන්න */
+  padding: 20px;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* මැද ඇති ප්‍රධාන පෙට්ටිය (Main Container) */
+.register-content-box {
+  display: flex;
+  width: 900px; /* unified width */
+  height: 600px; /* unified height */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* වම් පැත්තේ Image කොටස */
+.login-image-section.register {
+  flex: 1.2;
+  position: relative;
+  display: flex;
+}
+
+.side-image.register {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: floatImage 3s ease-in-out infinite;
+}
+
+@keyframes floatImage {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.image-overlay.register {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.overlay-title {
+  font-size: 42px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.overlay-text {
+  font-size: 18px;
+  font-weight: 400;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  max-width: 80%;
+}
+
+.animate-fade-in {
+  animation: fadeIn 1.2s ease-in;
+}
+
+.animate-slide-up {
+  animation: slideUp 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smaller button for auth forms */
+.login-form-card.register .gradient-button {
+  font-size: 1em;
+  padding: 0.65em 1em;
+}
+
+.login-form-card.register .gradient-button-container {
+  border-radius: 0.7em;
+}
+
+.login-form-card.register .gradient-button-container::before {
+  border-radius: 0.7em;
+}
+
+/* දකුණු පැත්තේ සුදු පැහැති Form එක ඇති කොටස */
+.login-form-container.register {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 45px 25px 35px;
+}
+
+.login-form-card.register {
+  width: 100%;
+  max-width: 380px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #222;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Back button placed at top-left of the form card */
+.login-form-card.register .back-button {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: transparent;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  cursor: pointer;
+  padding: 6px;
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .login-form-card.register .back-button {
+    top: 10px;
+    left: 10px;
+  }
+}
+
+.login-title.register {
+  color: #FF8C00;
+  font-size: 24px;
+  margin-bottom: 12px;
+  font-weight: bold;
+  margin-top: 28px;
+}
+
+.auth-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form Groups සකස් කිරීම */
+.form-group {
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #000000;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: 0.3s;
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+.form-group input::placeholder {
+  color: #999 !important;
+}
+
+.form-group input:focus {
+  border-color: #FF8C00;
+  outline: none;
+}
+
+/* Input with icon styles */
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  color: #666;
+  z-index: 1;
+}
+
+.input-with-icon input {
+  padding-left: 40px;
+}
+
+.input-toggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Form text classes for black color */
+.form-label-text {
+  color: #000000 !important;
+}
+
+.form-footer-text {
+  color: #000000 !important;
+}
+
+.form-link-text {
+  font-size: 12px;
+  color: #000000 !important;
+  text-decoration: none;
+}
+
+.form-link-text:hover {
+  text-decoration: underline;
+}
+
+/* Error and Success Messages */
+.auth-error {
+  color: #ff4444;
+  font-size: 14px;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.auth-success {
+  color: #4CAF50;
+  font-size: 14px;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* Responsive (Mobile) */
+@media (max-width: 768px) {
+  .register-page-wrapper {
+    padding: 10px;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 20px;
+  }
+  .register-content-box {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    flex-direction: column;
+  }
+  .login-image-section.register {
+    display: none; /* Mobile වලදී image එක ඉවත් වේ */
+  }
+}

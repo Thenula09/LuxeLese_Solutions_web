@@ -1,0 +1,334 @@
+/* Container for the whole page */
+.signin-page-wrapper {
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.signin-content-box {
+  display: flex;
+  width: 900px;
+  height: 600px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* වම් පැත්තේ image එක ඇති කොටස */
+.login-image-section.signin {
+  flex: 1.2;
+  position: relative;
+  display: flex;
+}
+
+.side-image.signin {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: floatImage 3s ease-in-out infinite;
+}
+
+@keyframes floatImage {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.image-overlay.signin {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+.overlay-title {
+  font-size: 42px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.overlay-text {
+  font-size: 18px;
+  font-weight: 400;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  max-width: 80%;
+}
+
+.animate-fade-in {
+  animation: fadeIn 1.2s ease-in;
+}
+
+.animate-slide-up {
+  animation: slideUp 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smaller button for auth forms */
+.login-form-card.signin .gradient-button {
+  font-size: 1em;
+  padding: 0.65em 1em;
+}
+
+.login-form-card.signin .gradient-button-container {
+  border-radius: 0.7em;
+}
+
+.login-form-card.signin .gradient-button-container::before {
+  border-radius: 0.7em;
+}
+
+/* දකුණු පැත්තේ සුදු පැහැති Form එක ඇති කොටස */
+.login-form-container.signin {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 20px;
+}
+
+.login-form-card.signin {
+  width: 100%;
+  max-width: 360px; /* unified form width */
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  min-height: 450px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-title.signin {
+  color: #FF8C00;
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.auth-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 5px;
+  color: #000000;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+.form-group input::placeholder {
+  color: #999 !important;
+}
+
+.auth-error { color: red; font-size: 12px; }
+.auth-success { color: green; font-size: 12px; }
+
+/* Input with icon styles */
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  color: #666;
+  z-index: 1;
+}
+
+.input-with-icon input {
+  padding-left: 40px;
+}
+
+.input-toggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Form text classes for black color */
+.form-label-text {
+  color: #000000 !important;
+}
+
+.form-footer-text {
+  color: #000000 !important;
+}
+
+.form-link-text {
+  font-size: 12px;
+  color: #000000 !important;
+  text-decoration: none;
+}
+
+.form-link-text:hover {
+  text-decoration: underline;
+}
+
+/* Social Login Styles */
+.social-login-divider {
+  margin: 20px 0 15px;
+  text-align: center;
+  position: relative;
+}
+
+.social-login-divider::before,
+.social-login-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 35%;
+  height: 1px;
+  background: #ddd;
+}
+
+.social-login-divider::before {
+  left: 0;
+}
+
+.social-login-divider::after {
+  right: 0;
+}
+
+.social-login-divider span {
+  font-size: 12px;
+  color: #666;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 0 10px;
+}
+
+.social-login-icons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.social-icon-button {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 50%;
+  background: #ffffff;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.social-icon-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.social-icon-button.google {
+  border-color: #e0e0e0;
+}
+
+.social-icon-button.google:hover {
+  border-color: #4285f4;
+  background: #f8fbff;
+}
+
+.social-icon-button.facebook {
+  border-color: #e0e0e0;
+  color: #1877f2;
+}
+
+.social-icon-button.facebook:hover {
+  border-color: #1877f2;
+  background: #f0f4ff;
+}
+
+/* Responsive (Mobile) */
+@media (max-width: 768px) {
+  .signin-page-wrapper {
+    padding: 10px;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 50px;
+  }
+  .signin-content-box {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+  }
+  .login-image-section.signin {
+    display: none;
+  }
+}

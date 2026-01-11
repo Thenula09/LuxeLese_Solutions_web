@@ -10,6 +10,7 @@ import Profile from './pages/Profile.jsx';
 import SignIn from './pages/Auth/SignIn.jsx';
 import Register from './pages/Auth/Register.jsx';
 import ForgotPassword from './pages/Auth/ForgotPassword.jsx';
+import OTPVerification from './pages/Auth/OTPVerification.jsx';
 import ResetPassword from './pages/Auth/ResetPassword.jsx';
 import ResetPasswordToken from './pages/Auth/ResetPasswordToken.jsx';
 import PlaceOrder from './pages/placeoder.jsx';
@@ -108,6 +109,7 @@ function App() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/otp-verification" element={<OTPVerification />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/reset-password/:token" element={<ResetPasswordToken />} />
             <Route path="/placeorder" element={<ProtectedRoute><PlaceOrder /></ProtectedRoute>} />

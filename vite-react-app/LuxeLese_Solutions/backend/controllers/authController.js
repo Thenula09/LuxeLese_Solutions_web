@@ -225,18 +225,21 @@ export const forgotPassword = async (req, res) => {
 // Reset Password
 export const resetPassword = async (req, res) => {
   try {
-    // 1) Get user based on the OTP
+    const { email, otp, newPassword } = req.body;
+
+    // 1) Get user based on the email and OTP
     const hashedOTP = crypto
       .createHash('sha256')
-      .update(req.body.otp)
+      .update(otp)
       .digest('hex');
 
     const user = await User.findOne({
+      email: email,
       otp: hashedOTP,
       otpExpires: { $gt: Date.now() },
     });
 
-    // 2) If OTP has not expired, and there is user, log them in directly
+    // 2) If OTP has not expired, and there is user, reset password
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -244,32 +247,21 @@ export const resetPassword = async (req, res) => {
       });
     }
 
-    // 3) Clear the OTP and log the user in
+    // 3) Update password and clear OTP
+    user.password = newPassword;
     user.otp = undefined;
     user.otpExpires = undefined;
     await user.save();
 
-    // 4) Generate JWT token
-    const token = generateToken(user._id);
-
     res.status(200).json({
       success: true,
-      message: 'OTP verified successfully! You are now logged in.',
-      data: {
-        token,
-        user: {
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        },
-      },
+      message: 'Password reset සාර්ථකයි! කරුණාකර නව මුරපදය සමඟ ලොගින් වන්න.',
     });
   } catch (error) {
     console.error('Reset Password Error:', error);
     return res.status(500).json({
       success: false,
-      message: 'OTP verification failed',
+      message: 'Password වෙනස් කිරීම අසාර්ථක විය',
       error: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
