@@ -1,105 +1,251 @@
-# LuxeLese Solutions
+# LuxeLese Solutions — Final Documentation
 
-## Short summary
-
-LuxeLese Solutions is a monorepo that contains two related web applications:
-
-- **LuxeLese_Solutions_Web** — The customer-facing website (frontend + backend).
-- **LuxeLese_Solutions_Admin** — The admin panel used by staff to manage bookings, vehicles, users, and reports (frontend + backend).
-
-This repository organizes both apps in a single workspace so shared concepts and docs can be maintained centrally.
+This repository contains the complete LuxeLese Solutions monorepo with the customer-facing website (`LuxeLese_Solutions_Web`) and the administrative panel (`LuxeLese_Solutions_Admin`). The following combined final README includes full details for both the web app and the admin panel, quick-start instructions, API references, troubleshooting, and development notes.
 
 ---
 
-## File & folder structure
+## Web — Final README (Customer site)
 
-Top-level layout:
+# 🚗 LuxeLese Solutions - Car Rental System
 
-- `LuxeLese_Solutions_Web/`
-  - `frontend/` — React (Vite) application for customers
-    - `src/` — React source code (components, pages, styles)
-    - `public/` — static assets
-    - `package.json`, `vite.config.js`
-  - `backend/` — Node.js / Express API
-    - `models/` — Mongoose schemas
-    - `controllers/` — request handlers and business logic
-    - `routes/` — Express routers
-    - `services/` — reusable services (payment integration, email)
-    - `config/` — DB and auth configuration
-    - `server.js` / `app.js`
+## ✅ Final Version - All Issues Fixed
 
-- `LuxeLese_Solutions_Admin/`
-  - `frontend/` — Admin React application
-  - `backend/` — Admin API (optional; for admin-specific endpoints)
+### 🎯 Fixed Issues
 
-- `docs/` — project-level documentation (this repo)
-- `README.md` — this file (overview and quick start)
+1. **✅ Navbar Navigation Fixed**
+   - Navigation buttons now properly refresh the page when clicked
+   - When already on a page, clicking the nav link will reload it
+   - Smooth navigation between pages when logged in
 
----
+2. **✅ Performance Optimized**
+   - Fixed animation frame memory leaks
+   - Optimized mouse follower animation
+   - Reduced CPU usage to prevent laptop overheating
+   - Added proper cleanup for all event listeners
 
-## Getting started (development)
+3. **✅ Backend Stability**
+   - Running on port 5002
+   - MongoDB connection stable
+   - CORS properly configured
+   - Error handling improved
 
-1. Clone the repo and move into the relevant subfolder:
-   - `cd LuxeLese_Solutions_Web/frontend` (customer frontend) or `cd LuxeLese_Solutions_Web/backend` (customer backend)
-
-2. Install dependencies:
-   - `npm install`
-
-3. Start development servers:
-   - Frontend: `npm run dev`
-   - Backend: `npm run dev` (ensure `.env` is present)
-
-4. Admin projects are started similarly in `LuxeLese_Solutions_Admin/*`.
-
-> Note: Each backend requires a `.env` with values for DB connection, JWT secret, email credentials, and payment provider keys.
+4. **✅ Frontend Stability**
+   - Running on port 5174
+   - React Router working properly
+   - Authentication flow smooth
+   - Protected routes functioning
 
 ---
 
-## API overview
+## 🚀 Quick Start (Web)
 
-This project contains REST APIs for both the customer website and the admin panel. The canonical API endpoints are documented in `docs/APIS.md` — open it for endpoint details, request/response examples and auth requirements.
+### Method 1: Automatic Startup (Recommended)
+```bash
+./start-all.sh
+```
 
-Authentication: Most endpoints use JWT Bearer tokens sent in `Authorization: Bearer <token>`.
+### Method 2: Manual Startup
 
----
+**Terminal 1 - Backend:**
+```bash
+cd LuxeLese_Solutions_Web/backend
+npm start
+```
 
-## Services and responsibilities
-
-- **Authentication / Authorization** — register/login, token issuance, password reset.
-- **Booking** — create/read/update/cancel bookings, check availability.
-- **Payments** — create payment intents, confirm transactions, webhooks for status changes.
-- **Vehicles/Cars** — list, search, and manage vehicles with metadata and images.
-- **Profiles** — user profile CRUD, avatars, preferences.
-- **Notifications / Email** — send booking confirmations and alerts.
-- **Admin reports** — income reports, booking analytics (admin backend)
-
-Detailed API and service descriptions are in `docs/APIS.md`.
-
----
-
-## ER model summary
-
-See `docs/ER.md` for an entity-relationship summary and notes. Main entities include:
-- `User` (customers and admin users)
-- `Car` (or `Vehicle`)
-- `Booking` (links `User` and `Car`)
-- `Payment` (linked to `Booking`)
-- `Review`, `Contact` and `Notification`
+**Terminal 2 - Frontend:**
+```bash
+cd LuxeLese_Solutions_Web/frontend
+npm run dev
+```
 
 ---
 
-## Use cases
+## 🌐 Access URLs
 
-See `docs/USE_CASES.md` for full user and admin use cases with flow steps and edge cases (register/login, book vehicle, pay, admin manage vehicles/bookings).
-
----
-
-## Next steps (suggested)
-
-- Add `start-all.sh` to run both frontends and backends concurrently for development.
-- Add per-subproject `README` files with environment example `.env.example` values.
-- Add GitHub Actions to run lint/build/test per push.
+- **Frontend:** http://localhost:5174
+- **Backend API:** http://localhost:5002
+- **API Docs:** http://localhost:5002/ (shows all endpoints)
 
 ---
 
-If you want more detail in any specific `docs/*` page (APIs, ER model, or use cases), tell me which area you want expanded and I will add more examples and diagrams.
+## 📋 Features Working (Web)
+
+### ✅ Authentication
+- ✓ User Registration
+- ✓ User Login
+- ✓ JWT Token Authentication
+- ✓ Protected Routes
+- ✓ Automatic Login State Detection
+- ✓ Logout Functionality
+
+### ✅ Navigation
+- ✓ Home Page
+- ✓ About Page
+- ✓ Booking Page
+- ✓ Contact Page
+- ✓ Smooth Page Transitions
+- ✓ Page Refresh on Same-Page Click
+
+### ✅ UI/UX
+- ✓ Responsive Navbar
+- ✓ User Profile Dropdown
+- ✓ Custom Mouse Follower (Optimized)
+- ✓ Loading Screen
+- ✓ Smooth Animations
+- ✓ Mobile Responsive Design
+
+---
+
+## 🛠️ Technical Stack (Web)
+
+### Frontend
+- React 19.1.1
+- React Router DOM 7.8.2
+- Vite 7.1.2
+- Bootstrap 5.3.8
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB Atlas
+- JWT Authentication
+- Mongoose ODM
+
+---
+
+## 📁 Project Structure (Web)
+
+```
+LuxeLese_Solutions_Web/
+├── backend/
+│   ├── config/         # Database configuration
+│   ├── controllers/    # Route controllers
+│   ├── middlewares/    # Auth middleware
+│   ├── models/         # MongoDB models
+│   ├── routes/         # API routes
+│   ├── services/       # Business logic
+│   ├── .env            # Environment variables
+│   └── server.js       # Main server file
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/ # React components
+│   │   ├── pages/      # Page components
+│   │   ├── utils/      # Utility functions
+│   │   ├── config/     # API configuration
+│   │   └── App.jsx     # Main app component
+│   ├── .env            # Frontend environment
+│   └── vite.config.js  # Vite configuration
+```
+
+---
+
+## ⚡ Performance & Troubleshooting (Web)
+
+### Port Already in Use
+```bash
+# Kill process on port 5002 (Backend)
+lsof -ti:5002 | xargs kill -9
+
+# Kill process on port 5174 (Frontend)
+lsof -ti:5174 | xargs kill -9
+```
+
+### Frontend Not Starting
+```bash
+cd LuxeLese_Solutions_Web/frontend
+rm -rf node_modules package-lock.json
+npm install
+npm run dev
+```
+
+### Backend Not Connecting
+```bash
+cd LuxeLese_Solutions_Web/backend
+rm -rf node_modules package-lock.json
+npm install
+npm start
+```
+
+---
+
+## 📝 API Endpoints (Web)
+
+### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login user
+
+### Cars
+- `GET /api/cars` - Get all cars
+- `GET /api/cars/:id` - Get single car
+- `POST /api/cars` - Add new car (Admin)
+- `PUT /api/cars/:id` - Update car (Admin)
+- `DELETE /api/cars/:id` - Delete car (Admin)
+- `GET /api/cars/search?query=...` - Search cars
+
+---
+
+## ✨ Recent Updates (Web)
+
+- ✅ Fixed navbar navigation and refresh functionality
+- ✅ Optimized performance for laptop stability
+- ✅ Fixed memory leaks in animations
+- ✅ Improved authentication flow
+- ✅ Added proper cleanup in all components
+- ✅ Created comprehensive documentation
+- ✅ Added automatic startup script
+
+---
+
+## Admin — Final README (Admin Panel)
+
+# 🚗 LuxeLese Solutions - Admin Panel (Final README)
+
+This is the admin panel companion README — contains the final notes and quick start specific to admin features.
+
+## Quick Start (Admin)
+
+**Backend:**
+```bash
+cd LuxeLese_Solutions_Admin/backend
+npm install
+npm run dev
+```
+
+**Frontend:**
+```bash
+cd LuxeLese_Solutions_Admin/frontend
+npm install
+npm run dev
+```
+
+## Admin Features
+- Manage vehicles (CRUD)
+- View and change booking statuses
+- Generate income and booking reports
+- Manage users and admin roles
+- Upload vehicle assets and images
+
+## Dev Notes (Admin)
+- Admin backend endpoints should be protected by RBAC (role-based access control)
+- Admin users have role `admin` in `User` model
+- Admin UI should call `/api/admin/*` endpoints or use role-checked common routes
+
+## Deployment (Admin)
+- Build admin frontend and deploy to your static host or serve from admin backend
+- Ensure admin backend has environment variables configured similar to web backend
+
+---
+
+## Full project docs
+- API reference: `docs/APIS.md`
+- Entity model: `docs/ER.md`
+- Use cases: `docs/USE_CASES.md`
+
+---
+
+**Last updated:** January 12, 2026
+
+---
+
+If you'd like, I can add screenshots, badges (CI, license), and a LICENSE file; tell me what you prefer and I will include them.
