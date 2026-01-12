@@ -72,4 +72,40 @@ describe('auth utilities', () => {
     window.dispatchEvent(new CustomEvent('authStateChanged'));
     expect(cb).not.toHaveBeenCalled();
   });
+
+  it('getToken returns null when no token', () => {
+    localStorage.clear();
+    expect(getToken()).toBeNull();
+  });
+
+  it('getAuthHeaders does not include Authorization when no token', () => {
+    localStorage.clear();
+    const headers = getAuthHeaders();
+    expect(headers.Authorization).toBeUndefined();
+    expect(headers['Content-Type']).toBe('application/json');
+  });
+
+  it('setAuthData overwrites previous data', () => {
+    setAuthData('t1', { name: 'First' });
+    setAuthData('t2', { name: 'Second' });
+    expect(getToken()).toBe('t2');
+    expect(getCurrentUser()).toEqual({ name: 'Second' });
+  });
+
+  it('getCurrentUser returns null and logs error on invalid JSON', () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    localStorage.setItem('user', '{invalid-json');
+    expect(getCurrentUser()).toBeNull();
+    expect(spy).toHaveBeenCalled();
+    spy.mockRestore();
+  });
+
+  it('onAuthStateChange also listens to storage events', () => {
+    const cb = vi.fn();
+    const cleanup = onAuthStateChange(cb);
+    // Simulate storage event (other tab)
+    window.dispatchEvent(new StorageEvent('storage', { key: 'token', newValue: 'xyz' }));
+    expect(cb).toHaveBeenCalled();
+    cleanup();
+  });
 });

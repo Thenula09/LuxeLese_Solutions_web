@@ -1,9 +1,13 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import ProtectedRoute from '../ProtectedRoute';
 import { setAuthData, logout } from '../../../utils/auth';
+
+
+// Verify that ProtectedRoute reacts to auth changes (login/logout) across events
+
 
 describe('ProtectedRoute', () => {
   it('does not render children when not authenticated', () => {
@@ -30,6 +34,33 @@ describe('ProtectedRoute', () => {
 
   it('renders children when authenticated', () => {
     setAuthData('token1', { name: 'User', role: 'user' });
+    render(
+      <MemoryRouter initialEntries={["/protected"]}>
+        <Routes>
+          <Route
+            path="/protected"
+            element={
+              <ProtectedRoute>
+                <div>Secret Area</div>
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText('Secret Area')).toBeInTheDocument();
+  });
+
+  it('renders children when auth state changes and user navigates after login', () => {
+    // Start unauthenticated
+    logout();
+
+    // Simulate login occurring elsewhere (other tab or flow)
+    setAuthData('laterToken', { name: 'LateUser', role: 'user' });
+    window.dispatchEvent(new CustomEvent('authStateChanged'));
+
+    // Now navigate to protected route (fresh navigation after login)
     render(
       <MemoryRouter initialEntries={["/protected"]}>
         <Routes>

@@ -49,4 +49,26 @@ describe('Navbar component', () => {
     expect(path).toBe('/loading');
     expect(options.state.redirectTo).toBe('/signin');
   });
+
+  it('profile button navigates to /profile', () => {
+    setAuthData('t', { name: 'Charlie', email: 'c@example.com', role: 'user' });
+    render(<Navbar />);
+    const profileButton = screen.getByText(/Charlie/i);
+    fireEvent.click(profileButton);
+    const profileBtn = screen.getByText(/Profile/i);
+    fireEvent.click(profileBtn);
+    expect(mockNavigate).toHaveBeenCalledWith('/profile');
+  });
+
+  it('clicking outside closes dropdown', () => {
+    setAuthData('t', { name: 'Dana', email: 'd@example.com', role: 'user' });
+    render(<Navbar />);
+    const profileButton = screen.getByText(/Dana/i);
+    fireEvent.click(profileButton);
+    expect(screen.getByText(/Profile/i)).toBeInTheDocument();
+
+    // Simulate click outside
+    fireEvent.mouseDown(document.body);
+    expect(screen.queryByText(/Profile/i)).toBeNull();
+  });
 });
