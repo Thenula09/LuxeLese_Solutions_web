@@ -1,216 +1,96 @@
 # Authentication System Documentation
 
-## Overview
-Complete authentication system with JWT tokens for LuxeLese Car Rental Solutions.
+## ✅ Overview
+Complete and production-ready authentication system implemented for LuxeLese Solutions (customer web and admin panel). The system supports secure registration, sign-in, role-based access control (user/admin), token-based authentication (JWT), and utilities for protecting routes and making authenticated API calls.
 
-## Features
-- ✅ User Registration
-- ✅ User Login
-- ✅ JWT Token Authentication
-- ✅ Password Encryption (bcrypt)
-- ✅ Role-based Access (User/Admin)
-- ✅ Protected Routes
-- ✅ Token Storage (localStorage)
+---
 
-## Backend Structure
+## 📦 What was implemented
 
-### Endpoints
+### Backend (Express.js + MongoDB)
+- Authentication controller: registration, login, JWT issuance, password validation, email validation, and error handling.
+- User model: password hashing (bcrypt), unique email constraint, role field (`user`/`admin`), and helper methods for password comparison.
+- Routes: `POST /api/auth/register`, `POST /api/auth/login`.
+- Configuration: DB connection, CORS, environment-based JWT config.
 
-#### Register User
+### Frontend (React + Vite)
+- Register and SignIn pages with form validation, token storage, success/error messaging, and redirects.
+- `auth.js` utility with helpers: `isAuthenticated`, `getCurrentUser`, `getToken`, `logout`, `getAuthHeaders`, `isAdmin`.
+- `ProtectedRoute` component that blocks access to protected pages and supports admin-only routes.
+
+---
+
+## 🔐 API Endpoints (examples)
+
+### Register
 ```
 POST /api/auth/register
-```
-**Request Body:**
-```json
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "password123"
-}
-```
+Content-Type: application/json
 
-**Response:**
-```json
-{
-  "success": true,
-  "message": "ගිණුම සාර්ථකව නිර්මාණය කරන ලදී",
-  "data": {
-    "token": "jwt_token_here",
-    "user": {
-      "id": "user_id",
-      "name": "John Doe",
-      "email": "john@example.com",
-      "role": "user",
-      "createdAt": "2025-12-31T..."
-    }
-  }
-}
+{ "name":"John Doe", "email":"john@example.com", "password":"password123" }
 ```
+Success (201) returns JWT and user object.
 
-#### Login User
+### Login
 ```
 POST /api/auth/login
+Content-Type: application/json
+
+{ "email":"john@example.com", "password":"password123" }
 ```
-**Request Body:**
-```json
-{
-  "email": "john@example.com",
-  "password": "password123"
-}
-```
+Success (200) returns JWT and user object.
 
-**Response:**
-```json
-{
-  "success": true,
-  "message": "සාර්ථකව login විය",
-  "data": {
-    "token": "jwt_token_here",
-    "user": {
-      "id": "user_id",
-      "name": "John Doe",
-      "email": "john@example.com",
-      "role": "user",
-      "createdAt": "2025-12-31T..."
-    }
-  }
-}
-```
+---
 
-## Frontend Structure
+## 🧭 Usage examples
 
-### Pages
-- **Register.jsx** - User registration form
-- **SignIn.jsx** - User login form
-
-### Utilities
-- **auth.js** - Authentication helper functions
-  - `isAuthenticated()` - Check if user is logged in
-  - `getCurrentUser()` - Get current user data
-  - `getToken()` - Get JWT token
-  - `logout()` - Logout user
-  - `getAuthHeaders()` - Get headers for API requests
-  - `isAdmin()` - Check if user is admin
-
-### Components
-- **ProtectedRoute.jsx** - Protected route wrapper for authenticated pages
-
-## Usage
-
-### Protecting Routes
+### Protecting a route
 ```jsx
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+<Route path="/booking" element={<ProtectedRoute><Booking/></ProtectedRoute>} />
 
-// In App.jsx
-<Route 
-  path="/booking" 
-  element={
-    <ProtectedRoute>
-      <Booking />
-    </ProtectedRoute>
-  } 
-/>
-
-// For admin-only routes
-<Route 
-  path="/admindashboard" 
-  element={
-    <ProtectedRoute adminOnly={true}>
-      <AdminDashboard />
-    </ProtectedRoute>
-  } 
-/>
+// Admin-only
+<Route path="/admin" element={<ProtectedRoute adminOnly><Admin/></ProtectedRoute>} />
 ```
 
-### Making Authenticated API Requests
-```jsx
-import { getAuthHeaders } from './utils/auth';
-
-const response = await fetch('/api/protected-endpoint', {
-  method: 'GET',
-  headers: getAuthHeaders()
-});
+### Authenticated fetch
+```js
+fetch('/api/bookings', { headers: getAuthHeaders() })
 ```
 
-### Logout
-```jsx
-import { logout } from './utils/auth';
+---
 
-// In your component
-<button onClick={logout}>Logout</button>
+## ⚙️ Environment variables (backend)
 ```
-
-## Environment Variables
-
-### Backend (.env)
-```env
-MONGODB_URI=your_mongodb_connection_string
+MONGODB_URI=...
 PORT=5000
-NODE_ENV=development
-JWT_SECRET=your_jwt_secret_key
+JWT_SECRET=...
 JWT_EXPIRE=30d
 ```
 
-## Running the Application
+---
 
-### Backend
-```bash
-cd LuxeLese_Solutions/backend
-npm install
-npm run dev
-```
-Server runs on: http://localhost:5000
+## ✅ Testing checklist
+- Register, login flows work
+- Token stored in localStorage
+- Protected routes block unauthorized access
+- Admin-only routes require `admin` role
 
-### Frontend
-```bash
-cd LuxeLese_Solutions/frontend
-npm install
-npm run dev
-```
-Frontend runs on: http://localhost:5173
+---
 
-## Testing the Authentication
+## 🔒 Security notes
+- bcrypt password hashing
+- JWT token usage (Bearer token)
+- Input validation & error handling
+- CORS configured for frontend origin
 
-### 1. Register a New User
-- Navigate to http://localhost:5173/register
-- Fill in the registration form
-- Click "Create Account"
-- You should be automatically logged in and redirected to home
+---
 
-### 2. Login with Existing User
-- Navigate to http://localhost:5173/signin
-- Enter email and password
-- Click "Sign In"
-- You should be redirected to home (or admin dashboard if admin)
+## ➕ Next steps (recommended)
+1. Password reset + email verification
+2. Refresh tokens and short-lived access tokens
+3. OAuth login providers
+4. 2FA (TOTP)
 
-### 3. Check Local Storage
-Open browser DevTools > Application > Local Storage:
-- `token` - JWT token
-- `user` - User information (JSON)
+---
 
-## Security Notes
-- Passwords are hashed using bcrypt before storing
-- JWT tokens expire after 30 days (configurable)
-- Tokens are stored in localStorage
-- All API requests can include the token in Authorization header
-- CORS is configured to accept requests from frontend
-
-## User Roles
-- **user** (default) - Regular user with access to booking and basic features
-- **admin** - Full access including admin dashboard
-
-## Error Handling
-All endpoints return consistent error responses:
-```json
-{
-  "success": false,
-  "message": "Error message in Sinhala/English"
-}
-```
-
-## Next Steps
-1. Add password reset functionality
-2. Add email verification
-3. Implement refresh tokens
-4. Add session timeout warnings
-5. Add OAuth providers (Google, Facebook)
+For full details and examples, see the project-level auth docs and the per-app README sections.
