@@ -1,6 +1,7 @@
 import Stripe from 'stripe';
 import Payment from '../models/Payment.js';
 import Booking from '../models/Booking.js';
+import Car from '../models/Car.js';
 import { sendPaymentSuccessNotification } from './notificationController.js';
 
 let stripe = null;
@@ -101,15 +102,31 @@ export const confirmPayment = async (req, res) => {
     }
 
     if (paymentStatus === 'succeeded') {
-      // Save payment details
+      // Get car details for payment record
+      const car = await Car.findById(booking.carId);
+      
+      // Save payment details with complete information
       const payment = new Payment({
         userId: req.user._id,
         bookingId: bookingId,
         amount: amount,
-        carId: booking.carId
+        carId: booking.carId,
+        carName: booking.carName || car?.name || 'Unknown',
+        carImage: car?.image || '',
+        paymentIntentId: paymentIntentId,
+        status: 'completed'
       });
 
       const savedPayment = await payment.save();
+
+      // Update booking payment status
+      await Booking.findByIdAndUpdate(bookingId, { 
+        paymentStatus: 'paid',
+        status: 'confirmed'
+      });
+
+      // Mark car as unavailable after payment confirmation
+      await Car.findByIdAndUpdate(booking.carId, { status: 'Unavailable' });
 
       // Send WhatsApp notification
       try {

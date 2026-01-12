@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const reviewSchema = new mongoose.Schema({
   booking: {
@@ -36,4 +36,4 @@ const reviewSchema = new mongoose.Schema({
 // Prevent duplicate reviews for same booking
 reviewSchema.index({ booking: 1 }, { unique: true });
 
-module.exports = mongoose.model('Review', reviewSchema);
+export default mongoose.model('Review', reviewSchema);

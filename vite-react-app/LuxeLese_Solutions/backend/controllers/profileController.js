@@ -1,5 +1,6 @@
 import User from '../models/User.js';
 import Booking from '../models/Booking.js';
+import Payment from '../models/Payment.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
@@ -15,7 +16,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, 'profile-' + req.user.id + '-' + uniqueSuffix + path.extname(file.originalname));
+    cb(null, 'profile-' + req.user._id + '-' + uniqueSuffix + path.extname(file.originalname));
   }
 });
 
@@ -40,7 +41,7 @@ export const upload = multer({
 // @access  Private
 export const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password -passwordResetToken -passwordResetExpires -otp -otpExpires');
+    const user = await User.findById(req.user._id).select('-password -passwordResetToken -passwordResetExpires -otp -otpExpires');
 
     if (!user) {
       return res.status(404).json({
@@ -76,7 +77,7 @@ export const updateUserProfile = async (req, res) => {
     if (address) updateData.address = address;
 
     const user = await User.findByIdAndUpdate(
-      req.user.id,
+      req.user._id,
       updateData,
       { new: true, runValidators: true }
     ).select('-password -passwordResetToken -passwordResetExpires -otp -otpExpires');
@@ -116,7 +117,7 @@ export const uploadProfilePicture = async (req, res) => {
     }
 
     // Delete old profile picture if exists
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user._id);
     if (user.profilePicture) {
       const oldPicturePath = path.join('uploads/profiles', path.basename(user.profilePicture));
       if (fs.existsSync(oldPicturePath)) {
@@ -127,7 +128,7 @@ export const uploadProfilePicture = async (req, res) => {
     // Update user with new profile picture path
     const profilePictureUrl = `/uploads/profiles/${req.file.filename}`;
     const updatedUser = await User.findByIdAndUpdate(
-      req.user.id,
+      req.user._id,
       { profilePicture: profilePictureUrl },
       { new: true }
     ).select('-password -passwordResetToken -passwordResetExpires -otp -otpExpires');
@@ -158,18 +159,32 @@ export const getUserBookings = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
-    const bookings = await Booking.find({ userId: req.user.id })
-      .populate('carId', 'name images pricePerDay')
+    // Get bookings with populated car data
+    const bookings = await Booking.find({ userId: req.user._id })
+      .populate('carId', 'name image pricePerDay brand model')
       .sort({ createdAt: -1 })
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .select('-__v');
 
-    const total = await Booking.countDocuments({ userId: req.user.id });
+    // Get payment information for each booking
+    const bookingsWithPayments = await Promise.all(
+      bookings.map(async (booking) => {
+        const payment = await Payment.findOne({ bookingId: booking._id })
+          .select('amount status date paymentIntentId');
+        
+        return {
+          ...booking.toObject(),
+          payment: payment || null
+        };
+      })
+    );
+
+    const total = await Booking.countDocuments({ userId: req.user._id });
 
     res.status(200).json({
       success: true,
-      data: bookings,
+      data: bookingsWithPayments,
       pagination: {
         currentPage: page,
         totalPages: Math.ceil(total / limit),
@@ -195,8 +210,8 @@ export const getUserBookingDetails = async (req, res) => {
   try {
     const booking = await Booking.findOne({
       _id: req.params.id,
-      userId: req.user.id
-    }).populate('carId', 'name images pricePerDay description features');
+      userId: req.user._id
+    }).populate('carId', 'name image pricePerDay description features brand model');
 
     if (!booking) {
       return res.status(404).json({
@@ -205,9 +220,16 @@ export const getUserBookingDetails = async (req, res) => {
       });
     }
 
+    // Get payment information for this booking
+    const payment = await Payment.findOne({ bookingId: booking._id })
+      .select('amount status date paymentIntentId');
+
     res.status(200).json({
       success: true,
-      data: booking
+      data: {
+        ...booking.toObject(),
+        payment: payment || null
+      }
     });
 
   } catch (error) {
@@ -215,6 +237,96 @@ export const getUserBookingDetails = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Failed to fetch booking details'
+    });
+  }
+};
+
+// @desc    Get user's payment history
+// @route   GET /api/profile/payments
+// @access  Private
+export const getUserPayments = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    // Get payments with populated booking and car data
+    const payments = await Payment.find({ userId: req.user._id })
+      .populate({
+        path: 'bookingId',
+        select: 'fullName startDate endDate numberOfDays carName carImage status'
+      })
+      .populate({
+        path: 'carId',
+        select: 'name image brand model'
+      })
+      .sort({ date: -1 })
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .select('-__v');
+
+    const total = await Payment.countDocuments({ userId: req.user._id });
+
+    res.status(200).json({
+      success: true,
+      data: payments,
+      pagination: {
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+        totalPayments: total,
+        hasNext: page * limit < total,
+        hasPrev: page > 1
+      }
+    });
+
+  } catch (error) {
+    console.error('Get user payments error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch payment history'
+    });
+  }
+};
+
+// @desc    Get booking and payment statistics
+// @route   GET /api/profile/stats
+// @access  Private
+export const getUserStats = async (req, res) => {
+  try {
+    const totalBookings = await Booking.countDocuments({ userId: req.user._id });
+    const confirmedBookings = await Booking.countDocuments({ 
+      userId: req.user._id, 
+      status: 'confirmed' 
+    });
+    const completedBookings = await Booking.countDocuments({ 
+      userId: req.user._id, 
+      status: 'completed' 
+    });
+    const cancelledBookings = await Booking.countDocuments({ 
+      userId: req.user._id, 
+      status: 'cancelled' 
+    });
+
+    // Calculate total spent
+    const payments = await Payment.find({ userId: req.user._id, status: 'completed' });
+    const totalSpent = payments.reduce((sum, payment) => sum + payment.amount, 0);
+
+    res.status(200).json({
+      success: true,
+      data: {
+        totalBookings,
+        confirmedBookings,
+        completedBookings,
+        cancelledBookings,
+        totalSpent,
+        totalPayments: payments.length
+      }
+    });
+
+  } catch (error) {
+    console.error('Get user stats error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch user statistics'
     });
   }
 };

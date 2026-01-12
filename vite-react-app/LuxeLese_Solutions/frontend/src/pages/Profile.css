@@ -729,3 +729,236 @@
   cursor: not-allowed;
   transform: none;
 }
+/* Updated Booking Card Styles with Image */
+.booking-card {
+  display: flex;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.booking-card-image {
+  width: 250px;
+  height: 180px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.booking-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.booking-card:hover .booking-card-image img {
+  transform: scale(1.05);
+}
+
+.booking-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.booking-card-content {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.booking-id {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 5px 0;
+}
+
+.booking-status-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.status-badge, .payment-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-badge.confirmed {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.status-badge.pending {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+.status-badge.cancelled {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.status-badge.completed {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+}
+
+.payment-badge.paid {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.payment-badge.pending {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+.payment-badge.failed {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.booking-cost {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.booking-cost label {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.cost-amount {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #FF8C00;
+}
+
+.payment-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.view-details-button {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+/* Booking Details Updates */
+.back-button {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #FF8C00;
+  color: #FF8C00;
+}
+
+.car-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.car-brand {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+  margin: 5px 0;
+}
+
+.status-badges {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.detail-item.total-cost {
+  border-top: 2px solid rgba(255, 140, 0, 0.3);
+  padding-top: 15px;
+  margin-top: 10px;
+}
+
+.cost-highlight {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #FF8C00;
+}
+
+.payment-section {
+  background: rgba(255, 140, 0, 0.05);
+  border: 1px solid rgba(255, 140, 0, 0.2);
+  border-radius: 12px;
+  padding: 20px !important;
+}
+
+.payment-amount {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #22c55e;
+}
+
+.transaction-id {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  word-break: break-all;
+}
+
+/* Responsive Updates */
+@media (max-width: 768px) {
+  .booking-card {
+    flex-direction: column;
+  }
+  
+  .booking-card-image {
+    width: 100%;
+    height: 200px;
+  }
+  
+  .booking-card-content {
+    padding: 15px;
+  }
+  
+  .booking-dates {
+    flex-direction: column;
+  }
+  
+  .date-item {
+    flex: 1;
+  }
+}

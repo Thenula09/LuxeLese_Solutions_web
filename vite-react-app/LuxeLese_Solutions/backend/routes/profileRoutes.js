@@ -5,6 +5,8 @@ import {
   uploadProfilePicture,
   getUserBookings,
   getUserBookingDetails,
+  getUserPayments,
+  getUserStats,
   upload
 } from '../controllers/profileController.js';
 import { protect } from '../middlewares/authMiddleware.js';
@@ -22,5 +24,11 @@ router.post('/upload-picture', upload.single('profilePicture'), uploadProfilePic
 // Booking routes
 router.get('/bookings', getUserBookings);
 router.get('/bookings/:id', getUserBookingDetails);
+
+// Payment routes
+router.get('/payments', getUserPayments);
+
+// Statistics route
+router.get('/stats', getUserStats);
 
 export default router;

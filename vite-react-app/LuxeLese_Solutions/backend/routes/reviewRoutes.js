@@ -1,11 +1,12 @@
-const express = require('express');
+import express from 'express';
+import Review from '../models/Review.js';
+import Booking from '../models/Booking.js';
+import { protect } from '../middlewares/authMiddleware.js';
+
 const router = express.Router();
-const Review = require('../models/Review');
-const Booking = require('../models/Booking');
-const { authMiddleware } = require('../middlewares/authMiddleware');
 
 // Create a review for a booking
-router.post('/', authMiddleware, async (req, res) => {
+router.post('/', protect, async (req, res) => {
   try {
     const { bookingId, rating, comment } = req.body;
 
@@ -25,7 +26,7 @@ router.post('/', authMiddleware, async (req, res) => {
     }
 
     // Check if booking exists and belongs to user
-    const booking = await Booking.findOne({ _id: bookingId, user: req.user.userId });
+    const booking = await Booking.findOne({ _id: bookingId, userId: req.user._id });
     if (!booking) {
       return res.status(404).json({
         success: false,
@@ -45,7 +46,7 @@ router.post('/', authMiddleware, async (req, res) => {
     // Create review
     const review = new Review({
       booking: bookingId,
-      user: req.user.userId,
+      user: req.user._id,
       car: booking.carId,
       rating,
       comment
@@ -68,11 +69,11 @@ router.post('/', authMiddleware, async (req, res) => {
 });
 
 // Get review for a specific booking
-router.get('/booking/:bookingId', authMiddleware, async (req, res) => {
+router.get('/booking/:bookingId', protect, async (req, res) => {
   try {
     const review = await Review.findOne({ 
       booking: req.params.bookingId,
-      user: req.user.userId 
+      user: req.user._id 
     }).populate('user', 'name email');
 
     res.json({
@@ -116,4 +117,4 @@ router.get('/car/:carId', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

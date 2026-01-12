@@ -1,5 +1,6 @@
 import Booking from '../models/Booking.js';
 import User from '../models/User.js';
+import Car from '../models/Car.js';
 import jwt from 'jsonwebtoken';
 import process from 'process';
 
@@ -62,6 +63,14 @@ export const createBooking = async (req, res) => {
     const endDate = parsedDates[parsedDates.length - 1];
     const numberOfDays = parsedDates.length;  // Count of selected dates only
 
+    // Get car details to save image and calculate total cost
+    const car = await Car.findById(carId);
+    if (!car) {
+      return res.status(404).json({ success: false, message: 'Car not found' });
+    }
+
+    const totalCost = numberOfDays * car.pricePerDay;
+
     const booking = new Booking({
       fullName,
       email,
@@ -75,9 +84,15 @@ export const createBooking = async (req, res) => {
       numberOfDays,
       carId,
       carName,
-      userId
+      carImage: car.image || '',
+      totalCost,
+      userId,
+      status: 'pending', // Initial status is pending until payment confirmed
+      paymentStatus: 'pending'
     });
     await booking.save();
+
+    // Don't update car status here - it will be updated after payment confirmation
     
     const response = { success: true, data: booking };
     if (res.locals.token) {

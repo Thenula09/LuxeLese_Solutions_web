@@ -63,15 +63,24 @@ const Profile = () => {
   const fetchUserBookings = async () => {
     try {
       const token = localStorage.getItem('token');
+      if (!token) {
+        console.log('No token found');
+        return;
+      }
+
+      console.log('Fetching bookings...');
       const response = await axios.get('http://localhost:5002/api/profile/bookings', {
         headers: { Authorization: `Bearer ${token}` }
       });
 
+      console.log('Bookings response:', response.data);
       if (response.data.success) {
         setBookings(response.data.data);
+        console.log('Bookings loaded:', response.data.data.length);
       }
     } catch (error) {
       console.error('Error fetching bookings:', error);
+      console.error('Error response:', error.response?.data);
     }
   };
 
@@ -399,30 +408,66 @@ const Profile = () => {
                 <div className="bookings-list">
                   {bookings.map((booking) => (
                     <div key={booking._id} className="booking-card">
-                      <div className="booking-header">
-                        <div className="car-info">
-                          <FaCar className="car-icon" />
-                          <div>
-                            <h3>{booking.carName}</h3>
-                            <p>Booking ID: {booking._id.slice(-8)}</p>
+                      <div className="booking-card-image">
+                        {booking.carImage ? (
+                          <img src={booking.carImage} alt={booking.carName} />
+                        ) : booking.carId?.image ? (
+                          <img src={booking.carId.image} alt={booking.carName} />
+                        ) : (
+                          <div className="booking-card-placeholder">
+                            <FaCar size={40} />
+                          </div>
+                        )}
+                      </div>
+                      <div className="booking-card-content">
+                        <div className="booking-header">
+                          <div className="car-info">
+                            <div>
+                              <h3>{booking.carName}</h3>
+                              <p className="booking-id">ID: {booking._id.slice(-8).toUpperCase()}</p>
+                              <div className="booking-status-row">
+                                <span className={`status-badge ${booking.status?.toLowerCase() || 'pending'}`}>
+                                  {booking.status || 'Pending'}
+                                </span>
+                                <span className={`payment-badge ${booking.paymentStatus?.toLowerCase() || 'pending'}`}>
+                                  Payment: {booking.paymentStatus || 'Pending'}
+                                </span>
+                              </div>
+                            </div>
                           </div>
                         </div>
+                        <div className="booking-dates">
+                          <div className="date-item">
+                            <label>From</label>
+                            <p>{formatDate(booking.startDate || booking.selectedDates[0])}</p>
+                          </div>
+                          <div className="date-item">
+                            <label>To</label>
+                            <p>{formatDate(booking.endDate || booking.selectedDates[booking.selectedDates.length - 1])}</p>
+                          </div>
+                          <div className="date-item">
+                            <label>Days</label>
+                            <p>{booking.numberOfDays || booking.selectedDates.length}</p>
+                          </div>
+                        </div>
+                        {booking.totalCost && (
+                          <div className="booking-cost">
+                            <label>Total Cost:</label>
+                            <p className="cost-amount">${booking.totalCost}</p>
+                          </div>
+                        )}
+                        {booking.payment && (
+                          <div className="payment-info">
+                            <label>Payment:</label>
+                            <p>${booking.payment.amount} - {booking.payment.status}</p>
+                          </div>
+                        )}
                         <button
                           className="view-details-button"
                           onClick={() => handleViewBookingDetails(booking._id)}
                         >
-                          <FaEye /> View Details
+                          <FaEye /> View Details & Review
                         </button>
-                      </div>
-                      <div className="booking-dates">
-                        <div className="date-item">
-                          <label>From</label>
-                          <p>{formatDate(booking.selectedDates[0])}</p>
-                        </div>
-                        <div className="date-item">
-                          <label>To</label>
-                          <p>{formatDate(booking.selectedDates[booking.selectedDates.length - 1])}</p>
-                        </div>
                       </div>
                     </div>
                   ))}
@@ -433,23 +478,32 @@ const Profile = () => {
 
           {activeTab === 'booking-details' && selectedBooking && (
             <div className="booking-details-section">
+              <button 
+                className="back-button"
+                onClick={() => setActiveTab('bookings')}
+              >
+                ← Back to Bookings
+              </button>
               <h2>Booking Details</h2>
               <div className="booking-details-card">
                 <div className="details-header">
-                  <div className="car-image">
-                    {selectedBooking.carId?.images?.[0] && (
-                      <img
-                        src={`http://localhost:5002${selectedBooking.carId.images[0]}`}
-                        alt={selectedBooking.carName}
-                      />
-                    )}
-                  </div>
                   <div className="car-summary">
                     <h3>{selectedBooking.carName}</h3>
+                    {selectedBooking.carId?.brand && (
+                      <p className="car-brand">{selectedBooking.carId.brand} {selectedBooking.carId.model}</p>
+                    )}
                     <p className="booking-id">Booking ID: {selectedBooking._id}</p>
                     <p className="booking-date">
                       Booked on: {formatDate(selectedBooking.createdAt)}
                     </p>
+                    <div className="status-badges">
+                      <span className={`status-badge ${selectedBooking.status?.toLowerCase() || 'pending'}`}>
+                        {selectedBooking.status || 'Pending'}
+                      </span>
+                      <span className={`payment-badge ${selectedBooking.paymentStatus?.toLowerCase() || 'pending'}`}>
+                        {selectedBooking.paymentStatus === 'paid' ? '✓ Paid' : 'Payment Pending'}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -468,26 +522,34 @@ const Profile = () => {
                       <label>Phone:</label>
                       <p>{selectedBooking.phoneNumber}</p>
                     </div>
-                    <div className="detail-item">
-                      <label>WhatsApp:</label>
-                      <p>{selectedBooking.whatsappNumber}</p>
-                    </div>
+                    {selectedBooking.whatsappNumber && (
+                      <div className="detail-item">
+                        <label>WhatsApp:</label>
+                        <p>{selectedBooking.whatsappNumber}</p>
+                      </div>
+                    )}
                   </div>
 
                   <div className="detail-section">
                     <h4>Rental Period</h4>
                     <div className="detail-item">
                       <label>From:</label>
-                      <p>{formatDate(selectedBooking.selectedDates[0])}</p>
+                      <p>{formatDate(selectedBooking.startDate || selectedBooking.selectedDates[0])}</p>
                     </div>
                     <div className="detail-item">
                       <label>To:</label>
-                      <p>{formatDate(selectedBooking.selectedDates[selectedBooking.selectedDates.length - 1])}</p>
+                      <p>{formatDate(selectedBooking.endDate || selectedBooking.selectedDates[selectedBooking.selectedDates.length - 1])}</p>
                     </div>
                     <div className="detail-item">
                       <label>Duration:</label>
-                      <p>{selectedBooking.selectedDates.length} day(s)</p>
+                      <p>{selectedBooking.numberOfDays || selectedBooking.selectedDates.length} day(s)</p>
                     </div>
+                    {selectedBooking.totalCost && (
+                      <div className="detail-item total-cost">
+                        <label>Total Cost:</label>
+                        <p className="cost-highlight">${selectedBooking.totalCost}</p>
+                      </div>
+                    )}
                   </div>
 
                   <div className="detail-section">
@@ -504,15 +566,31 @@ const Profile = () => {
                     )}
                   </div>
 
-                  <div className="detail-section">
-                    <h4>Payment Status</h4>
-                    <div className="detail-item">
-                      <label>Status:</label>
-                      <span className={`status-badge ${selectedBooking.status?.toLowerCase() || 'pending'}`}>
-                        {selectedBooking.status || 'Pending'}
-                      </span>
+                  {selectedBooking.payment && (
+                    <div className="detail-section payment-section">
+                      <h4>Payment Details</h4>
+                      <div className="detail-item">
+                        <label>Amount Paid:</label>
+                        <p className="payment-amount">${selectedBooking.payment.amount}</p>
+                      </div>
+                      <div className="detail-item">
+                        <label>Payment Status:</label>
+                        <span className={`status-badge ${selectedBooking.payment.status?.toLowerCase()}`}>
+                          {selectedBooking.payment.status}
+                        </span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Payment Date:</label>
+                        <p>{formatDate(selectedBooking.payment.date)}</p>
+                      </div>
+                      {selectedBooking.payment.paymentIntentId && (
+                        <div className="detail-item">
+                          <label>Transaction ID:</label>
+                          <p className="transaction-id">{selectedBooking.payment.paymentIntentId}</p>
+                        </div>
+                      )}
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 {/* Review Section */}

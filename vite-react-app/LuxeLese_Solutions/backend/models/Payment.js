@@ -23,6 +23,23 @@ const paymentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Car',
     required: true
+  },
+  carName: {
+    type: String,
+    required: false
+  },
+  carImage: {
+    type: String,
+    required: false
+  },
+  paymentIntentId: {
+    type: String,
+    required: false
+  },
+  status: {
+    type: String,
+    default: 'completed',
+    enum: ['completed', 'failed', 'refunded']
   }
 });
 

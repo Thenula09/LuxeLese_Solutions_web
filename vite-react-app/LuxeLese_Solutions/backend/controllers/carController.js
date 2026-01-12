@@ -164,9 +164,12 @@ export const addCar = async (req, res) => {
 // Update car
 export const updateCar = async (req, res) => {
   try {
+    // Remove status from req.body to prevent updating status
+    const { status, ...updateData } = req.body;
+
     const car = await Car.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      updateData,
       { new: true, runValidators: true }
     );
 
