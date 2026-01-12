@@ -1,9 +1,16 @@
 // DotGrid.jsx
 'use client';
-import { useRef, useEffect, useCallback, useMemo } from 'react';
+import React, { useRef, useEffect, useCallback, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { InertiaPlugin } from 'gsap/InertiaPlugin';
-gsap.registerPlugin(InertiaPlugin);
+// Register InertiaPlugin if available; guard for tests
+if (gsap && typeof gsap.registerPlugin === 'function') {
+  try {
+    gsap.registerPlugin(InertiaPlugin);
+  } catch (e) {
+    // In some test environments plugin registration can fail; ignore
+  }
+}
 
 const throttle = (func, limit) => {
   let lastCall = 0;
