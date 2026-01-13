@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen,  } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import Login from '../Login';
@@ -101,7 +101,7 @@ describe('Login Component', () => {
     const user = userEvent.setup();
     renderLogin();
 
-    const form = screen.getByRole('form');
+    const form = document.querySelector('form');
     const submitButton = screen.getByRole('button', { name: 'Login' });
 
     const preventDefaultSpy = vi.fn();
