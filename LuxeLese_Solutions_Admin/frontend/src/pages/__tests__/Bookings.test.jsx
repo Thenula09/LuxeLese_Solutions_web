@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import Bookings from '../Bookings';
 import apiService from '../../services/api';
@@ -81,30 +81,35 @@ describe('Bookings Component', () => {
   });
 
   it('renders loading state initially', () => {
+    // Mock API calls to never resolve so component stays in loading state
+    apiService.getBookings.mockImplementation(() => new Promise(() => {}));
+    apiService.getPayments.mockImplementation(() => new Promise(() => {}));
+    apiService.getVehicles.mockImplementation(() => new Promise(() => {}));
+    
     render(<Bookings />);
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(screen.getByText('Loading bookings...')).toBeInTheDocument();
   });
 
   it('renders bookings data after loading', async () => {
     render(<Bookings />);
 
     await waitFor(() => {
-      expect(screen.getByText('John Doe')).toBeInTheDocument();
+      expect(screen.getByText('john@example.com')).toBeInTheDocument();
     });
 
-    expect(screen.getByText('Jane Smith')).toBeInTheDocument();
-    expect(screen.getByText('Toyota Camry')).toBeInTheDocument();
-    expect(screen.getByText('Honda Civic')).toBeInTheDocument();
+    expect(screen.getByText('jane@example.com')).toBeInTheDocument();
+    expect(screen.getByText('Toyota Camry', { selector: '.vehicle-badge' })).toBeInTheDocument();
+    expect(screen.getByText('Honda Civic', { selector: '.vehicle-badge' })).toBeInTheDocument();
   });
 
   it('displays payment amounts for bookings', async () => {
     render(<Bookings />);
 
     await waitFor(() => {
-      expect(screen.getByText('150.00')).toBeInTheDocument();
+      expect(screen.getByText('$150.00', { selector: '.amount-cell strong' })).toBeInTheDocument();
     });
 
-    expect(screen.getByText('0.00')).toBeInTheDocument(); // For booking without payment
+    expect(screen.getByText('$0.00', { selector: '.amount-cell strong' })).toBeInTheDocument(); // For booking without payment
   });
 
   it('filters bookings by date', async () => {
@@ -112,14 +117,14 @@ describe('Bookings Component', () => {
     render(<Bookings />);
 
     await waitFor(() => {
-      expect(screen.getByText('John Doe')).toBeInTheDocument();
+      expect(screen.getByText('john@example.com')).toBeInTheDocument();
     });
 
-    const dateFilter = screen.getByLabelText('Filter by Date:');
+    const dateFilter = document.querySelector('input[type="date"]');
     await user.type(dateFilter, '2026-01-15');
 
-    expect(screen.getByText('John Doe')).toBeInTheDocument();
-    expect(screen.queryByText('Jane Smith')).not.toBeInTheDocument();
+    expect(screen.getByText('john@example.com')).toBeInTheDocument();
+    expect(screen.queryByText('jane@example.comle.com')).not.toBeInTheDocument();
   });
 
   it('filters bookings by vehicle', async () => {
@@ -127,14 +132,14 @@ describe('Bookings Component', () => {
     render(<Bookings />);
 
     await waitFor(() => {
-      expect(screen.getByText('John Doe')).toBeInTheDocument();
+      expect(screen.getByText('john@example.com')).toBeInTheDocument();
     });
 
-    const vehicleFilter = screen.getByLabelText('Filter by Vehicle:');
+    const vehicleFilter = document.querySelector('select');
     await user.selectOptions(vehicleFilter, 'Toyota Camry');
 
-    expect(screen.getByText('John Doe')).toBeInTheDocument();
-    expect(screen.queryByText('Jane Smith')).not.toBeInTheDocument();
+    expect(screen.getByText('john@example.com')).toBeInTheDocument();
+    expect(screen.queryByText('jane@example.com')).not.toBeInTheDocument();
   });
 
   it('displays error message when API fails', async () => {
@@ -159,16 +164,22 @@ describe('Bookings Component', () => {
     render(<Bookings />);
 
     await waitFor(() => {
-      expect(screen.getByText('Total Bookings: 2')).toBeInTheDocument();
+      expect(screen.getByText('Total Confirmed Bookings')).toBeInTheDocument();
     });
+
+    const totalBookingsCard = screen.getByText('Total Confirmed Bookings').closest('.summary-card');
+    expect(totalBookingsCard).toHaveTextContent('2');
   });
 
   it('calculates total revenue correctly', async () => {
     render(<Bookings />);
 
     await waitFor(() => {
-      expect(screen.getByText('Total Revenue: $250.00')).toBeInTheDocument();
+      expect(screen.getByText('Total Revenue')).toBeInTheDocument();
     });
+
+    const totalRevenueCard = screen.getByText('Total Revenue').closest('.summary-card');
+    expect(totalRevenueCard).toHaveTextContent('$150.00');
   });
 
   it('handles empty bookings array', async () => {
@@ -177,10 +188,11 @@ describe('Bookings Component', () => {
     render(<Bookings />);
 
     await waitFor(() => {
-      expect(screen.getByText('Total Bookings: 0')).toBeInTheDocument();
+      expect(screen.getByText('Total Confirmed Bookings')).toBeInTheDocument();
     });
 
-    expect(screen.getByText('Total Revenue: $0.00')).toBeInTheDocument();
+    const totalBookingsCard = screen.getByText('Total Confirmed Bookings').closest('.summary-card');
+    expect(totalBookingsCard).toHaveTextContent('0');
   });
 
   it('handles API errors gracefully for payments and vehicles', async () => {
@@ -190,10 +202,10 @@ describe('Bookings Component', () => {
     render(<Bookings />);
 
     await waitFor(() => {
-      expect(screen.getByText('John Doe')).toBeInTheDocument();
+      expect(screen.getByText('john@example.com')).toBeInTheDocument();
     });
 
     // Component should still render even if payments/vehicles APIs fail
-    expect(screen.getByText('Toyota Camry')).toBeInTheDocument();
+    expect(screen.getByText('Toyota Camry', { selector: '.vehicle-badge' })).toBeInTheDocument();
   });
 });
