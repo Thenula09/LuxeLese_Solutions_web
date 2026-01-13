@@ -135,4 +135,59 @@ describe('Vehicle API', () => {
 
     expect(response.body.message).toBe('Vehicle deleted');
   });
+
+  it('should return 404 for non-existent vehicle', async () => {
+    const response = await request(app)
+      .get('/api/vehicles/507f1f77bcf86cd799439011') // Non-existent ID
+      .expect(404);
+
+    expect(response.body.message).toBe('Vehicle not found');
+  });
+
+  it('should return 400 for invalid vehicle data', async () => {
+    const invalidVehicleData = {
+      name: '', // Empty name
+      brand: 'Toyota',
+      category: 'Sedan',
+      licensePlate: 'ABC-123',
+      pricePerDay: -50, // Negative price
+      securityDeposit: -200, // Negative deposit
+      status: 'InvalidStatus', // Invalid status
+      transmission: 'Automatic',
+      fuelType: 'Petrol',
+      seatingCapacity: -1, // Negative capacity
+      mileage: '15 km/l',
+      mainImage: 'invalid-base64', // Invalid image
+      description: 'A test car'
+    };
+
+    const response = await request(app)
+      .post('/api/vehicles')
+      .send(invalidVehicleData)
+      .expect(400);
+
+    expect(response.body.message).toContain('Vehicle validation failed');
+  });
+
+  it('should return 404 when updating non-existent vehicle', async () => {
+    const updateData = {
+      name: 'Updated Name',
+      pricePerDay: 60
+    };
+
+    const response = await request(app)
+      .put('/api/vehicles/507f1f77bcf86cd799439011') // Non-existent ID
+      .send(updateData)
+      .expect(404);
+
+    expect(response.body.message).toBe('Vehicle not found');
+  });
+
+  it('should return 404 when deleting non-existent vehicle', async () => {
+    const response = await request(app)
+      .delete('/api/vehicles/507f1f77bcf86cd799439011') // Non-existent ID
+      .expect(404);
+
+    expect(response.body.message).toBe('Vehicle not found');
+  });
 });

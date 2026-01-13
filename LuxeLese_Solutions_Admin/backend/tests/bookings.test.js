@@ -119,4 +119,55 @@ describe('Booking API', () => {
 
     expect(response.body.message).toBe('Booking deleted');
   });
+
+  it('should return 404 for non-existent booking', async () => {
+    const response = await request(app)
+      .get('/api/bookings/507f1f77bcf86cd799439011') // Non-existent ID
+      .expect(404);
+
+    expect(response.body.message).toBe('Booking not found');
+  });
+
+  it('should return 400 for invalid booking data', async () => {
+    const invalidBookingData = {
+      customerName: '', // Empty name
+      email: 'invalid-email', // Invalid email
+      phone: '123', // Invalid phone
+      vehicle: 'Toyota Camry',
+      date: 'invalid-date', // Invalid date
+      duration: -1, // Negative duration
+      totalCost: 150,
+      status: 'Confirmed',
+      notes: 'Test booking'
+    };
+
+    const response = await request(app)
+      .post('/api/bookings')
+      .send(invalidBookingData)
+      .expect(400);
+
+    expect(response.body.message).toContain('Booking validation failed');
+  });
+
+  it('should return 404 when updating non-existent booking', async () => {
+    const updateData = {
+      status: 'Cancelled',
+      notes: 'Updated notes'
+    };
+
+    const response = await request(app)
+      .put('/api/bookings/507f1f77bcf86cd799439011') // Non-existent ID
+      .send(updateData)
+      .expect(404);
+
+    expect(response.body.message).toBe('Booking not found');
+  });
+
+  it('should return 404 when deleting non-existent booking', async () => {
+    const response = await request(app)
+      .delete('/api/bookings/507f1f77bcf86cd799439011') // Non-existent ID
+      .expect(404);
+
+    expect(response.body.message).toBe('Booking not found');
+  });
 });

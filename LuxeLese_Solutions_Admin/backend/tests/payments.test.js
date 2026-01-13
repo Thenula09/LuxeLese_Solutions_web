@@ -131,4 +131,58 @@ describe('Payment API', () => {
 
     expect(response.body.message).toBe('Payment deleted');
   });
+
+  it('should return 404 for non-existent payment', async () => {
+    const response = await request(app)
+      .get('/api/payments/507f1f77bcf86cd799439011') // Non-existent ID
+      .expect(404);
+
+    expect(response.body.message).toBe('Payment not found');
+  });
+
+  it('should return 400 for invalid payment data', async () => {
+    const invalidPaymentData = {
+      bookingId: 'invalid-id', // Invalid booking ID
+      amount: -100, // Negative amount
+      date: 'invalid-date', // Invalid date
+      status: 'InvalidStatus' // Invalid status
+    };
+
+    const response = await request(app)
+      .post('/api/payments')
+      .send(invalidPaymentData)
+      .expect(400);
+
+    expect(response.body.message).toContain('Payment validation failed');
+  });
+
+  it('should return 404 when updating non-existent payment', async () => {
+    const updateData = {
+      status: 'Cancelled',
+      amount: 150
+    };
+
+    const response = await request(app)
+      .put('/api/payments/507f1f77bcf86cd799439011') // Non-existent ID
+      .send(updateData)
+      .expect(404);
+
+    expect(response.body.message).toBe('Payment not found');
+  });
+
+  it('should return 404 when deleting non-existent payment', async () => {
+    const response = await request(app)
+      .delete('/api/payments/507f1f77bcf86cd799439011') // Non-existent ID
+      .expect(404);
+
+    expect(response.body.message).toBe('Payment not found');
+  });
+
+  it('should return 404 for payment by non-existent booking id', async () => {
+    const response = await request(app)
+      .get('/api/payments/booking/507f1f77bcf86cd799439011') // Non-existent booking ID
+      .expect(200);
+
+    expect(response.body).toEqual({}); // Returns empty object
+  });
 });

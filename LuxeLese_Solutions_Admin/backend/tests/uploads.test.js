@@ -49,4 +49,17 @@ describe('Upload API', () => {
 
     expect(response.body.message).toBe('No image files provided');
   });
+
+  it('should handle large image upload', async () => {
+    // Create a larger mock image buffer (still small for testing)
+    const largeImageBuffer = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64');
+
+    const response = await request(app)
+      .post('/api/uploads/single')
+      .attach('image', largeImageBuffer, 'large-test.png')
+      .expect(200);
+
+    expect(response.body.success).toBe(true);
+    expect(response.body.image).toBeDefined();
+  });
 });
