@@ -18,13 +18,17 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: function() {
-      // Password is not required for Google OAuth users
-      return !this.googleId;
+      // Password is not required for Google or Facebook OAuth users
+      return !this.googleId && !this.facebookId;
     },
     minlength: 6,
     select: false
   },
   googleId: {
+    type: String,
+    sparse: true
+  },
+  facebookId: {
     type: String,
     sparse: true
   },

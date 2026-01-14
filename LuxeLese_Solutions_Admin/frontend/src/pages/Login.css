@@ -1,1 +1,10 @@
 /* Login page styles */
+
+/* Logo styling for login page */
+.login-logo {
+  height: 40px;
+  width: auto;
+  vertical-align: middle;
+  margin-left: 10px;
+  object-fit: contain;
+}

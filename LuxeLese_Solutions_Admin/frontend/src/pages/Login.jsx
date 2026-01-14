@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import logoImage from '../../assets/ChatGPT Image Jan 14, 2026, 06_52_05 PM.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -18,7 +19,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h2>Login to LuxeLese Admin</h2>
+      <h2>Login to LuxeLese Admin <img src={logoImage} alt="LuxeLese Solutions" className="login-logo" /></h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email">Email:</label>

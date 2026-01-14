@@ -27,6 +27,14 @@ const SignIn = () => {
     }
   };
 
+  const handleFacebookAuth = async () => {
+    try {
+      window.location.href = '/api/auth/facebook';
+    } catch (err) {
+      setError('Facebook sign-in is currently unavailable. Please use email/password login.');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -133,7 +141,7 @@ const SignIn = () => {
               <div className="social-icon-button google" onClick={handleGoogleAuth} style={{ cursor: 'pointer' }}>
                 <FcGoogle />
               </div>
-              <div className="social-icon-button facebook">
+              <div className="social-icon-button facebook" onClick={handleFacebookAuth} style={{ cursor: 'pointer' }}>
                 <FaFacebookF />
               </div>
             </div>
