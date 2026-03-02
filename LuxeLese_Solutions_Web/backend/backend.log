@@ -143,3 +143,16 @@ Body: undefined
 GET /api/cars
 Body: undefined
 ✅ Serving from cache
+[32m[nodemon] restarting child process[39m
+[32m[nodemon] starting `node server.js`[39m
+[dotenv@17.2.3] injecting env (14) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🔄 add secrets lifecycle management: https://dotenvx.com/ops
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+
+🚀 Backend Server Started
+📡 Port: 5002
+🌍 Environment: development
+
+✅ MongoDB Connected Successfully!
+📦 Database: carRental
+🔗 Host: ac-fwk41tj-shard-00-02.u1yeqll.mongodb.net

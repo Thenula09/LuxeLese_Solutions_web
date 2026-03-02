@@ -128,6 +128,12 @@ const Vehicles = () => {
 
   const addVehicle = async () => {
     setErrorMessage(''); // Clear previous errors
+    
+    // Debug: Log current form data
+    console.log('Form data before validation:', formData);
+    console.log('Main image file:', mainImageFile);
+    console.log('Features length:', formData.features.length);
+    
     if (!formData.name || !formData.brand || !formData.category || !formData.licensePlate || !formData.pricePerDay || !formData.securityDeposit || !formData.status || !formData.transmission || !formData.fuelType || !formData.seatingCapacity || !formData.mileage || formData.features.length === 0 || !mainImageFile) {
       setErrorMessage('Please fill all required fields, select at least one feature, and upload a main image.');
       return;
@@ -163,14 +169,18 @@ const Vehicles = () => {
         galleryImagesBase64 = galleryUpload.images;
       }
 
-      await apiService.addVehicle({
+      const vehicleDataToSend = {
         ...formData,
         mainImage: mainImageBase64,
         galleryImages: galleryImagesBase64,
         securityDeposit: Number(formData.securityDeposit),
         pricePerDay: Number(formData.pricePerDay),
         seatingCapacity: Number(formData.seatingCapacity)
-      });
+      };
+      
+      console.log('Vehicle data being sent to API:', vehicleDataToSend);
+      
+      await apiService.addVehicle(vehicleDataToSend);
       // Refresh the vehicles list
       await fetchVehicles();
       resetForm();
