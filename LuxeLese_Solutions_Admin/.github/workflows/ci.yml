@@ -52,7 +52,7 @@ jobs:
 
       - name: Install Backend Dependencies
         run: |
-          cd backend
+          cd backen d
           npm ci
 
       - name: Run Backend Tests
