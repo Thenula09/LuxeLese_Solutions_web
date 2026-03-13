@@ -45,7 +45,7 @@ const Home = () => {
       <div className="hero-section">
         <div className="hero-content">
           <div className="welcome-text">
-            <h2 className="company-name">Welcome To</h2>
+            <h2 className="company-name">Welcome to</h2>
             <h1 className="luxelese">Luxelese Solution</h1>
             <p>Discover our extensive collection of premium vehicles for any occasion</p>
             
