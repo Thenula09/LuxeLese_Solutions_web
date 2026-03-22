@@ -67,14 +67,23 @@ export const getAllCars = async (req, res) => {
     };
     console.log(`✅ Cached ${transformedCars.length} cars`);
 
-    // Return paginated results
-    const paginatedData = transformedCars.slice(skip, skip + limit);
+    // Return paginated results (limit=0 means all records)
+    let paginatedData;
+    let totalPages;
+    if (limit === 0) {
+      paginatedData = transformedCars;
+      totalPages = 1;
+    } else {
+      paginatedData = transformedCars.slice(skip, skip + limit);
+      totalPages = Math.ceil(transformedCars.length / limit);
+    }
+
     res.status(200).json({
       success: true,
       count: paginatedData.length,
       total: transformedCars.length,
       page,
-      totalPages: Math.ceil(transformedCars.length / limit),
+      totalPages,
       data: paginatedData,
       cached: false
     });

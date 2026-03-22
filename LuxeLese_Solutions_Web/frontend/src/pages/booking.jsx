@@ -149,14 +149,14 @@ const Booking = () => {
     return 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=400&q=80';
   };
 
-  // Fetch cars from API with pagination
+  // Fetch cars from API with pagination (or all vehicles with limit=0)
   const fetchCars = async (pageNum = 1, append = false) => {
     const startTime = performance.now();
     
     if (append) setLoadingMore(true);
     
     try {
-      const response = await fetch(`/api/cars?page=${pageNum}&limit=20`, {
+      const response = await fetch(`/api/cars?page=${pageNum}&limit=0`, {
         headers: {
           'Accept-Encoding': 'gzip, deflate'
         }
@@ -180,7 +180,7 @@ const Booking = () => {
           }
           
           setTotalCars(data.total);
-          setHasMore(data.page < data.totalPages);
+          setHasMore(false); // all cars mode, no pagination required
           setPage(pageNum);
         } else if (!append) {
           setCars(fallbackCars);

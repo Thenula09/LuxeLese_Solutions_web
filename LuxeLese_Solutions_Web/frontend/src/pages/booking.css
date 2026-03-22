@@ -633,9 +633,16 @@
 
 /* Footer styles - Same as About page */
 .footerA {
-	margin-top: -30px;
+	margin-top: 750px; /* lift footer higher (more aggressive) */
 	margin-bottom: -40px;
 	margin-left: -40px;
 	margin-right: -40px;
+	position: relative;
+	z-index: 5;
+}
+
+/* Prevent last cars from being hidden behind the footer */
+.booking-container {
+	margin-bottom: 240px;
 }
 /* Booking Page Title Enhancement - Duplicate removed */
