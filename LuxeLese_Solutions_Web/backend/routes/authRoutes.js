@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from 'passport';
-import { register, login, forgotPassword, resetPassword, resetPasswordWithToken, googleAuth, googleAuthCallback } from '../controllers/authController.js';
+import { register, login, forgotPassword, resetPassword, resetPasswordWithToken, googleAuth, googleAuthCallback, facebookAuth } from '../controllers/authController.js';
 
 const router = express.Router();
 
@@ -27,6 +27,26 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_ID !== 'dummy_clie
     res.status(503).json({ 
       success: false, 
       message: 'Google OAuth is not configured.' 
+    });
+  });
+}
+
+// Facebook OAuth routes - Only available when credentials are configured
+if (process.env.FACEBOOK_APP_ID && process.env.FACEBOOK_APP_ID !== 'dummy_app_id') {
+  router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
+  router.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/signin' }), facebookAuth);
+} else {
+  // Fallback routes when OAuth is not configured
+  router.get('/facebook', (req, res) => {
+    res.status(503).json({ 
+      success: false, 
+      message: 'Facebook OAuth is not configured. Please set FACEBOOK_APP_ID and FACEBOOK_APP_SECRET in .env file.' 
+    });
+  });
+  router.get('/facebook/callback', (req, res) => {
+    res.status(503).json({ 
+      success: false, 
+      message: 'Facebook OAuth is not configured.' 
     });
   });
 }

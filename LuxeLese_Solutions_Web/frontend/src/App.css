@@ -47,6 +47,19 @@
   padding: 2rem;
 }
 
+/* Mobile responsive container */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.75rem;
+  }
+}
+
 /* Refactored background class */
 .app-background {
   /* Using a pseudo-element for the background image allows for better control */

@@ -28,6 +28,12 @@ router.get('/:id', async (req, res) => {
 // Add new vehicle
 router.post('/', async (req, res) => {
   console.log('Received vehicle data:', JSON.stringify(req.body, null, 2));
+  console.log('Request body keys:', Object.keys(req.body));
+  console.log('Main image present:', !!req.body.mainImage);
+  console.log('Main image length:', req.body.mainImage ? req.body.mainImage.length : 'N/A');
+  console.log('Features:', req.body.features);
+  console.log('Features type:', typeof req.body.features);
+  console.log('Features is array:', Array.isArray(req.body.features));
 
   const vehicle = new Vehicle({
     name: req.body.name,
@@ -46,6 +52,8 @@ router.post('/', async (req, res) => {
     description: req.body.description || '',
     features: req.body.features || []
   });
+
+  console.log('Vehicle object before save:', JSON.stringify(vehicle, null, 2));
 
   try {
     const newVehicle = await vehicle.save();

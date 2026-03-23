@@ -4,6 +4,7 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/f
 import { FaGooglePlay, FaApple } from 'react-icons/fa';
 import { getCurrentUser } from '../../utils/auth';
 import { useNavigate } from 'react-router-dom';
+import logoImage from '../../assets/ChatGPT Image Jan 14, 2026, 06_52_05 PM.png';
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ const Footer = () => {
             </>
           ) : (
             <>
-              <h4>Join LuxeLese Solutions</h4>
+              <h4>Join LuxeLese Solutions <img src={logoImage} alt="LuxeLese Solutions" className="footer-logo" /></h4>
               <p>Register to get updates, promotions, and more.</p>
               <div className="email-signup">
                 <input type="email" placeholder="Your email address" />

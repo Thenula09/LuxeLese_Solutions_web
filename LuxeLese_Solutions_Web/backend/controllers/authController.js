@@ -514,3 +514,45 @@ export const googleAuth = async (req, res) => {
 export const googleAuthCallback = (req, res) => {
   // This is handled by passport
 };
+
+// Facebook OAuth Login
+export const facebookAuth = async (req, res) => {
+  try {
+    // Passport will handle the OAuth flow
+    // This function is called after successful Facebook authentication
+    const { id, displayName, emails } = req.user;
+
+    // Check if user already exists
+    let user = await User.findOne({ email: emails[0].value });
+
+    if (user) {
+      // User exists, log them in
+      const token = generateToken(user._id);
+      return res.redirect(`${process.env.FRONTEND_URL}/auth/success?token=${token}&user=${encodeURIComponent(JSON.stringify({
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }))}`);
+    } else {
+      // Create new user
+      user = await User.create({
+        name: displayName,
+        email: emails[0].value,
+        password: Math.random().toString(36) + Date.now().toString(), // Random password for OAuth users
+        facebookId: id
+      });
+
+      const token = generateToken(user._id);
+      return res.redirect(`${process.env.FRONTEND_URL}/auth/success?token=${token}&user=${encodeURIComponent(JSON.stringify({
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }))}`);
+    }
+  } catch (error) {
+    console.error('Facebook Auth Error:', error);
+    return res.redirect(`${process.env.FRONTEND_URL}/signin?error=facebook_auth_failed`);
+  }
+};

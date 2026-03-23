@@ -770,3 +770,114 @@ body {
   margin: 1.5rem 0 1rem;
   color: #333;
 }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    z-index: 1000;
+    transition: left 0.3s ease;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding-top: 60px;
+  }
+
+  .header {
+    padding: 1rem;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .login-container {
+    padding: 1rem;
+  }
+
+  .login-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .login-container form {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+
+  .data-table {
+    min-width: 600px;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    padding: 0.5rem 0;
+  }
+
+  .sidebar-logo {
+    padding: 0 1rem 0.5rem;
+  }
+
+  .sidebar-logo h3 {
+    font-size: 1.2rem;
+  }
+
+  .sidebar a, .sidebar .logout-link {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .nav-icon {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .header {
+    padding: 0.5rem 1rem;
+  }
+
+  .header h1 {
+    font-size: 1.25rem;
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+  }
+
+  .login-container h2 {
+    font-size: 1.25rem;
+  }
+
+  .login-container form {
+    padding: 1.5rem;
+  }
+}

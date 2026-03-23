@@ -52,30 +52,13 @@ jobs:
 
       - name: Install Backend Dependencies
         run: |
-          cd backend
+          cd backen d
           npm ci
 
       - name: Run Backend Tests
         run: |
           cd backend
           npm test
-
-  deploy:
-    name: Deploy (Render) - only on main
-    needs: [frontend, backend]
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    steps:
-      - name: Notify Render (if hook is set)
-        env:
-          RENDER_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
-        run: |
-          if [ -n "$RENDER_HOOK" ]; then
-            echo "Triggering Render deploy..."
-            curl -X POST "$RENDER_HOOK"
-          else
-            echo "RENDER_HOOK not set; skipping deploy"
-          fi
 
   lint:
     name: Lint

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getCurrentUser, logout, onAuthStateChange } from '../../utils/auth';
+import logoImage from '../../assets/ChatGPT Image Jan 14, 2026, 06_52_05 PM.png';
 import './Navbar.css';
 
 function Navbar() {
   const [user, setUser] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +28,7 @@ function Navbar() {
     logout();
     setUser(null);
     setShowDropdown(false);
+    setIsMobileMenuOpen(false);
     
     // Navigate to loading page then to signin
     navigate('/loading', {
@@ -34,6 +37,14 @@ function Navbar() {
         delay: 2000
       }
     });
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
   };
 
   // Close dropdown when clicking outside
@@ -66,27 +77,37 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <span className="logo">LuxeLese Solutions</span>
+        <Link to="/home">
+          <img src={logoImage} alt="LuxeLese Solutions" className="logo-image" />
+        </Link>
       </div>
-      <div className="navbar-menu">
+      
+      {/* Hamburger Menu Button */}
+      <div className="hamburger-menu" onClick={toggleMobileMenu}>
+        <span className={`hamburger-line ${isMobileMenuOpen ? 'open' : ''}`}></span>
+        <span className={`hamburger-line ${isMobileMenuOpen ? 'open' : ''}`}></span>
+        <span className={`hamburger-line ${isMobileMenuOpen ? 'open' : ''}`}></span>
+      </div>
+      
+      <div className={`navbar-menu ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
         <ul className="navbar-links">
           <li>
-            <Link to="/home">
+            <Link to="/home" onClick={closeMobileMenu}>
                Home
             </Link>
           </li>
           <li>
-            <Link to="/about">
+            <Link to="/about" onClick={closeMobileMenu}>
               About
             </Link>
           </li>
           <li>
-            <Link to="/booking">
+            <Link to="/booking" onClick={closeMobileMenu}>
               {user ? 'My Bookings' : 'Booking'}
             </Link>
           </li>
           <li>
-            <Link to="/contact">
+            <Link to="/contact" onClick={closeMobileMenu}>
               Contact
             </Link>
           </li>
@@ -95,7 +116,10 @@ function Navbar() {
           <div 
             className="user-profile" 
             style={{ position: 'relative', cursor: 'pointer' }}
-            onClick={() => setShowDropdown(!showDropdown)}
+            onClick={() => {
+              setShowDropdown(!showDropdown);
+              closeMobileMenu();
+            }}
           >
             <div className="user-profile-inner" style={{
               background: 'linear-gradient(135deg, rgba(255, 140, 0, 0.2), rgba(255, 165, 0, 0.1))',
@@ -144,6 +168,7 @@ function Navbar() {
                   onClick={(e) => {
                     e.stopPropagation();
                     setShowDropdown(false);
+                    closeMobileMenu();
                     navigate('/profile');
                   }}
                   style={{
@@ -184,7 +209,7 @@ function Navbar() {
             )}
           </div>
         ) : (
-          <Link to="/signin" className="user-profile">
+          <Link to="/signin" className="user-profile" onClick={closeMobileMenu}>
             <div className="user-profile-inner" style={{
               background: 'linear-gradient(135deg, rgba(255, 140, 0, 0.2), rgba(255, 165, 0, 0.1))',
               padding: '8px 16px',
